@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<!-- header_start -->
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>140文字以上</title>
+<!--
+	<link rel="icon" type="image/x-icon" href="https://chromabox.github.io/140m/css/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://chromabox.github.io/140m/css/apple-touch-icon-180x180.png">
+-->
+	<script type="text/javascript">
+	if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+		document.write('<link rel="stylesheet" type="text/css" href="https://chromabox.github.io/140m/css/style_smt.css">');
+	}else {
+		document.write('<link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400&amp;subset=japanese" rel="stylesheet">');
+		document.write('<link rel="stylesheet" type="text/css" href="https://chromabox.github.io/140m/css/style_pc.css">');
+	}
+	</script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="https://chromabox.github.io/140m/css/common_style.css">
+</head>
+<!-- header_end -->
+
+<!-- body_start -->
+<body>
+
+<!-- title_start -->
+<div id="blog-title-bx">
+  <div id="blog-title-content">
+	<h1 id="blog-title-font">
+	<a href="https://chromabox.github.io/140m/">140文字以上</a>
+	</h1>
+  <div id="blog-subtitle-content">
+	<h4 id="blog-subtitle-font">
+	<p>140文字では伝わらないことを書いています。禁無断転載</p>
+    <p><a href="https://twitter.com/chromarock">twitter(@chromarock)</a>、<a href="https://github.com/chromabox">github</a>、<a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>、<a href="https://chromabox.github.io/140m/txt/profile.html">その他プロフィール</a></p>
+	</h4>
+  </div>
+  </div>
+</div>
+<div id="title-content-line"></div>
+<!-- title_end -->
+
+
+<!-- content_start -->
+<div id="content-bx">
+
+<!-- header_box_start -->
+<header class="header-box">
+<!-- entry_time_start -->
+	<h4 class="entry-time-title"><i class="fa fa-clock"></i> 2019/06/17</h4>
+<!-- entry_time_end -->
+<!-- entry_name_start -->
+	<h1 class="entry-title"><a href="https://chromabox.github.io/140m/txt/linux/ubuntu1804memo.html">ubuntuu 18.04設定メモ</a></h1>
+<!-- entry_name_end -->
+<!-- entry_category_start -->
+	<div class="entry-categories categories"><a href="https://chromabox.github.io/140m/txt/linux/index.html" class="entry-category-link">Linux</a>
+<!-- entry_category_end -->
+</header>
+<!-- header_box_end -->
+
+<div class="main-box-spacer"></div>
+
+<!-- main_box_start -->
+<div class="main-box">
+<p>Ubuntu 18.04の設定などのメモです。割と忘れやすいので備忘録ついでに書いてます。気が向いたらまたちょくちょく更新します。</p>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>OracleのVirtualboxを使う</h3></div>
+<p>
+すでにUbuntuのデフォルトのをインストールしている場合は...</p>
+<pre class="code_font codebox">
+$ sudo apt remove virtualbox
+$ sudo apt upgrade
+$ sudo apt autoremove
+(virtualbox-dkmsを削除しておく)
+
+以下でインストール。(Oracleのリポジトリを追加して鍵を追加してインストール)
+$ sudo add-apt-repository "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib"
+$ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+$ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+$ sudo apt update
+$ sudo apt install virtualbox-5.2 dkms
+</pre>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>Gnome-Shellを使いやすく</h3></div>
+<p>
+まずこれをする</p>
+<pre class="code_font codebox">
+$ sudo apt install gnome-shell-extensions
+</pre>
+<p>
+キーボードの設定を変更するには dpkg-reconfigure コマンドを keyboard-configuration 引数をつけて実行する。</p>
+<pre class="code_font codebox">
+$ sudo dpkg-reconfigure keyboard-configuration
+</pre>
+<p>表示されるウィザードに沿って設定を入力していく。 二番目の設定で Japanese にするのがポイント。</p>
+<p>Generic 105-key (Intel) PC → Japanese → Japanese → The default for the keyboard layout → No compose key</p>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>unityやUIをカスタマイズしたい</h3></div>
+<p>
+unity tweakを使ってカスタマイズする</p>
+<pre class="code_font codebox">
+$ sudo apt install unity-tweak-tool
+$ sudo apt install notify-osd
+</pre>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>gdm3でWaylandを無効にする</h3></div>
+<p>Ubuntu18.04は、デフォルトではWaylandを使おうとする。しかし、Synergycはまだ対応してないので、動かすときはOFFにしておいたほうが無難。</p>
+<p>/etc/gdm3/custom.confを以下のように、WaylandEnable=falseにする。</p>
+
+<pre class="code_font codebox">
+<div class="code_filebox">/etc/gdm3/custom.conf</div>
+[daemon]
+# Uncoment the line below to force the login screen to use Xorg
+WaylandEnable=false
+</pre>
+</div>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>LightDMとLubuntuのインストール</h3></div>
+<p>デフォルトだとUnityのままだけど、重くなっていくUnityに嫌気が差した人用。LubuntuはOpenboxベースで軽量。
+<p>以下参考</p>
+<a href="https://www.hiroom2.com/2018/05/06/ubuntu-1804-lxde-ja">https://www.hiroom2.com/2018/05/06/ubuntu-1804-lxde-ja</a>
+<p>LightDMも共に使う必要があるので、LightDMも合わせてインストールする。</p>
+
+<pre class="code_font codebox">
+$ sudo apt install -y lubuntu-desktop
+途中でLightDMにするかどうか聞いてくるので、LightDMにする。
+
+LXDMやめるとき
+$ sudo apt remove -y lubuntu* lxde* openbox lightdm
+$ sudo apt autoremove -y
+$ sudo apt install --reinstall -y gdm3
+$ sudo reboot
+</pre>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>Synergyを起動時に有効にする(lightdm)</h3></div>
+<p>
+WindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つツール。
+キーボード切替器がなくても行き来出来て、クリップボードも共有してくれるので便利。</p>
+<p>
+WindowsにSynergyサーバが起動していて、ログイン時にSynergyc(Synergyのクライアント)を利かせる場合は次のようにする</p>
+
+<pre class="code_font codebox">
+$ sudo touch /etc/lightdm/lightdm.conf.d/50-synergyc.conf
+</pre>
+で、「50-synergyc.conf」を作成した後、同ファイルを以下のように編集。
+<pre class="code_font codebox">
+<div class="code_filebox">/etc/lightdm/lightdm.conf.d/50-synergyc.conf</div>
+[SeatDefaults]
+greeter-setup-script=/usr/bin/synergyc サーバのIP
+</pre>
+<p>
+しかし、Syneryには問題がある</p>
+<p>・マウスをDragしているといきなり切れてWinの画面にマウスカーソルが戻ることがある。<br>
+(Linuxの負荷が上がってる場合とか、QT使ってると起こりやすい感じ)</p>
+<p>・Linuxで日本語を入力しているとリターンが暴発するときがある</p>
+
+<p>一応Bugは報告されている(しかし最新の有料版であっても、未解決)→
+<a href="https://github.com/symless/synergy-core/issues/6481">https://github.com/symless/synergy-core/issues/6481</a>
+</p>
+<p>ざっと見た感じ、どうも一部のXウィンドウでプロパティを取れないウィンドウがあり、その処理で問題がありそうだけど…といったところ。</p>
+</div>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>Synegyの代わりになるもの</h3></div>
+<p>
+SynergyはVer2になってから有料になっている。
+これに反してOSSなsynergyを作ろうとしたものの中に、「barrier」というのがある。これはSynergyの1.9をForkしたものらしい…</p>
+<p>なお、Ubuntu19系はSynegyがなくなり、こっちが入るようになる模様。</p>
+<a href="https://github.com/debauchee/barrier">https://github.com/debauchee/barrier</a>
+<p>
+なお、同じ問題があるみたい。残念。→<a href="https://github.com/debauchee/barrier/issues/298">https://github.com/debauchee/barrier/issues/298</a>
+</p>
+</div>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>light-locker-settingsが動かない…</h3></div>
+<p>
+Lubuntuでスクリーンセーバの設定を変える時に必要…なのだけどpython-giが入ってなくて動かない。なので次のコマンドでインストール。(今は直ってるかもしれん)</p>
+<pre class="code_font codebox">
+$ sudo apt install python-gi
+</pre>
+</div>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>OpenCVの開発</h3></div>
+<p>何も考えずこれでもいいけど…</p>
+<pre class="code_font codebox">
+$ sudo apt install libopencv-dev
+</pre>
+<p>専門家(？)に言わせるとこれダメらしい。使いたい機能がオミットされていたりするとか、更新頻度が早いから、最新使ったほうがいいとか、なんとか。。。ディストリとしてはどの環境でも万遍なく動く必要があるので、これは仕方ないのだけれども…</p>
+<a href="https://qiita.com/usk81/items/98e54e2463e9d8a11415">https://qiita.com/usk81/items/98e54e2463e9d8a11415</a>
+<p>かくなる上はソースから持ってきてOpenCVのライブラリを丸々コンパイルする必要があるのだけど、長くなるので他のエントリーに書こうかなと思います。</p>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>Android Studioのインストール</h3></div>
+<p>
+snappyをつかうとよい。良い時代になりました。</p>
+<a href="https://qiita.com/maccadoo/items/4ce153af005df3f48e8d">https://qiita.com/maccadoo/items/4ce153af005df3f48e8d</a>
+<p>
+AVD(Androidのソフト開発で使う公式のエミュレータ)も動いた。ちゃんとNvidiaのグラフィックドライバが入ってればOpenGLが有効で動いてくれて、軽々動作する。本当に良い時代になりました(2回目)</p>
+<p>ドールズフロントライン(ソシャゲ)も試した所、軽々と動いたけどGenymotionよりは若干リソース使う感じ。特にこだわりなければこれで全然問題無さそう</p>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>Codecをまとめてインストール</h3></div>
+<p>
+動画のコーデック関連の話。Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンスがオープンじゃなかったり)怪しいものは除外される運命だけど、これをすることによってインストール出来るというアレ。</p>
+<p>但し、libavcodecが消えてしまう(その代り権利怪しいアレなバージョンが入る)</p>
+<pre class="code_font codebox">
+$ sudo apt install ubuntu-restricted-extras
+</pre>
+<p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。</p>
+<p>どう違うか？は以下の通り。<br>
+libavcodec　－　権利がしっかりしたもの<br>
+libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪しいもの
+</p>
+</div>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>sshでキーの指紋を確認したい</h3></div>
+<p>ssh-keygen でできる。</p>
+<pre class="code_font codebox">
+$ ssh-keygen l -f [公開鍵のファイル]
+</pre>
+<p>
+但し、Ubuntu18.04はOpenSSH 6.8以降なため、指紋表示形式がSHA254/base64となっている。<br>
+※昔はMD5:HEX形式</p>
+
+<p>
+githubの設定でMD5形式で表示されていて、自分の鍵の指紋を確認したい場合は次のようにする</p>
+<pre class="code_font codebox">
+$ ssh-keygen l -E md5 -v -f [公開鍵のファイル]
+</pre>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>Ubuntuサーバに公開鍵形式でsshログインをしたい</h3></div>
+<p>公開鍵でログインするのは、Ubuntuのデフォルトで一応有効になっている。</p>
+まず、公開鍵と秘密鍵を作った後、Ubuntuサーバに公開鍵を何らかの方法でおくった後、次のようにする</p>
+<pre class="code_font codebox">
+(公開鍵をid_rsa_bob_serverA.pubとした場合)
+$ cp id_rsa_bob_serverA.pub ~/.ssh/authorized_keys
+$ sudo service ssh restart
+</pre>
+<p>authorized_keysはsshdのconfigで指定されているファイルなので、これを設定しておくと良い。</p>
+<p>一応、他のPCからSSHで秘密鍵と共にログイン出来るかやってみる。成功したら、パスワード方式はOFFにしておくと良い。</p>
+<p>以下ファイルをrootで編集</p>
+<pre class="code_font codebox">
+<div class="code_filebox">/etc/sshd/sshd_config</div>
+PasswordAuthentication no
+(#PasswordAuthentication yesとかになっているのでこのように変更)
+</pre>
+そしてsshdをリスタートする
+<pre class="code_font codebox">
+$ sudo service ssh restart
+</pre>
+
+</div>
+
+<!-- footer_start -->
+<div class="main-box-spacer"></div>
+<div class="twitter">
+<a href="//twitter.com/share" class="twitter-share-button" data-text="140文字以上：ubuntuu 18.04設定メモ<" data-url="https://chromabox.github.io/140m/ubuntu1804memo.html" data-lang="ja"></a>
+</div>
+<!-- footer_end -->
+</div>
+<!-- main_box_end -->
+
+</div>
+<!-- content_end -->
+</body>
+<!-- body_end -->
+</html>

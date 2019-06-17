@@ -348,8 +348,13 @@ a {
     margin-inline-end: 0px;
 }
 
+
+.content-2-box {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .content-2-title {
-	margin-top: 20px;
 	margin-bottom: 10px;
     border-bottom: 1px solid #808080;
     border-left: 4px solid #808080;
