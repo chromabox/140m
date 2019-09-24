@@ -283,6 +283,28 @@ $ sudo service ssh restart
 
 </div>
 
+<div class="content-2-box">
+<div class="content-2-title"><h3>kicadがおかしい、または十字アイコンが残ったままになって使えない…</h3></div>
+<p>デフォルトでインストールできるKicad(回路図エディタやらCADが使えるアプリ)は、環境によって十字アイコンがのこってしまい大変残念なことになってしまう…</p>
+なので、次のようにしてVer5系統を入れ直す</p>
+<pre class="code_font codebox">
+(すでにKicad入れていて残念な気持ちになった人は以下実行)
+$ sudo apt purge kicad
+
+(ここからはみんな共通)
+$ sudo add-apt-repository ppa:js-reynaud/kicad-5
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install kikad kikad-doc-ja kikad-locale-ja kikad-demo
+(kikad-locale-jaを入れないと日本語化しないので注意)
+</pre>
+<p>前のkikad4を入れていた人は設定が~/.config/kicad/に残ってしまっているいので以下もやったほうがいい</p>
+<pre class="code_font codebox">
+$ rm -rf ~/.config/kicad
+</pre>
+</div>
+
+
 <!-- footer_start -->
 <div class="main-box-spacer"></div>
 <div class="twitter">
