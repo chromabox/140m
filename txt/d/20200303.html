@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<!-- header_start -->
+<head>
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>140文字以上</title>
+<!--
+	<link rel="icon" type="image/x-icon" href="https://chromabox.github.io/140m/css/favicon.ico">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://chromabox.github.io/140m/css/apple-touch-icon-180x180.png">
+-->
+	<script type="text/javascript">
+	if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+		document.write('<link rel="stylesheet" type="text/css" href="https://chromabox.github.io/140m/css/style_smt.css">');
+	}else {
+		document.write('<link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400&amp;subset=japanese" rel="stylesheet">');
+		document.write('<link rel="stylesheet" type="text/css" href="https://chromabox.github.io/140m/css/style_pc.css">');
+	}
+	</script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="https://chromabox.github.io/140m/css/common_style.css">
+</head>
+<!-- header_end -->
+
+<!-- body_start -->
+<body>
+
+<!-- title_start -->
+<div id="blog-title-bx">
+  <div id="blog-title-content">
+	<h1 id="blog-title-font">
+	<a href="https://chromabox.github.io/140m/">140文字以上</a>
+	</h1>
+  <div id="blog-subtitle-content">
+	<h4 id="blog-subtitle-font">
+	<p>140文字では伝わらないことを書いています。禁無断転載</p>
+    <p><a href="https://twitter.com/chromarock">twitter(@chromarock)</a>、<a href="https://github.com/chromabox">github</a>、<a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>、<a href="https://chromabox.github.io/140m/txt/profile.html">その他プロフィール</a></p>
+	</h4>
+  </div>
+  </div>
+</div>
+<div id="title-content-line"></div>
+<!-- title_end -->
+
+
+<!-- content_start -->
+<div id="content-bx">
+
+<!-- header_box_start -->
+<header class="header-box">
+<!-- entry_time_start -->
+	<h4 class="entry-time-title"><i class="fa fa-clock"></i> 2020/03/03</h4>
+<!-- entry_time_end -->
+<!-- entry_name_start -->
+	<h1 class="entry-title"><a href="https://chromabox.github.io/140m/txt/d/20200303.html">もう困らない。DesktopVPNでリモートワーク(テレワーク)の簡単実現方法</a></h1>
+<!-- entry_name_end -->
+<!-- entry_category_start -->
+	<div class="entry-categories categories"><a href="https://chromabox.github.io/140m/txt/d/index.html" class="entry-category-link">diary</a>
+<!-- entry_category_end -->
+</header>
+<!-- header_box_end -->
+
+<div class="main-box-spacer"></div>
+
+<!-- main_box_start -->
+<div class="main-box">
+<p>コロナコロナ言われている昨今、日に日に深刻になってきており、<B>突然リモートワーク(テレワーク)強制！</b>といわれても焦らないように…という趣旨です。<br>
+	急に学校が休校になったりしてますし、万が一急に<b>電車止まる</b>とかあるかもしれないですしね。。。</p>
+<p>リモートワークといっても自宅等、遠隔から会社PCを操作する…ということですが、それにはハードルが高かったり、ネットワーク管理者にいちいち言わないといけないとか、やれポートXX番を開いてマスカレードして…などあると思います。</p>
+<p>そしてそういうポートを開いたりするには情報システム部門に説明しなきゃいけないとか結構面倒な手続きも必要だとは思います。そして大抵の場合は嫌がります。。。</p>
+<p>もしかしたら小企業だとそういった知識を持ってない人が管理しているやもしれません。。。(あるいは外部へ丸投げという形も。。。)</p>
+<p>ということで、「DesktopVPN」というのを使うとその辺の心配をしなくても割と簡単に実現できますし、軽く評価してみたので、「これは知らない人でも行けそうだな」と思ったので、レポートがてらまとめました。</p>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>そもそもDesktop VPNとは？、その仕組みは？</h3></div>
+<p>
+早い話が会社にある自分のPCを自宅のPCで操作可能なツールです。Windowsならリモートデスクトップとか各種VNCとかありますがあの類になります。</p>
+<p>HPはこちらです。<br>
+<A href="https://www.desktopvpn.net/">https://www.desktopvpn.net/</a>
+</p>
+
+<p>本来は一か月間のみ無料で、以後有料ですが、新型コロナウィルスの影響で、4月30日まで無料開放ということです。<br>
+(以前は3.11の際も同じような対応をされていました)<br>
+<A href="https://www.softether.jp/7-news/2020.02.21">https://www.softether.jp/7-news/2020.02.21</a>
+</p>
+
+<p>本来、外向けにリモートデスクトップを有効にする場合は、会社のファイアウォールにIPマスカレイドなどの処理とポートを開くという処理が必要で、しかも通信は暗号化しておかないと盗聴されるのでは…という懸念いっぱいなのですが…DesktopVPNはその辺の余計な設定をしなくても(割と)使えるというところが大きいですね。</p>
+<p>この状況を図示してみると次のようになります。<br>
+これは、何も考えずに、会社にある自分のPC(192.168.1.55)でリモートデスクトップを有効にしたというものです。</p>
+
+<img src="./20200303/vpn01.jpg"><br>
+<p>
+普通の会社ですと、インターネットと会社の自PCの間にファイアウォールが挟まってます。<br>
+これは情報漏洩なんかを防いだり各会社でいろいろやっていると思います。
+</p>
+<p>
+で、家にある自宅PCからインターネット経由で接続する場合、外側からは200.10.20.1(会社のIPアドレス)に接続しないといけないわけですが、ファイアウォールに何も設定がされていないと「この通信は誰宛てか」というのがわからないので捨てられます。<br>
+さらに言うと、普段は3389なんてポート番号はファイアウォールのほうで閉めている(セキュリティの関係)ので、弾かれることもあるかと思います。</p>
+</p>
+	
+<p>要するに<br>
+<b>「ファイアウォールに対して3389番へのアクセスは192.168.1.55さん宛てというルールを追加」</b><br>
+する必要があるわけですが、それは当然セキュリティ的にちょっと問題になりますし、普通はそういうルール追加をネットワーク管理者は嫌がります。<br>
+もう一つの懸念材料として、これらの間の暗号化はされていない、もしくは暗号化の強度が弱いことが多い(VNCやリモートデスクトップの種類によりますが)です。。
+</p>
+<p><br><br></p>
+<p>
+ということで、どうにもならないというかいろいろと面倒すぎるのですが、これをどうにかしようとしたのが「DesktopVPN」で、DesktopVPNを入れるとこうなります。<br>
+※DesktopVPNのホームページには詳しい仕組みが書かれていなかったので、おそらくこうなっているんだろうなあという推測です。
+</p>
+<img src="./20200303/vpn02.jpg"><br>
+
+<p>
+	まず、会社PCに「DesktopVPN サーバ」を入れておいて設定します。<br>
+	サーバといっても大したアプリではなくて、普通に起動して設定するだけでOKです。
+</p>
+
+<p>
+	すると①の通信でDesktopVPNの中継サーバ(201.66.55.44)に接続をします。<br>
+ポート番号443、つまりHTTPSでの接続(ブラウザで鍵が付いているような接続)で、この接続はファイアウォールでも余程ガチガチに設定されてない限りは通過できます。<br>
+ファイアウォールと会社PCの間に「プロクシ」が入っていても問題ないです。<br>
+※これが通過できないということは…つまり会社PCから各種ホームページが見れない状況に近いです
+</p>
+
+<p>
+	DesktopVPN中継サーバには、「200.10.20.1のPC名TESTPC-001がスタンバイ状態」ということになりずっと待ち受けみたいな感じになります。(たぶんこの間接続されたままになっています)
+</p>
+
+<p>
+	そして、家に帰って、自宅PCで「DesktopVPN クライアント」を入れておいて、「PC名TESTPC-001」を接続しに行きます。<br>
+	すると、②に示した通り、DesktopVPN中継サーバに接続しに行き、そこからスタンバイ状態で待っているPC名TESTPC-001を探して、お互いマッチング成立ということになります。
+</p>
+
+<p>そのあとは、中継サーバ経由でやり取り可能という話になります。</p>
+
+<p>
+	なお、通信はすべて暗号化してあります。HPにはRSA1024で暗号化と書かれているので割と強力な暗号化がしてあります。<br>
+	自宅PCと会社PC間で暗号化されているので、盗聴されたとしても中身の解読は極めて困難です。<br>
+	また、中継サーバが中身の通信を解読するなんてのも極めて困難です。<br>
+	※通常のSSL通信のように鍵交換はRSAで通信内容はAES暗号だとは思います
+</p>
+</div>
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>インストール・設定方法</h3></div>
+<p>
+	非常に簡単ですが、何点か注意があるのでそれだけ書きます。<br>
+まずはインストールしないと始まらないので以下からダウンロードしてインストールしましょう。
+</p>
+
+<p>
+	<A href="https://www.desktopvpn.net/download/">https://www.desktopvpn.net/download/</a>
+</p>
+	
+<p>
+	会社に置いているPCにDesktopVPN サーバを入れます。<br>
+	ハードディスク等共有機能有効・無効版ありますが、有効版を入れておいて、設定で無効にすることはできます。<br>
+	プログラム的に完全に無効にしないと気持ちが悪い！って人は無効版でいいと思います。<br>
+	(しかし無効版だとできることは限られてきます。その辺はセキュリティをどの辺まで持ってくるべきかですね…)
+</p>
+
+<p>自宅のノートPC等にはサーバ機能は必要ないので、「Desktop VPN 実行ファイル形式クライアント」だけを入れましょう。</p>
+
+<p>
+	インストール自体はここに書いてある通りでほとんどです。<br>
+	<A href="https://www.desktopvpn.net/support/install/">https://www.desktopvpn.net/support/install/</a>
+</p>
+
+<p>
+	サーバの設定方法は<br>
+	<A href="https://www.desktopvpn.net/support/connect/">https://www.desktopvpn.net/support/connect/</a><br>
+	にありますが、何点か付けたしたほうがいい内容がありますので、以下に説明します。
+</p>
+
+<p>まずこれです。</p>
+<img src="./20200303/desktopvpn_01.png"><br>
+
+<p>「コンピュータID」は自宅PCからの接続時に必ず必要なので、どこか自分がわかるところにメモしておきましょう。(他人に公開はなるべくしないように…)</p>
+
+<p>
+	次に会社PCでプロクシ経由でホームページを見ている…という場合は、HTTPプロキシサーバの設定が必要ですが、これはDesktopVPNサーバがPCの設定を使うのでよほどのことがない限りそのままでOKです。
+</p>
+
+<p>
+	次に「セキュリティの設定」を押します。
+</p>
+<img src="./20200303/desktopvpn_02.png"><br>
+<p>
+	おそらくDesktopVPNサーバの最初の起動時にパスワードを設定しましょうという画面が出て設定したと思いますが、パスワードだけでは心もとないので、自分のこのDesktopVPN専用の鍵ファイル(証明書)を作成して、それを使って接続できたほうが無難です。<br>
+これからはその説明をします。</p>
+<p>
+ということで、ユーザの管理を押します。
+</p>
+<img src="./20200303/desktopvpn_03.png"><br>
+<p>
+	ここは新規作成です。(自分の環境なのですでにユーザが居ますが気にしないでください)
+</p>
+<img src="./20200303/desktopvpn_04.png"><br>
+<p>
+	ユーザ名などを入れます。<br>
+認証方法は「固有証明書認証」を選択します。<br>
+DesktopVPNは自己証明書を発行でき、それを鍵として使用できるので、「固有証明書認証」で、証明書作成ツールを押します。
+</p>
+<img src="./20200303/desktopvpn_05.png"><br>
+<p>
+	ここは「ルート証明書(自己署名証明書)」を選択します。<br>
+	自己署名証明書とは、このDesktopVPNが証明した証明書(つまりオレオレ証明書)です。
+</p>
+<p>	
+	もし、ちゃんとした認証局が発行した証明書がある場合は「ほかの証明書によって署名された証明書」を選択しても良いですね。
+</p>
+<p>	
+	そして必要事項を埋めていきます。<br>
+	CNやOなどは適当なアルファベットでOKです。<br>
+	シリアル番号は1でも2でも良いですが、もし他に自己証明書がある場合は番号を被らないようにしてください。
+</p>
+<p>	
+	最後にこの証明書を使うときのパスワードを設定するかどうか聞いてきます。<br>
+	設定しておいたほうが無難です。設定しましょう。
+</p>
+<p>		
+	そしてOKを押すと、保存画面が出てきますので、わかりやすい名前を付けて保存します。<br>
+	拡張子は.p12です。<br>
+	これはなくすとまた発行しないといけなくなるので、なくさないようにしてください。<br>
+	そして、この<b>「なんらた.p12」ファイル</b>を何らかの方法で持ち帰ってください。	
+</p>
+<p><br><br></p>
+
+<p>
+	自宅PCには「Desktop VPN 実行ファイル形式クライアント」をインストールします。<br>
+	<A href="https://www.desktopvpn.net/support/connect/">https://www.desktopvpn.net/support/connect/</a><br>
+	にある「DesktopVPNクライアントの事前設定」の通りすればOKですが、接続先コンピュータIDを入れた後の認証画面で、証明書認証するかどうかの選択があるので、証明書認証を押して、証明書に<b>「なんらた.p12」ファイル</b>を指定してあげればOKです。
+</p>
+</div>
+
+
+<div class="content-2-box">
+<div class="content-2-title"><h3>その他注意事項など…</h3></div>
+<p>
+その他、気をつけておくべきことなどをまとめました。<br>
+</p>
+<div class="content-3-title"><h3>システムモードとユーザモードどちらが良いか</h3></div>
+<p>
+	自分はユーザモードしか試していません。(試したサーバの環境がWin10 Homeなため)<br>
+	Windowsのリモートデスクトップ機能が有効なエディションだと、システムモードを選択可能です。<br>
+	システムモードはWindowsのリモートデスクトップ機能を内部的に利用するようです。<br>
+	ユーザモードは、DesktopVPNの独自機能だけで実現するモードのようです。なので、システム的な操作は厳しいものがあります。(あくまでシステムではなく、一つのアプリケーションとみなされるので、権限等の問題)<br>
+	よって、ユーザモードの場合は、クライアントで操作するとそのままサーバにも反映されるようですね。<br>
+	<A href="https://www.desktopvpn.net/faq/faq_f04_08.aspx">https://www.desktopvpn.net/faq/faq_f04_08.aspx</a>
+</p>
+
+<div class="content-3-title"><h3>ユーザモードでは、UACは無効に</h3></div>
+<p>
+	UAC(管理者権限が伴う操作)は無効にするか、リモート(自宅PCで遠隔操作している間)ではしないように気を付けましょう。<br>
+例えばソフトウェアのインストールなどが該当すると思います。<br>
+自宅PCからリモートで接続している時に、リモート先のPC(会社のPC)がUACの画面になると、UACの確認画面に切り替わってしまい以後操作できなくなるためです。<br>
+※ユーザモードの場合、UACのあの画面はWindowsによって物理的にPCを操作している人以外は操作が一切禁止となるためです<br>
+</p>
+<div class="content-3-title"><h3>サーバはスタンバイや休止状態にならないようにしましょう</h3></div>
+<p>
+	DesktopVPNサーバをインストールして起動中はスタンバイや休止状態にならないようになっていますが念のため。<br>
+休止状態になると接続が切れてしまい、クライアントと接続できなくなるので注意。
+<br>
+</p>
+<div class="content-3-title"><h3>Windowsのバージョンは</h3></div>
+<p>
+	Vista等結構古くても対応していますね。<br>
+	<A href="https://www.desktopvpn.net/support/action/">https://www.desktopvpn.net/support/action/</a>
+		<br>
+</p>
+<div class="content-3-title"><h3>画面更新速度は遅いですか？</h3></div>
+<p>
+	さすがに中継を挟んでるので多少のもたつきはあると思います。<br>
+	とはいえ元々リモート接続でGUIはそういうものだったりしますので、画面の早い更新が必要な用途にはちょっと向いてないかも…ですね。<br>
+</p>
+<div class="content-3-title"><h3>Wineでも動く？</h3></div>
+<p>
+	とりあえずUbuntu18.04で、DesktopVPNクライアントだけを試しましたが、動きました。
+</p>
+
+</div>
+
+
+<!-- footer_start -->
+<div class="main-box-spacer"></div>
+<div class="twitter">
+<a href="//twitter.com/share" class="twitter-share-button" data-text="140文字以上：もう困らない。DesktopVPNでリモートワーク(テレワーク)の簡単実現方法" data-url="https://chromabox.github.io/140m/txt/d/20200303.html" data-lang="ja"></a>
+</div>
+<!-- footer_end -->
+</div>
+<!-- main_box_end -->
+
+</div>
+<!-- content_end -->
+</body>
+<!-- body_end -->
+</html>
