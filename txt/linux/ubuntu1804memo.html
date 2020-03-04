@@ -280,7 +280,6 @@ PasswordAuthentication no
 <pre class="code_font codebox">
 $ sudo service ssh restart
 </pre>
-
 </div>
 
 <div class="content-2-box">
@@ -303,6 +302,17 @@ $ sudo apt install kikad kikad-doc-ja kikad-locale-ja kikad-demo
 $ rm -rf ~/.config/kicad
 </pre>
 </div>
+
+<div class="content-2-box">
+	<div class="content-2-title"><h3>ネットワーク接続の編集で、VPNの設定がPPTPしか出ない。OpenVPN等の設定を追加したい</h3></div>
+	<p>デフォルトではPPTPしか出てこないので、以下をすると良い</p>
+	<pre class="code_font codebox">
+$ sudo apt install network-manager-ssh-gnome
+$ sudo apt install network-manager-openvpn-gnome
+</pre>
+	<p>他にも色々有るので、network-manager-のあどでTABを押して何がインストールできるか確認すると良い</p>
+</div>
+	
 
 
 <!-- footer_start -->
