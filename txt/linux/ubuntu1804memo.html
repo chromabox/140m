@@ -153,47 +153,18 @@ $ sudo reboot
 </div>
 
 <div class="content-2-box">
-<div class="content-2-title"><h3>Synergyを起動時に有効にする(lightdm)</h3></div>
+<div class="content-2-title"><h3>barrierを起動時に有効にする(lightdm)</h3></div>
 <p>
-WindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つツール。
-キーボード切替器がなくても行き来出来て、クリップボードも共有してくれるので便利。</p>
+WindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つツール。<br>
+キーボード切替器がなくても行き来出来て、クリップボードも共有してくれるので便利。<br>
+以前はsynergyというツールがあったのですが、有料化＆Ubuntu18.04で使うのには問題がありました。</p>
 <p>
-WindowsにSynergyサーバが起動していて、ログイン時にSynergyc(Synergyのクライアント)を利かせる場合は次のようにする</p>
-
-<pre class="code_font codebox">
-$ sudo touch /etc/lightdm/lightdm.conf.d/50-synergyc.conf
-</pre>
-で、「50-synergyc.conf」を作成した後、同ファイルを以下のように編集。
-<pre class="code_font codebox">
-<div class="code_filebox">/etc/lightdm/lightdm.conf.d/50-synergyc.conf</div>
-[SeatDefaults]
-greeter-setup-script=/usr/bin/synergyc サーバのIP
-</pre>
-<p>
-しかし、Syneryには問題がある</p>
-<p>・マウスをDragしているといきなり切れてWinの画面にマウスカーソルが戻ることがある。<br>
-(Linuxの負荷が上がってる場合とか、QT使ってると起こりやすい感じ)</p>
-<p>・Linuxで日本語を入力しているとリターンが暴発するときがある</p>
-
-<p>一応Bugは報告されている(しかし最新の有料版であっても、未解決)→
-<a href="https://github.com/symless/synergy-core/issues/6481">https://github.com/symless/synergy-core/issues/6481</a>
+ただ、Ubuntu18.04はaptパッケージにはbarrierが用意されていなくて、自力でどうにかしないといけません。<br>
+ちょっと長くなったので別ページを作りました。
 </p>
-<p>ざっと見た感じ、どうも一部のXウィンドウでプロパティを取れないウィンドウがあり、その処理で問題がありそうだけど…といったところ。</p>
-</div>
-
-
-<div class="content-2-box">
-<div class="content-2-title"><h3>Synegyの代わりになるもの</h3></div>
-<p>
-SynergyはVer2になってから有料になっている。
-これに反してOSSなsynergyを作ろうとしたものの中に、「barrier」というのがある。これはSynergyの1.9をForkしたものらしい…</p>
-<p>なお、Ubuntu19系はSynegyがなくなり、こっちが入るようになる模様。</p>
-<a href="https://github.com/debauchee/barrier">https://github.com/debauchee/barrier</a>
-<p>
-なお、同じ問題があるみたい。残念。→<a href="https://github.com/debauchee/barrier/issues/298">https://github.com/debauchee/barrier/issues/298</a>
+<a href="https://chromabox.github.io/140m/txt/linux/barrier_ubuntu1804.html">ubuntu 18.04でbarrierを使う</a>
 </p>
 </div>
-
 
 <div class="content-2-box">
 <div class="content-2-title"><h3>light-locker-settingsが動かない…</h3></div>
