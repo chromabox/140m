@@ -1,0 +1,705 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.81.0" />
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="STM32 NucleoボードのST-Linkを切り離してみた">
+<meta property="twitter:title"          content="STM32 NucleoボードのST-Linkを切り離してみた">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/board/20190906_stm32/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="はい、以下は電子工作系の話です 某要件でSTM32Fほにゃらら(アレなんで伏せておきます)が乗っているNucleoというボードを使って色々して">
+<meta property="twitter:description"    content="はい、以下は電子工作系の話です 某要件でSTM32Fほにゃらら(アレなんで伏せておきます)が乗っているNucleoというボードを使って色々して">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>STM32 NucleoボードのST-Linkを切り離してみた | 140文字以上</title>
+  <style>
+.container {
+  max-width: 700px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  line-height: 1.2;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+.main-box {
+	border: 1px solid #808080;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 5px;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  padding-left: 5px;
+}
+.content-3-title h3::before {
+  margin-right: 3px;
+  content: '・';
+}
+.content-3-title h3 {
+	font-weight: 400;
+  font-size: 16px;
+}
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container">
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2019-09-06">2019-09-06</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/board/20190906_stm32/">STM32 NucleoボードのST-Linkを切り離してみた</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/diary">diary</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/board">board</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>はい、以下は電子工作系の話です</p>
+<p>某要件でSTM32Fほにゃらら(アレなんで伏せておきます)が乗っているNucleoというボードを使って色々しているわけですが、ここにきて動かしていると急にボードのリセットが掛かるという現象が起こり、このままでは開発もままならなくなったので、ついつい手が滑ってこのNucleoボードの上部に乗っかってるST-Linkというボードを切り離してしまった話です。
+
+
+
+
+<div class="smallbox">闇雲にSTLinkが悪いんだって切ったというわけではなくて、回路図とにらめっこしながら、あるWindowsPCでST-Linkを活性化している場合に起こりやすいというところからどうもこいつがNRSTのレベル下げたり、各種いらんことをしているのでは？？という推論に基づいています。<br>
+推論したら実行に移さないと気がすまないってのもあります。</div></p>
+<p>Nucleo-144系ボードの話はまだそんなにネットになかったので、ネタになるかなと思い、以下、載せておきます。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+STLinkと本体との切り離し
+</h3>
+</div>
+<p>何はともあれ、まずはNucleoさんの基板の上にくっついてるSTLinkとSTM32Fが居る本体部分を物理的に切り離さないと進みません。</p>
+<p>切り離す前はこんな感じになってます。
+
+
+
+
+<figure class="figure">
+  <a href="data/01.jpg"><img src="data/01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>上部がST-linkですね。橋みたいなので繋がっておりますね。<br>
+一見何もなさそうですが、実は多層基板になっていて、この橋から本体にUSBからの電源供給線や、リセットやらSWDIOやらの各種信号が繋がっております。<br>
+STのマニュアルには<strong>STLinkを外したい愚か者はこの橋を切断せよ</strong>みたいなことがかいてあります…</p>
+<p>ということで、ボクは当初カッターナイフで切ろうとしたのですが、思いの外大変だったので、釣りの時に使う、凍ったアミコマセを小分けする用途に100均で買った棒ノコみたいなので切りました。</p>
+
+
+
+
+<figure class="figure">
+  <a href="data/02.jpg"><img src="data/02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+
+<p>切ったらこうなります。さすがに棒ノコだと簡単に切れますね。<br>
+あとはバリをヤスリで削ったら第一工程終わり。<br>
+なお、外したSTLinkは使えなくなってジャンク扱いになるの？？といえばそんなことはなくて、今後も外部デバッガとして利用できます。よかったですね。<br>
+つまり、Nucleoボードをスイッチサイエンスさんとか、秋月さんとかで買うなり、何らかの手段で手に入れればハードウェア接続なデバッガも付いてくるわけですな。ええ時代や…</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+チップ抵抗外しと、ソケット実装と…
+</h3>
+</div>
+<p>これで終わりだったらとっても楽だったのですが、そうは問屋が卸さないという感じで、ST-Linkを外してしまった愚か者には罰があるのです。。。</p>
+<p>回路図見たら「あっ、、、」ってわかるのですが、ST-Linkから供給されているMCOという外部高速クロック(8Mhz)が、ST-Linkを外してしまうことによって供給されなくなります。</p>
+<p>まあ別にSTのチップは外部からクロックを供給されなくても最悪自分自身でクロックを供給できるようにはなってるのですが、USBデバイスとして機能させる場合など正確な高速クロックが必要な場合は、何らかの手段で外からクロックを供給しなくてはいけないみたいです。</p>
+<p>今回の事案もUSBデバイスとして利用するというのがあったので、何らかの手段でクロックを供給せねばなりませんでした。<br>
+ということで、STのマニュアルには以下のように書いてあります。</p>
+
+
+
+
+<figure class="figure">
+  <a href="data/manual01.jpg"><img src="data/manual01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+
+<p>つまり、今までST-Link基板が繋がってるときはオレンジで書いてある設定だったけど、外すと赤色で囲った設定にしないといけないよ…ということです。</p>
+<p>回路図見るとこんな感じですね。
+
+
+
+
+<figure class="figure">
+  <a href="data/manual02.jpg"><img src="data/manual02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>SB149は0抵抗で繋がってるのでこれを外します。<br>
+で、SB8と9は未実装になっているので、何らかの手段でブリッジします。<br>
+X3に普通の水晶振動子を使用する場合は、C37と38に所定のコンデンサを接続する必要があるのですが…まぁコレ見てくださいよ
+
+
+
+
+<figure class="figure">
+  <a href="data/x3.jpg"><img src="data/x3.jpg" class="figure-img img-fluid"></a>
+  <figcaption class="figure-caption">実は小さい</figcaption>
+</figure>
+
+
+</p>
+<p>工作しなきゃいけないのは、赤で囲ったところですね。<br>
+写真では拡大して映しているので「ふーん」って感じですが、実際はかなり小さいです。<br>
+正直、ここに砂粒みたいなチップコンデンサを付ける自信というか腕は皆無だったので、実はコンデンサ不要(実は内蔵されている)のセラロックというセラミック振動子(振動器かも)を使って逃げることにしました。<br>
+セラロックはコンデンサを付けなくても良いのですが、GNDと接続する必要はあるのでC37が乗るであろうパターンのGNDパターンに接続しようという形になりました。</p>
+<p>ということで、まずは0Ωなチップ抵抗を外す作業から…<br>
+といっても、チップ抵抗をどうにかするのは久しぶりで、ましてや外した作業なんてしたことがなく、これは練習が必要だなぁと思い、、切り取ったST-Linkの基板で練習…(切り取ってしまえば外す意味はあまりないのですが、こいつをST-Linkデバッガとして新しく活用したい場合は、ノイズ云々の理由で一応外す必要があるそうです)</p>
+<p>最初は使い慣れているこのハンダこて(15w)で作業しようと思ってました…<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/03.jpg"><img src="data/03.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>ところが、、、いざチップ抵抗を外す作業となるとどう頑張ってもこいつでは外せないことが判明。<br>
+なんでだろうなあ〜と思ってネットを調べていると、どうやら<strong>ハンダを流しつつ、両方の端子を同時に温めないと取れない</strong>という事がわかり、えっそれって<strong>合体前に同時に弾を打ち込まないと壊せないスターソルジャーのラザロ</strong>みたいじゃないか…と早速難問が立ちはだかります。。。</p>
+<p>いやぁさすがにヒートガンは持ってないし、世の中の人はどうしてんだろうなあと思ってYoutubeを漁ってると良い動画を見つけました。
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/26VgQ2hKclw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+ようは、<strong>ヘラ状のコテ先を使えば同時に暖められる</strong>じゃんという発想ですね。<br>
+これを発見したときは「はぁ〜こんな方法があるのかぁ。。。これなら他の部品温めて死ぬ事無いしキレイだし凄いなぁ。。。」と目から鱗が瀧のように流れました……</p>
+<p>ということで、流石にヘラ状のコテ先は持ってなかったので、ホームセンターに無いかなと探しに行きました。
+そしたら奇跡的に以下の商品があり、迷わず購入。
+
+
+
+
+<figure class="figure">
+  <a href="data/04.jpg"><img src="data/04.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>20wでコテ先が色々入ってました。ハンダ付け用のとかヒートカッターとか色々入って2000円くらい。<br>
+お子様向けみたいなことが書いてありましたが、小さくて使いやすそうで、細かい電子工作にも良いんじゃないかなと。</p>
+<p>それで、コテ先はヘラ状のも入ってたので装着して当ててみると、狙ったようににピッタリ
+
+
+
+
+<figure class="figure">
+  <a href="data/05.jpg"><img src="data/05.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>こりゃいけるぞ…ということで、温めつつ新しいハンダを流すとやっとチップ抵抗が取れました
+
+
+
+
+<figure class="figure">
+  <a href="data/06.jpg"><img src="data/06.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>なお、パスコン(VCCとGNDに挟まってる安定用のコンデンサ)との比較画像はこんな感じです
+
+
+
+
+<figure class="figure">
+  <a href="data/07.jpg"><img src="data/07.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>本当に米粒というか砂粒なのが解ると思います。
+我々が普段手にしているスマホにはこういうのがそりゃもう沢山入っております。</p>
+<p>取った後のST-link基板はこんな感じになりました
+
+
+
+
+<figure class="figure">
+  <a href="data/08.jpg"><img src="data/08.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>SB110〜112に付いてたチップ抵抗を外しました。外した直後はハンダのペースト(ヤニ)がついてて茶色いですが、爪でガリガリするなりアルコールかなんかで拭き取るとキレイにとれます。</p>
+<p>ST-link基板で修行を積んだので、本チャンと行きます。赤で囲った部分がターゲットです。
+
+
+
+
+<figure class="figure">
+  <a href="data/09.jpg"><img src="data/09.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>SB149は周囲に部品が無いのでまだ余裕。<br>
+SB163は近所にコンデンサがあり、ここに誤爆して外した抵抗と合体したりすると本当にダメなので、反対側のSB160は巻き添えにしても良いように方向を考えて作業しました。</p>
+<p>やはりSB163はボクには難問鬼門で、以下画像にも格闘の跡が見えておりますが、、、なんとか除去成功。
+
+
+
+
+<figure class="figure">
+  <a href="data/10.jpg"><img src="data/10.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+
+テスターでチェックして問題ないことを確認。これで第二関門クリア</p>
+<p>そしていよいよ最大にして一番むずかしい発振器周りです。<br>
+どのようにつなげるかは以下の通り。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/x3_2.jpg"><img src="data/x3_2.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+
+スペース的にも正直なかなかキツイですがやっていくしかありません。<br>
+なお、「セラ8Mhz」と書いてあるのはセラロック8Mhzでして、実物これです。
+
+
+
+
+<figure class="figure">
+  <a href="data/12.jpg"><img src="data/12.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>セラロックは一応極性というか向きはあるそうで、2はGNDに接続しないといけないのは当然として、1はCPU側のOSC_OUT、3はOSC_INに接続しないといけないです。
+OUTに1を接続するとかなんとも不思議な感覚になりますが、そうしないと波形がズレてしまうらしいですはい。<br>
+参考→<a href="https://www.murata.com/ja-jp/support/faqs/products/timingdevice/ceralock/mnt/cch0007">逆方向に実装した場合、問題が発生しますか？｜村田製作所</a></p>
+<p>8Mhzから変えることはあまりないと思いたいけど、もしかしたらもあるから一応簡単に付け替えられるようにしておこうと思い、ソケットを付けて色々実装頑張ったらこうなりました。
+
+
+
+
+<figure class="figure">
+  <a href="data/11.jpg"><img src="data/11.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>ちなみに、配線はこれを使ってます。秋葉にある秋月電子さんやら千石電子さんに売ってますし、大阪だと多分デジットなんかにあるかなーと。
+
+
+
+
+<figure class="figure">
+  <a href="data/haisen.jpg"><img src="data/haisen.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>むき出しのように見えて、実はポリウレタンで薄く皮膜してあります。<br>
+皮膜してあるので普段は導通しないわけです</p>
+<p>なお、皮膜はハンダの熱で溶解して中の銅線と導通可能になるので、作業前に線をメッキハンダ(線にハンダを付ける作業)をするだけで良いということに。<br>
+つまり、ワイヤーストリッパーなどでビニールを剥くといった作業をしなくて良いわけですね。<br>
+とっても細かいランドに信号線を飛ばさないといけない時やら、数こなさないといけないバスラインを接続する場合にすごく重宝します…というかこれじゃないとあたしゃ無理ですわ正直。</p>
+<p>若干話それましたが、最終的にソケットにセラロックを収めてこうなりました。
+
+
+
+
+<figure class="figure">
+  <a href="data/13.jpg"><img src="data/13.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>テスターで確認して問題なければこれにて終わりです。</p>
+<p>あ、あと電源もST-linkから供給されなくなったので、どうにかする必要は有ります。<br>
+ボクはUSBケーブルを剥いてE5Vにその電源を入れることにしました。<br>
+E5VはCN11端子に出ております。この辺はまあ解説しても面白くないので略。</p>
+<p>シリアルもUSART3から他になってしまうので、シリアル出したい場合はこの辺りも考える必要は有ります。USART3はCN11とかにも出てますが、USART3は何をトチ狂ったかTXとRXが遠すぎる(CN11と12にまたがってる…)ので、CN9にまとまって出てるUSART2を活用すればスマートにできます。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ソフト側の変更など…
+</h3>
+</div>
+<p>このままでも動くことは動くのですが、このままではクロック設定に失敗して内部クロックを勝手に使うことになって苦労して付けた意味がなくなってしまうので、ソフトも若干の変更が必要になります。<br>
+多分ST提供のIDE(CubeMXなど)を使ってるとNucleoのデフォルト設定だとMCOが生きている状況で、直接方形波のクロックが入ることになるので、HSEはMCOを使う設定になってます。<br>
+セラロックから出てくる波形は方形波じゃなくて純粋な波なので、これを教えないといけません。</p>
+<p>ソフト面での変更方法ですが、CubeMXのGUIではHSEの設定がBypassになってるはずなので、それを変更するか、もしくはソースの以下行</p>
+<div class="highlight"><pre class="chroma"><code class="language-c:Src/main.c" data-lang="c:Src/main.c">  <span class="n">RCC_OscInitStruct</span><span class="p">.</span><span class="n">HSEState</span> <span class="o">=</span> <span class="n">RCC_HSE_BYPASS</span><span class="p">;</span>
+</code></pre></div><p>を</p>
+<div class="highlight"><pre class="chroma"><code class="language-c:Src/main.c" data-lang="c:Src/main.c">  <span class="n">RCC_OscInitStruct</span><span class="p">.</span><span class="n">HSEState</span> <span class="o">=</span> <span class="n">RCC_HSE_ON</span><span class="p">;</span>
+</code></pre></div><p>に変えればOKです。<br>
+これをビルドし直して焼けばOK。</p>
+<p>あと、USART2使う人はそれ用の変更するなどですね。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+まとめなど
+</h3>
+</div>
+<p>ということでブログにすると長くなりましたが、作業は実際半日かかってしまいました。<br>
+なお、無事にクロックも供給できて、USBデバイスのテストアプリを焼いて無事に動くことを確認しましたので、同じ症状で困ってる人の参考になればと…</p>
+<p>後日、切り離したSTLinkを使ってみましたが、どうやらNRSTを接続すると不意に信号がローに落ちる場合があるようで(NRSTは負論理なのでしばらくローになるとリセットが掛かったということになります)、レアを引いてしまったか、もしくはST-Linkを接続している自分のPCとの相性が不味いのか…といった感じです。</p>
+<p>同じ症状が無いかと思い、ネットを漁ってると一部のUSB3.0ホストとの相性が良くないらしいというのを見かけたりもして、どうかなーといったところ。<br>
+他の会社のデバッガを実は持っていて、こいつはNRST繋げてもこういった状況にはならずサクサクイケるので、まあこれでいいかーということに落ち着きました。</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fboard%2f20190906_stm32%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20STM32%20Nucleo%e3%83%9c%e3%83%bc%e3%83%89%e3%81%aeST-Link%e3%82%92%e5%88%87%e3%82%8a%e9%9b%a2%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+  </div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>

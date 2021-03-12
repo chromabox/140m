@@ -1,0 +1,618 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.81.0" />
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="ubuntu 18.04設定メモ">
+<meta property="twitter:title"          content="ubuntu 18.04設定メモ">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/ubuntu1804_memo/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="Ubuntu 18.04の設定などのメモです。割と忘れやすいので備忘録ついでに書いてます。気が向いたらまたちょくちょく更新します。 OracleのVirt">
+<meta property="twitter:description"    content="Ubuntu 18.04の設定などのメモです。割と忘れやすいので備忘録ついでに書いてます。気が向いたらまたちょくちょく更新します。 OracleのVirt">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>ubuntu 18.04設定メモ | 140文字以上</title>
+  <style>
+.container {
+  max-width: 700px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  line-height: 1.2;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+.main-box {
+	border: 1px solid #808080;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 5px;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  padding-left: 5px;
+}
+.content-3-title h3::before {
+  margin-right: 3px;
+  content: '・';
+}
+.content-3-title h3 {
+	font-weight: 400;
+  font-size: 16px;
+}
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container">
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2019-06-17">2019-06-17</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/ubuntu1804_memo/">ubuntu 18.04設定メモ</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/linux">linux</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>Ubuntu 18.04の設定などのメモです。割と忘れやすいので備忘録ついでに書いてます。気が向いたらまたちょくちょく更新します。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+OracleのVirtualboxを使う
+</h3>
+</div>
+<p>すでにUbuntuのデフォルトのをインストールしている場合は&hellip;</p>
+<pre><code>$ sudo apt remove virtualbox
+$ sudo apt upgrade
+$ sudo apt autoremove
+(virtualbox-dkmsを削除しておく)
+</code></pre><p>以下でインストール。(Oracleのリポジトリを追加して鍵を追加してインストール)</p>
+<pre><code>$ sudo add-apt-repository &quot;deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib&quot;
+$ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+$ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+$ sudo apt update
+$ sudo apt install virtualbox-5.2 dkms
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Gnome-Shellを使いやすく
+</h3>
+</div>
+<p>まずこれをする</p>
+<pre><code>$ sudo apt install gnome-shell-extensions
+</code></pre><p>キーボードの設定を変更するには dpkg-reconfigure コマンドを keyboard-configuration 引数をつけて実行する。</p>
+<pre><code>$ sudo dpkg-reconfigure keyboard-configuration
+</code></pre><p>表示されるウィザードに沿って設定を入力していく。 二番目の設定で Japanese にするのがポイント。<br>
+Generic 105-key (Intel) PC → Japanese → Japanese → The default for the keyboard layout → No compose key</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+unityやUIをカスタマイズしたい
+</h3>
+</div>
+<p>unity tweakを使ってカスタマイズする</p>
+<pre><code>$ sudo apt install unity-tweak-tool
+$ sudo apt install notify-osd
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gdm3でWaylandを無効にする
+</h3>
+</div>
+<p>Ubuntu18.04は、デフォルトではWaylandを使おうとする。しかし、Synergycはまだ対応してないので、動かすときはOFFにしておいたほうが無難。</p>
+<p><code>/etc/gdm3/custom.conf</code>を以下のように、WaylandEnable=falseにする。</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>daemon<span class="o">]</span>
+<span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
+<span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+LightDMとLubuntuのインストール
+</h3>
+</div>
+<p>デフォルトだとUnityのままだけど、重くなっていくUnityに嫌気が差した人用。LubuntuはOpenboxベースで軽量。</p>
+<p>以下参考</p>
+<p><a href="https://www.hiroom2.com/2018/05/06/ubuntu-1804-lxde-ja">https://www.hiroom2.com/2018/05/06/ubuntu-1804-lxde-ja</a></p>
+<p>LightDMも共に使う必要があるので、LightDMも合わせてインストールする。</p>
+<pre><code>$ sudo apt install -y lubuntu-desktop
+途中でLightDMにするかどうか聞いてくるので、LightDMにする。
+</code></pre><p>LXDMやめるとき</p>
+<pre><code>$ sudo apt remove -y lubuntu* lxde* openbox lightdm
+$ sudo apt autoremove -y
+$ sudo apt install --reinstall -y gdm3
+$ sudo reboot
+</code></pre><p>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+barrierを起動時に有効にする(lightdm)
+</h3>
+</div>
+WindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つツール。<br>
+キーボード切替器がなくても行き来出来て、クリップボードも共有してくれるので便利。<br>
+以前はsynergyというツールがあったのですが、有料化＆Ubuntu18.04で使うのには問題がありました。</p>
+<p>ただ、Ubuntu18.04はaptパッケージにはbarrierが用意されていなくて、自力でどうにかしないといけません。<br>
+ちょっと長くなったので別ページを作りました。<br>
+<a href="https://chromabox.github.io/140m/txt/linux/barrier_ubuntu1804.html">ubuntu 18.04でbarrierを使う</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+light-locker-settingsが動かない…
+</h3>
+</div>
+<p>Lubuntuでスクリーンセーバの設定を変える時に必要…なのだけどpython-giが入ってなくて動かない。なので次のコマンドでインストール。(今は直ってるかもしれん)</p>
+<pre><code>$ sudo apt install python-gi
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+OpenCVの開発
+</h3>
+</div>
+<p>何も考えずこれでもいいけど…</p>
+<pre><code>$ sudo apt install libopencv-dev
+</code></pre><p>専門家(？)に言わせるとこれダメらしい。使いたい機能がオミットされていたりするとか、更新頻度が早いから、最新使ったほうがいいとか、なんとか。。。<br>
+ディストリとしてはどの環境でも万遍なく動く必要があるので、これは仕方ないのだけれども…<br>
+<a href="https://qiita.com/usk81/items/98e54e2463e9d8a11415">https://qiita.com/usk81/items/98e54e2463e9d8a11415</a></p>
+<p>かくなる上はソースから持ってきてOpenCVのライブラリを丸々コンパイルする必要があるのだけど、長くなるので他のエントリーに書こうかなと思います。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Android Studioのインストール
+</h3>
+</div>
+<p>snappyをつかうとよい。良い時代になりました。<br>
+<a href="https://qiita.com/maccadoo/items/4ce153af005df3f48e8d">https://qiita.com/maccadoo/items/4ce153af005df3f48e8d</a></p>
+<p>AVD(Androidのソフト開発で使う公式のエミュレータ)も動いた。ちゃんとNvidiaのグラフィックドライバが入ってればOpenGLが有効で動いてくれて、軽々動作する。本当に良い時代になりました(2回目)</p>
+<p>ドールズフロントライン(ソシャゲ)も試した所、軽々と動いたけどGenymotionよりは若干リソース使う感じ。特にこだわりなければこれで全然問題無さそう</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Codecをまとめてインストール
+</h3>
+</div>
+<p>動画のコーデック関連の話。<br>
+Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンスがオープンじゃなかったり)怪しいものは除外される運命だけど、これをすることによってインストール出来るというアレ。</p>
+<p>但し、libavcodecが消えてしまう(その代り権利怪しいアレなバージョンが入る)</p>
+<pre><code>$ sudo apt install ubuntu-restricted-extras
+</code></pre><p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。<br>
+どう違うか？は以下の通り。</p>
+<p>libavcodec　－　権利がしっかりしたもの<br>
+libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪しいもの</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+sshでキーの指紋を確認したい
+</h3>
+</div>
+<p>ssh-keygen でできる。</p>
+<pre><code>$ ssh-keygen l -f [公開鍵のファイル]
+</code></pre><p>但し、Ubuntu18.04はOpenSSH 6.8以降なため、指紋表示形式がSHA254/base64となっている。
+※昔はMD5:HEX形式</p>
+<p>githubの設定でMD5形式で表示されていて、自分の鍵の指紋を確認したい場合は次のようにする</p>
+<pre><code>$ ssh-keygen l -E md5 -v -f [公開鍵のファイル]
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Ubuntuサーバに公開鍵形式でsshログインをしたい
+</h3>
+</div>
+<p>公開鍵でログインするのは、Ubuntuのデフォルトで一応有効になっている。</p>
+<p>まず、公開鍵と秘密鍵を作った後、Ubuntuサーバに公開鍵を何らかの方法でおくった後、次のようにする</p>
+<pre><code>(公開鍵をid_rsa_bob_serverA.pubとした場合)
+$ cp id_rsa_bob_serverA.pub ~/.ssh/authorized_keys
+$ sudo service ssh restart
+</code></pre><p>authorized_keysはsshdのconfigで指定されているファイルなので、これを設定しておくと良い。<br>
+一応、他のPCからSSHで秘密鍵と共にログイン出来るかやってみる。成功したら、パスワード方式はOFFにしておくと良い。</p>
+<p>以下<code>/etc/sshd/sshd_config</code>ファイルをrootで編集</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PasswordAuthentication no
+<span class="o">(</span><span class="c1">#PasswordAuthentication yesとかになっているのでこのように変更)</span>
+</code></pre></div><p>そしてsshdをリスタートする</p>
+<pre><code>$ sudo service ssh restart
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+kicadがおかしい、または十字アイコンが残ったままになって使えない…
+</h3>
+</div>
+<p>デフォルトでインストールできるKicad(回路図エディタやらCADが使えるアプリ)は、環境によって十字アイコンがのこってしまい大変残念なことになってしまう…<br>
+なので、次のようにしてVer5系統を入れ直す</p>
+<pre><code>(すでにKicad入れていて残念な気持ちになった人は以下実行)
+$ sudo apt purge kicad
+
+(ここからはみんな共通)
+$ sudo add-apt-repository ppa:js-reynaud/kicad-5
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install kikad kikad-doc-ja kikad-locale-ja kikad-demo
+(kikad-locale-jaを入れないと日本語化しないので注意)
+</code></pre><p>前のkikad4を入れていた人は設定が~/.config/kicad/に残ってしまっているいので以下もやったほうがいい</p>
+<pre><code>$ rm -rf ~/.config/kicad
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ネットワーク接続の編集で、VPNの設定がPPTPしか出ない。OpenVPN等の設定を追加したい
+</h3>
+</div>
+<p>デフォルトではPPTPしか出てこないので、以下をすると良い</p>
+<pre><code>$ sudo apt install network-manager-ssh-gnome
+$ sudo apt install network-manager-openvpn-gnome
+</code></pre><p>他にも色々有るので、network-manager-のあどでTABを押して何がインストールできるか確認すると良い</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fubuntu1804_memo%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20ubuntu%2018.04%e8%a8%ad%e5%ae%9a%e3%83%a1%e3%83%a2" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+  </div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>

@@ -1,0 +1,447 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.81.0" />
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="ubuntu 18.04でbarrierを使う">
+<meta property="twitter:title"          content="ubuntu 18.04でbarrierを使う">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/barrier_ubuntu1804/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="barrierはWindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つソフトです。 キ">
+<meta property="twitter:description"    content="barrierはWindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つソフトです。 キ">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>ubuntu 18.04でbarrierを使う | 140文字以上</title>
+  <style>
+.container {
+  max-width: 700px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  line-height: 1.2;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+.main-box {
+	border: 1px solid #808080;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 5px;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  padding-left: 5px;
+}
+.content-3-title h3::before {
+  margin-right: 3px;
+  content: '・';
+}
+.content-3-title h3 {
+	font-weight: 400;
+  font-size: 16px;
+}
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container">
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2020-09-16">2020-09-16</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/barrier_ubuntu1804/">ubuntu 18.04でbarrierを使う</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/linux">linux</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>barrierはWindowsとLinuxやらMacOSXとLinuxを一つのキーボード、2つのPCで共用している時に役に立つソフトです。<br>
+キーボード切替器がなくてもWindowsとLinuxを行き来ができて、クリップボードも共有できるので2台以上のPCを扱っている場合はほぼ必須ですね</p>
+<p>ただ、Ubuntu18.04ではaptでインストールできるのはSynergyのみとなっています。もともとbarrierはSynergyが有料化してしまったためにそれに反発する有志がフォークで作られたものです。<br>
+まぁ、Synergyでも良いっちゃ良いのですが、Ubuntu18で使う時にXorg(QT?)との相性が悪いのか以下の問題があります。</p>
+<p>・マウスをDragしているといきなり切れてWinの画面にマウスカーソルが戻ることがある。
+(Linuxの負荷が上がってる場合とか、QT使ってると起こりやすい感じ)</p>
+<p>・Linuxで日本語を入力しているとリターンが暴発するときがある</p>
+<p>・コピーペーストに失敗する場合がある</p>
+<p>この問題はフォーク先のbarrierでも長らく問題にはなってましたが、今年の5月かそこらにようやく治り、この反映を行った2.3.3がリリースされました</p>
+<p>というわけでbarrierを導入しようということですが、これにはソースからビルドする必要があり、今回はその手順などを書いておきます。<br>
+今回はWindowsPCをサーバ、UbuntuPCをクライアントとします。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+WindowsPCにbarrierのインストール
+</h3>
+</div>
+<p>これは超簡単です。<br>
+以下からインストーラ込みのバイナリ(2.3.3)をダウンロードしてインストールしてサーバ設定するだけです。<br>
+<a href="https://github.com/debauchee/barrier/releases/download/v2.3.3/BarrierSetup-2.3.3-release.exe">https://github.com/debauchee/barrier/releases/download/v2.3.3/BarrierSetup-2.3.3-release.exe</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Ubuntu 18.04でbarrierをソースからビルドする
+</h3>
+</div>
+<p>次はUbuntu18.04にbarrierを導入するのですが、バイナリイメージはなく、ソースからビルドしないといけません。<br>
+とは言ってもビルドはそんなに難しくはなくて、barrierのGithubに書いてある<a href="https://github.com/debauchee/barrier/wiki/Building-on-Linux">これ</a>を見ればいいわけですが、手順を書いておきます。</p>
+<p>1.ビルドに必要なパッケージをインストール</p>
+<pre><code>$ sudo apt install git cmake make xorg-dev g++ libcurl4-openssl-dev \
+libavahi-compat-libdnssd-dev libssl-dev libx11-dev \
+libqt4-dev qtbase5-dev
+</code></pre><p>2.ソースをgithubからダウンロード</p>
+<pre><code>$ git clone https://github.com/debauchee/barrier.git
+</code></pre><p>3.バージョン2.3.3のブランチをきって、ビルドする</p>
+<pre><code>$ cd barrier
+$ git checkout v2.3.3
+$ ./clean_build.sh
+</code></pre><p>4.ビルドして問題がなければ、Daemon指定で堕ちてしまうバグを治すパッチを当ててもう一回ビルドする</p>
+<pre><code>$ wget https://gist.githubusercontent.com/chromabox/61404314887e61c1c32e325a6dc37e41/raw/a83699cc038dc547bb90aab6af6e810200ddee04/barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
+$ git checkout -b v2.3.3_mod
+$ git am barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
+$ ./clean_build.sh
+</code></pre>
+
+
+
+<div class="alert alert-warning" role="alert">このパッチはbarriercをDaemon指定で走らせた時にすぐに堕ちてしまうのを私が直したものです。<br>
+これを適用しないと、PCの電源が入ってログイン画面時に実行する時に実行できなくなってしまいます。<br>
+daemonとして起動しているのにSTDINを使用しようとしているのが問題であり、STDINを開かないようにしています。</div>
+<p>5.ビルドして問題がなければ、インストールする</p>
+<pre><code>$ cd build
+$ sud make install
+</code></pre><p>※デフォルトでは/usr/local 以下に入ります。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+barrierを起動時に有効にする(lightdm)
+</h3>
+</div>
+<p>これはSynergycのときと同じです<br>
+ログイン時にbarrierc(barrierのクライアント)を利かせる場合は次のようにします</p>
+<pre><code>$ sudo touch /etc/lightdm/lightdm.conf.d/50-barrierc.conf
+</code></pre><p>で、<code>50-barrierc.conf</code>を作成した後、同ファイルを以下のように編集。</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>SeatDefaults<span class="o">]</span>
+greeter-setup-script<span class="o">=</span>/usr/local/bin/barrierc --debug INFO --name サーバで名前設定したこのPCの名前 サーバのIP
+</code></pre></div>
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fbarrier_ubuntu1804%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20ubuntu%2018.04%e3%81%a7barrier%e3%82%92%e4%bd%bf%e3%81%86" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+  </div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
