@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.81.0" />
+  <meta name="generator" content="Hugo 0.98.0" />
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -312,12 +312,12 @@ OracleのVirtualboxを使う
 </h3>
 </div>
 <p>すでにUbuntuのデフォルトのをインストールしている場合は&hellip;</p>
-<pre><code>$ sudo apt remove virtualbox
+<pre tabindex="0"><code>$ sudo apt remove virtualbox
 $ sudo apt upgrade
 $ sudo apt autoremove
 (virtualbox-dkmsを削除しておく)
 </code></pre><p>以下でインストール。(Oracleのリポジトリを追加して鍵を追加してインストール)</p>
-<pre><code>$ sudo add-apt-repository &quot;deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib&quot;
+<pre tabindex="0"><code>$ sudo add-apt-repository &#34;deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian bionic contrib&#34;
 $ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 $ wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
 $ sudo apt update
@@ -334,9 +334,9 @@ Gnome-Shellを使いやすく
 </h3>
 </div>
 <p>まずこれをする</p>
-<pre><code>$ sudo apt install gnome-shell-extensions
+<pre tabindex="0"><code>$ sudo apt install gnome-shell-extensions
 </code></pre><p>キーボードの設定を変更するには dpkg-reconfigure コマンドを keyboard-configuration 引数をつけて実行する。</p>
-<pre><code>$ sudo dpkg-reconfigure keyboard-configuration
+<pre tabindex="0"><code>$ sudo dpkg-reconfigure keyboard-configuration
 </code></pre><p>表示されるウィザードに沿って設定を入力していく。 二番目の設定で Japanese にするのがポイント。<br>
 Generic 105-key (Intel) PC → Japanese → Japanese → The default for the keyboard layout → No compose key</p>
 
@@ -351,7 +351,7 @@ unityやUIをカスタマイズしたい
 </h3>
 </div>
 <p>unity tweakを使ってカスタマイズする</p>
-<pre><code>$ sudo apt install unity-tweak-tool
+<pre tabindex="0"><code>$ sudo apt install unity-tweak-tool
 $ sudo apt install notify-osd
 </code></pre>
 
@@ -366,10 +366,10 @@ gdm3でWaylandを無効にする
 </div>
 <p>Ubuntu18.04は、デフォルトではWaylandを使おうとする。しかし、Synergycはまだ対応してないので、動かすときはOFFにしておいたほうが無難。</p>
 <p><code>/etc/gdm3/custom.conf</code>を以下のように、WaylandEnable=falseにする。</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>daemon<span class="o">]</span>
-<span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
-<span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>daemon<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
+</span></span></code></pre></div>
 
 
 
@@ -384,10 +384,10 @@ LightDMとLubuntuのインストール
 <p>以下参考</p>
 <p><a href="https://www.hiroom2.com/2018/05/06/ubuntu-1804-lxde-ja">https://www.hiroom2.com/2018/05/06/ubuntu-1804-lxde-ja</a></p>
 <p>LightDMも共に使う必要があるので、LightDMも合わせてインストールする。</p>
-<pre><code>$ sudo apt install -y lubuntu-desktop
+<pre tabindex="0"><code>$ sudo apt install -y lubuntu-desktop
 途中でLightDMにするかどうか聞いてくるので、LightDMにする。
 </code></pre><p>LXDMやめるとき</p>
-<pre><code>$ sudo apt remove -y lubuntu* lxde* openbox lightdm
+<pre tabindex="0"><code>$ sudo apt remove -y lubuntu* lxde* openbox lightdm
 $ sudo apt autoremove -y
 $ sudo apt install --reinstall -y gdm3
 $ sudo reboot
@@ -420,7 +420,7 @@ light-locker-settingsが動かない…
 </h3>
 </div>
 <p>Lubuntuでスクリーンセーバの設定を変える時に必要…なのだけどpython-giが入ってなくて動かない。なので次のコマンドでインストール。(今は直ってるかもしれん)</p>
-<pre><code>$ sudo apt install python-gi
+<pre tabindex="0"><code>$ sudo apt install python-gi
 </code></pre>
 
 
@@ -433,7 +433,7 @@ OpenCVの開発
 </h3>
 </div>
 <p>何も考えずこれでもいいけど…</p>
-<pre><code>$ sudo apt install libopencv-dev
+<pre tabindex="0"><code>$ sudo apt install libopencv-dev
 </code></pre><p>専門家(？)に言わせるとこれダメらしい。使いたい機能がオミットされていたりするとか、更新頻度が早いから、最新使ったほうがいいとか、なんとか。。。<br>
 ディストリとしてはどの環境でも万遍なく動く必要があるので、これは仕方ないのだけれども…<br>
 <a href="https://qiita.com/usk81/items/98e54e2463e9d8a11415">https://qiita.com/usk81/items/98e54e2463e9d8a11415</a></p>
@@ -467,7 +467,7 @@ Codecをまとめてインストール
 <p>動画のコーデック関連の話。<br>
 Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンスがオープンじゃなかったり)怪しいものは除外される運命だけど、これをすることによってインストール出来るというアレ。</p>
 <p>但し、libavcodecが消えてしまう(その代り権利怪しいアレなバージョンが入る)</p>
-<pre><code>$ sudo apt install ubuntu-restricted-extras
+<pre tabindex="0"><code>$ sudo apt install ubuntu-restricted-extras
 </code></pre><p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。<br>
 どう違うか？は以下の通り。</p>
 <p>libavcodec　－　権利がしっかりしたもの<br>
@@ -484,11 +484,11 @@ sshでキーの指紋を確認したい
 </h3>
 </div>
 <p>ssh-keygen でできる。</p>
-<pre><code>$ ssh-keygen l -f [公開鍵のファイル]
+<pre tabindex="0"><code>$ ssh-keygen l -f [公開鍵のファイル]
 </code></pre><p>但し、Ubuntu18.04はOpenSSH 6.8以降なため、指紋表示形式がSHA254/base64となっている。
 ※昔はMD5:HEX形式</p>
 <p>githubの設定でMD5形式で表示されていて、自分の鍵の指紋を確認したい場合は次のようにする</p>
-<pre><code>$ ssh-keygen l -E md5 -v -f [公開鍵のファイル]
+<pre tabindex="0"><code>$ ssh-keygen l -E md5 -v -f [公開鍵のファイル]
 </code></pre>
 
 
@@ -502,16 +502,16 @@ Ubuntuサーバに公開鍵形式でsshログインをしたい
 </div>
 <p>公開鍵でログインするのは、Ubuntuのデフォルトで一応有効になっている。</p>
 <p>まず、公開鍵と秘密鍵を作った後、Ubuntuサーバに公開鍵を何らかの方法でおくった後、次のようにする</p>
-<pre><code>(公開鍵をid_rsa_bob_serverA.pubとした場合)
+<pre tabindex="0"><code>(公開鍵をid_rsa_bob_serverA.pubとした場合)
 $ cp id_rsa_bob_serverA.pub ~/.ssh/authorized_keys
 $ sudo service ssh restart
 </code></pre><p>authorized_keysはsshdのconfigで指定されているファイルなので、これを設定しておくと良い。<br>
 一応、他のPCからSSHで秘密鍵と共にログイン出来るかやってみる。成功したら、パスワード方式はOFFにしておくと良い。</p>
 <p>以下<code>/etc/sshd/sshd_config</code>ファイルをrootで編集</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PasswordAuthentication no
-<span class="o">(</span><span class="c1">#PasswordAuthentication yesとかになっているのでこのように変更)</span>
-</code></pre></div><p>そしてsshdをリスタートする</p>
-<pre><code>$ sudo service ssh restart
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PasswordAuthentication no
+</span></span><span class="line"><span class="cl"><span class="o">(</span><span class="c1">#PasswordAuthentication yesとかになっているのでこのように変更)</span>
+</span></span></code></pre></div><p>そしてsshdをリスタートする</p>
+<pre tabindex="0"><code>$ sudo service ssh restart
 </code></pre>
 
 
@@ -525,7 +525,7 @@ kicadがおかしい、または十字アイコンが残ったままになって
 </div>
 <p>デフォルトでインストールできるKicad(回路図エディタやらCADが使えるアプリ)は、環境によって十字アイコンがのこってしまい大変残念なことになってしまう…<br>
 なので、次のようにしてVer5系統を入れ直す</p>
-<pre><code>(すでにKicad入れていて残念な気持ちになった人は以下実行)
+<pre tabindex="0"><code>(すでにKicad入れていて残念な気持ちになった人は以下実行)
 $ sudo apt purge kicad
 
 (ここからはみんな共通)
@@ -535,7 +535,7 @@ $ sudo apt upgrade
 $ sudo apt install kikad kikad-doc-ja kikad-locale-ja kikad-demo
 (kikad-locale-jaを入れないと日本語化しないので注意)
 </code></pre><p>前のkikad4を入れていた人は設定が~/.config/kicad/に残ってしまっているいので以下もやったほうがいい</p>
-<pre><code>$ rm -rf ~/.config/kicad
+<pre tabindex="0"><code>$ rm -rf ~/.config/kicad
 </code></pre>
 
 
@@ -548,7 +548,7 @@ $ sudo apt install kikad kikad-doc-ja kikad-locale-ja kikad-demo
 </h3>
 </div>
 <p>デフォルトではPPTPしか出てこないので、以下をすると良い</p>
-<pre><code>$ sudo apt install network-manager-ssh-gnome
+<pre tabindex="0"><code>$ sudo apt install network-manager-ssh-gnome
 $ sudo apt install network-manager-openvpn-gnome
 </code></pre><p>他にも色々有るので、network-manager-のあどでTABを押して何がインストールできるか確認すると良い</p>
 

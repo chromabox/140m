@@ -1,0 +1,977 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.98.0" />
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="ubuntu 22.04設定メモ">
+<meta property="twitter:title"          content="ubuntu 22.04設定メモ">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/ubuntu2204_memo/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="正式にUbnutu 22.04 LTSがリリースされ、Japan Remix（日本語環境向けに調整されたもの）もリリースされたので、18.04 LTSだった">
+<meta property="twitter:description"    content="正式にUbnutu 22.04 LTSがリリースされ、Japan Remix（日本語環境向けに調整されたもの）もリリースされたので、18.04 LTSだった">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>ubuntu 22.04設定メモ | 140文字以上</title>
+  <style>
+.container {
+  max-width: 700px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  line-height: 1.2;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+.main-box {
+	border: 1px solid #808080;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 5px;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  padding-left: 5px;
+}
+.content-3-title h3::before {
+  margin-right: 3px;
+  content: '・';
+}
+.content-3-title h3 {
+	font-weight: 400;
+  font-size: 16px;
+}
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container">
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2022-05-09">2022-05-09</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/ubuntu2204_memo/">ubuntu 22.04設定メモ</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/linux">linux</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>正式にUbnutu 22.04 LTSがリリースされ、Japan Remix（日本語環境向けに調整されたもの）もリリースされたので、18.04 LTSだった環境を入れ替えしました。</p>
+<p>ちなみに、自分が確認した環境は以下です。</p>
+<pre tabindex="0"><code> $ screenfetch
+                          ./+o+-       XXX@XXXXXXXX
+                  yyyyy- -yyyyyy+      OS: Ubuntu 22.04 jammy
+               ://+//////-yyyyyyo      Kernel: x86_64 Linux 5.15.0-27-generic
+           .++ .:/++++++/-.+sss/`      Uptime: 4h 6m
+         .:++o:  /++++++++/:--:/-      Packages: 2192
+        o:+o+:++.`..```.-/oo+++++/     Shell: bash
+       .:+o:+o/.          `+sssoo+/    Resolution: 1920x1080
+  .++/+:+oo+o:`             /sssooo.   DE: GNOME 41.4
+ /+++//+:`oo+o               /::--:.   WM: Mutter
+ \+/+o+++`o++o               ++////.   WM Theme: Adwaita
+  .++.o+++oo+:`             /dddhhh.   GTK Theme: Yaru [GTK2/3]
+       .+.o+oo:.          `oddhhhh+    Icon Theme: Yaru
+        \+.++o+o``-````.:ohdhhhhh+     Font: Ubuntu 11
+         `:o+++ `ohhhhhhhhyo++os:      Disk: 3.2T / 8.2T (39%)
+           .o:`.syhhhhhhh/.oo++o`      CPU: Intel Core i7 950 @ 8x 3.068GHz
+               /osyyyyyyo++ooo+++/     GPU: NVIDIA GeForce GTX 960
+                   ````` +oo+++o\:     RAM: 4307MiB / 11960MiB
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+USB版のインストールイメージを作る
+</h3>
+</div>
+<p>最近のPCはDVDドライブすらないとかままあるので、RaspberryPIなんかでよく使われているbalenaEtcherを使ってUSBメモリからライブUSBを作るのが早い。</p>
+<p>8GB以上のUSBメモリ推奨とのこと。</p>
+<p><a href="https://www.balena.io/etcher/">https://www.balena.io/etcher/</a> に行ってAppimageをダウンロード</p>
+<p>解凍して以下コマンドを実行</p>
+<pre tabindex="0"><code>$ ./balenaEtcher-1.7.9-x64.AppImage
+</code></pre><p>なお、etcherは内部的にElectronを使っていてこれはGUIの表示にChromiumレンダリングエンジンを使っていてぶっちゃけブラウザ上で走っているようなものなので（考えてみるとすごい時代だ…）、libvaのエラーが出てしまって起動しない場合がある。</p>
+<p>特にnvidiaの新しいドライバを使用している場合などは以下のようにしてgpuを使用しないようにするとよい。</p>
+<pre tabindex="0"><code>$ ./balenaEtcher-1.7.9-x64.AppImage --disable-gpu-sandbox
+</code></pre><p>後はGUIが出てくるので、イメージを設定して、USBメモリも指定して「Flush」を押して書き込み</p>
+<p>参考：
+<a href="https://kledgeb.blogspot.com/2022/04/ubuntu-2204-64-windowslinuxmacosubuntu.html">https://kledgeb.blogspot.com/2022/04/ubuntu-2204-64-windowslinuxmacosubuntu.html</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストール時に気をつけること
+</h3>
+</div>
+<p>インストール時に使用しているメディアにもよるが、最初のGrubの画面でカーネルのコマンドライン(引数)に</p>
+<pre tabindex="0"><code>fsck.mode=skip
+</code></pre><p>を指定しないとメディアに対してfsckをやってしまうらしく、インストーラが立ち上がるのが遅いことがあるそうなので気をつけること</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Virtualboxにインストールする場合
+</h3>
+</div>
+<p>USBメモリを使いたい場合はExtpackをインストールの後、これをしてLinux再起動</p>
+<pre tabindex="0"><code>$ sudo gpasswd -a USER_NAME vboxusers
+</code></pre><p>EFIを使用するにチェックを付けておくと、Boot時にVirtualBOXのロゴが出て解像度が少し上がる</p>
+<p>チェックを入れなくてもインストール自体は可能。</p>
+<p>しかし解像度が最低の640*480になってしまい、インストーラのGUIがはみ出て選択できなくなる。</p>
+<p>こういう場合はとりあえずインストーラのGUIが出てきたら「Ubunutuを試す」をやって、Live版が起動したら右下のアプリケーション表示のアイコンから「設定」を選び、「ディスプレイ」ー「解像度」を選び、1024*768とか選んで解像度を大きくしたあとで、Ubuntuをインストールするを実行すればOK</p>
+<p>あと、UEFIではないのでディスク設定に注意(何も考えずデフォルトでインストールする分には問題ないが、インストールのついでにパーティションを切るとかBtrfsに入れたいとかする場合は注意)</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストール後の基本セット
+</h3>
+</div>
+<p>自分はインストール後にまずこれをしてとりあえず必要なものをインストールしています</p>
+<pre tabindex="0"><code>$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install build-essential cmake git gitk ssh gufw samba vim filezilla minicom mcomix gtkterm shutter vlc ffmpeg geany flatpak flex bison screenfetch htop apt-transport-https gnupg2
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Codecをまとめてインストール
+</h3>
+</div>
+<p>動画のコーデック関連の話。Ubuntu18でもありましたね。</p>
+<p>Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンスがオープンじゃなかったり)怪しいものは除外される運命だけど、これをすることによってインストール出来るというアレ。</p>
+<p>但し、libavcodecが消えてしまう(その代り権利怪しいアレなバージョンが入る)</p>
+<pre tabindex="0"><code>$ sudo apt install ubuntu-restricted-extras
+</code></pre><p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。どう違うか？は以下の通り。</p>
+<p>libavcodec　－　権利がしっかりしたもの</p>
+<p>libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪しいもの</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+handbrakeでNVENCが使えない
+</h3>
+</div>
+<p>古いPCにUbuntuを入れる活用法はあるあるだけど、nvencを使ってhanbbrakeでH.264やH.265のエンコードしたい場合はドライバのバージョンが390系だったりするとだめ。</p>
+<p>ドライバのバージョンが5xx系だと使用可能。</p>
+<p>ここを見て自分が使っているビデオボードがエンコードをサポートしているGPUかまず確認しよう。</p>
+<p><a href="https://developer.nvidia.com/video-encode-and-decode-gpu-support-matrix-new">https://developer.nvidia.com/video-encode-and-decode-gpu-support-matrix-new</a></p>
+<p>これはOBSでnvencを使ってハードウェアエンコードしながら配信したい場合も同じなので注意。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Btrfsにインストール
+</h3>
+</div>
+<p>20.04のときは確かBtrfsを選べなかった気がするが、22.04になってようやくBtrfsにも入れることができるようになった。</p>
+<p>Ext4と比べても良くなってるので、もうできる限りBtrfsにしましょう。</p>
+<p>→標準のUbuntuからインストールではなくて、Lubuntuフレーバでいきなりインストールする人はBtrfsで動かんらしいので気をつけよう</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+GuestAdditionCDの導入(Virtualbox環境)
+</h3>
+</div>
+<p>Virtualboxにインストールしたときに「GuestAddition」を入れないとクリップボード共有が動かなかったり、解像度をウィンドウサイズに追従させられなかったり等色々不便なので現状は入れておくと良い。</p>
+<p>(本来はVboxSVGAを選択すれば要らないのだが動かないので)</p>
+<p>まずgccなど必要なコンパイラ類をまとめて入れる</p>
+<pre tabindex="0"><code>$ sudo apt install build-essential
+</code></pre><p>この後でGuest addition CDを投入後、以下実行し、再起動でOK</p>
+<pre tabindex="0"><code>$ cd /media/xxx/VBOXxxx
+$ ./autorun.sh
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+google-chromeのインストール
+</h3>
+</div>
+<p>以下のコマンドを打てばOK</p>
+<pre tabindex="0"><code>$ sudo apt install apt-transport-https gnupg2
+
+$ wget -O- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg
+
+$ echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+$ sudo apt update
+$ sudo apt install google-chrome-stable
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+vscodeのインストール
+</h3>
+</div>
+<p>以下のコマンドを打てばOK</p>
+<pre tabindex="0"><code>$ sudo apt install apt-transport-https gnupg2
+
+$ wget -O- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg
+
+$ echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
+
+$ sudo apt update
+$ sudo apt install code
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+sshとsshd
+</h3>
+</div>
+<p>sshが無いと色々めんどくさいので早めにやっておく。</p>
+<p>この辺はUbuntu18.04と同じ。</p>
+<pre tabindex="0"><code>ub2204: $ sudo apt install ssh
+</code></pre><p>もしもホスト側の<code>.ssh/config</code>が公開鍵オンリーになっていたら以下のようにホスト側のエントリーを書かないといけない</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host ub2204
+</span></span><span class="line"><span class="cl">	User XXX
+</span></span><span class="line"><span class="cl">	HostName YYY
+</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
+</span></span><span class="line"><span class="cl">	IdentitiesOnly no
+</span></span><span class="line"><span class="cl">	PreferredAuthentications password
+</span></span></code></pre></div><p>これで一応PasswdでログインOK
+インストール直後は.sshが作られていないのでsshで入ったあとで自分で自分のサーバに入る</p>
+<pre tabindex="0"><code>host: $ ssh ub2204
+(Pass聞いてくる)
+ub2204:$ ssh localhost
+(FingerPrint合ってるかどうか聞いてくるのでYと答える)
+(Pass聞いてくる)
+ub2204:$ exit
+</code></pre><p>ホスト側(もしあれば)で、ed25519な鍵生成</p>
+<pre tabindex="0"><code>host: $ ssh-keygen -t ed25519
+</code></pre><p>何処に出力するか聞いてくるので、設定して鍵ファイルを作る</p>
+<p>インストール先に公開鍵を転送</p>
+<pre tabindex="0"><code>host: $ scp (作った秘密鍵).pub (転送先サーバ名):/home/xxx/
+</code></pre><p>転送先で鍵設定</p>
+<pre tabindex="0"><code>ub2204:$ cp (作った秘密鍵).pub .ssh/authorized_keys
+ub2204:$ chmod 600 .ssh/authorized_keys
+</code></pre><p>セキュリティを高めるために、転送先のsshd_configを触って鍵オンリーにしてパスワードログインは禁止。</p>
+<p><code>/etc/ssh/sshd_config</code>を以下のように変更</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PubkeyAuthentication yes
+</span></span><span class="line"><span class="cl">PasswordAuthentication no
+</span></span></code></pre></div><p>最後に、sshdリスタート</p>
+<pre tabindex="0"><code>ub2204:$ systemctl restart sshd
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Samba設定
+</h3>
+</div>
+<p>まず、Sambaをインストール</p>
+<pre tabindex="0"><code>$ sudo apt install samba
+</code></pre><p>次に<code>/etc/samba/smb.conf</code>に追記</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>ユーザ名<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">path</span> <span class="o">=</span> /home/ユーザ名
+</span></span><span class="line"><span class="cl">        <span class="nv">writeable</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl">        <span class="nv">browseable</span> <span class="o">=</span> no
+</span></span><span class="line"><span class="cl">        valid <span class="nv">users</span> <span class="o">=</span> ユーザ名
+</span></span></code></pre></div><p>browseableは必要に応じて変える</p>
+<p>sambaのパスワードをセットする</p>
+<pre tabindex="0"><code>$ sudo smbpasswd -a ユーザ名
+</code></pre><p>(-a を入れないとエラーになる)</p>
+<p>最後にsmbdリスタート</p>
+<pre tabindex="0"><code>$ sudo systemctl restart smbd
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+minicomなどで使用するターミナルの権限変更等
+</h3>
+</div>
+<p><code>/dev/ttyS</code>なんとかのグループがdialoutになっているのでそれを利用する</p>
+<pre tabindex="0"><code>$ sudo gpasswd -a ユーザ名 dialout
+$ sudo chown root:dialout /etc/minicom
+$ sudo chmod 775 /etc/minicom
+</code></pre><p>詳細
+<a href="https://qiita.com/chromabox/items/306386a886bee4fb7810">https://qiita.com/chromabox/items/306386a886bee4fb7810</a></p>
+<p>なお、デフォルトではFT23X系のチップを使用したUSBシリアル変換を接続すると、しばらく間をおいて途中で勝手に切られてしまう&hellip;.</p>
+<p>このときのdmesgはこんな感じ</p>
+<pre tabindex="0"><code>[ 6114.316364] usb 1-3.4: New USB device found, idVendor=0403, idProduct=6001, bcdDevice= 6.00
+[ 6114.316374] usb 1-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[ 6114.316378] usb 1-3.4: Product: FT232R USB UART
+[ 6114.316380] usb 1-3.4: Manufacturer: FTDI
+[ 6114.316383] usb 1-3.4: SerialNumber: XXXXXXXX
+[ 6114.319137] ftdi_sio 1-3.4:1.0: FTDI USB Serial Device converter detected
+[ 6114.319181] usb 1-3.4: Detected FT232RL
+[ 6114.320031] usb 1-3.4: FTDI USB Serial Device converter now attached to ttyUSB0
+[ 6131.973998] usb 1-3.4: usbfs: interface 0 claimed by ftdi_sio while &#39;brltty&#39; sets config #1
+[ 6131.975270] ftdi_sio ttyUSB0: FTDI USB Serial Device converter now disconnected from ttyUSB0
+[ 6131.975311] ftdi_sio 1-3.4:1.0: device disconnected
+[ 6572.726767] usb 1-3.4: USB disconnect, device number 9
+</code></pre><p>調べるとどうやら「brltty」という点字関連のアクセシビリティのものが悪さをしているので、以下を実行してbrlttyをアンインストールするとよい</p>
+<pre tabindex="0"><code>$ sudo apt remove brltty
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+sudo apt autoremoveするとnvidiaドライバが何故か消えてしまいnouveauドライバになる
+</h3>
+</div>
+<p>インストール時に3rdパーティのドライバをインストールするを選択すると、インストール後に自動的にNvidiaのドライバが入るようになって万々歳のところが、ここで。。。</p>
+<pre tabindex="0"><code>$ sudo apt autoremove
+</code></pre><p>をやってしまうと、再起動時に何故かNvidiaのドライバがなくなりnouveauドライバになってしまう
+こういうときは焦らずに</p>
+<pre tabindex="0"><code>$ sudo ubuntu-drivers autoinstall
+</code></pre><p>して、再起動すれば復活する。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gdm3でWaylandを無効にする
+</h3>
+</div>
+<p>Ubuntu22.04もデフォルトではWaylandを使おうとする。</p>
+<p>しかし、barrierやteamviewer等色々と対応していないアプリはあるので、これらを動かすときはOFFにしておいたほうが無難。</p>
+<p><code>/etc/gdm3/custom.conf</code>を以下のように、WaylandEnable=falseにする。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>daemon<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
+</span></span></code></pre></div>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+RDP（Ubuntu22.04で標準で入るようになったgnome-remote-desktop）について
+</h3>
+</div>
+<p>Ubuntu22.04の目玉(？)機能の一つとしてリモートデスクトップが標準サポートされるようになりました。</p>
+<p>しかし、接続元のRemminaが古いとRDPで接続ができないとかあります。</p>
+<p>(例えば、Ubuntu20.04のデフォルトで入れられるRemminaなど)</p>
+<p>これは、RemminaをSnap版にして新しいのを入れると問題なく接続できるようになります。</p>
+<p>Snap版にしたときは権限設定を忘れずに(ほとんどONでいいと思う)</p>
+<p>この際なのでUbuntu22.04側のRemminaもSnap版に入れ替えしたほうが良いですね。</p>
+<p>なお、セッションがXorgの場合はなぜかこのRDPが使用できないので、Xorg環境でリモートデスクトップを使いたい場合は、VNCを許可としておく必要があります</p>
+<p>→接続元はなんらかのVNCクライアントで接続することになります。</p>
+<p>VNCの共有設定でデフォルトだといちいち接続先に接続しても良いかの問い合わせが出てきて接続先に人がいないと接続できないという問題がでるので、パスワードを要求するを選択すると聞いてこなくなります。</p>
+<p>また、Wayland環境でもVNCでも画面をロックしたりログアウトするとリモートデスクトップが切れます…これが地味にしんどい…</p>
+<p>(TeamviewerやWindowsリモートデスクトップのような完全なリモートデスクトップじゃなくて、gnome-remote-desktopは、操作アシスタント的な使い方を想定している…とのことのようです。)</p>
+<p>リモートデスクトップが標準になるということで個人的に期待していたのですが肩透かしといった感じですね。。。</p>
+<p>なかなかこの仕様は正直つらいので、本格的にリモートなデスクトップを使用したい人は従来どおりxrdpするか、Teamviewerを入れたほうがよさそうです。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+日本語がうまく入らない(ubuntu日本語Remix版では治っているかも)
+</h3>
+</div>
+<p>そのままだと変換ボックスがウィンドウの下に出ます。</p>
+<p>ただそれだけではなく、geditなんかで日本語入力がおかしくなり非常に日本語入力が厳しくなる。。。</p>
+<p>gsettingsの値がこうだとだめらしい</p>
+<pre tabindex="0"><code>$ gsettings get org.gnome.desktop.interface gtk-im-module
+&#39;&#39;
+</code></pre><p>これが空なのが行けないようなので次のようにするとよい</p>
+<pre tabindex="0"><code>$ gsettings set org.gnome.desktop.interface gtk-im-module &#39;ibus&#39;
+</code></pre><p>参考：
+<a href="https://askubuntu.com/questions/1405101/japanese-input-candidate-window-appears-at-the-bottom-after-upgrading-ubuntu-fro">https://askubuntu.com/questions/1405101/japanese-input-candidate-window-appears-at-the-bottom-after-upgrading-ubuntu-fro</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Flatpakのインストール
+</h3>
+</div>
+<p>ubuntuはリリースバージョンでアプリのバージョンが固定されてしまうのでなるべくflatpakかsnapでリリースされているものを使うのが良いとのこと</p>
+<pre tabindex="0"><code>$ sudo apt install flatpak
+$ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+$ sudo apt install gnome-software-plugin-flatpak
+</code></pre><p>これをしたあとで、gimpのページの
+<a href="https://www.gimp.org/downloads/">https://www.gimp.org/downloads/</a>
+にある[install flatpak GIMP] をクリックしてflatpakrefを開くとflatpak版gimpがインストールできる</p>
+<p>flatpakのアップデートは</p>
+<pre tabindex="0"><code>$ flatpak update
+</code></pre><p>でOK</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Golangのインストール
+</h3>
+</div>
+<p>18.04や20.04の場合はlongsleep/golang-backportsのppaを取り込む必要があったけど22.04は現時点で最新版がUbuntu標準に含まれているので必要ないとのこと
+(今後、Golangがアップデートされたりしたらまた必要になるのかも？)</p>
+<p>というわけで以下でOK</p>
+<pre tabindex="0"><code>$ sudo apt install golang-go
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+scrcpyのインストール
+</h3>
+</div>
+<p>Android端末の画面をそのままコピーしてUbuntu上で操作できるようにするツール。かなり便利。</p>
+<p>snap版のほうが新しいので、例によってsnap版のをインストールすると良い（権限設定は忘れずに）</p>
+<p>また、Android端末側はUSBデバッグを有効にするのと、初回接続時はこのPCからの接続を許可するか？の問答があるので設定をすること。</p>
+<pre tabindex="0"><code>$ sudo snap install scrcpy
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+OBSのインストール
+</h3>
+</div>
+<p>例によってflatpak版をインストール</p>
+<p>１．公式からFlatpakをダウンロード</p>
+<p>２．ファイルマネージャー等で開く</p>
+<p>３．プラグインも全部入れる</p>
+<p>４．普通に起動</p>
+<p>Webカメラが動作できて録画できることまでは確認。ただし配信は未確認（TwichかTwitterでの配信で問題ある環境があるとか？）</p>
+<p>v4l2関連でエラーが出るかもしれないらしい（自分の環境では出ず）</p>
+<p>その時はこれをすると良いとのこと</p>
+<pre tabindex="0"><code>$ apt install v4l-utils libv4l-dev
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+barrierについて
+</h3>
+</div>
+<p>wayland環境は未対応なので注意すること。よって、gdm3のwaylandは外しておくこと。</p>
+<p>xorg環境でないと動きません。</p>
+<p>調べたところ、2.4系はなんか変らしいので2.3.3でトライしました。</p>
+<p>ビルドについてはこことほとんど同じだが、ubuntu22.04はlibqt4が無いのでlibqt4-devは外してしまって良い</p>
+<p><a href="https://chromabox.github.io/140m/linux/barrier_ubuntu1804/">https://chromabox.github.io/140m/linux/barrier_ubuntu1804/</a></p>
+<p>以下そのまま順に実行。/usr/local/binにbarrierが入ります。</p>
+<pre tabindex="0"><code>$ sudo apt install cmake xorg-dev g++ libavahi-compat-libdnssd-dev libx11-dev libcurl4-openssl-dev qtbase5-dev 
+libssl-dev
+$ git clone https://github.com/debauchee/barrier.git
+$ cd barrier
+$ git checkout v2.3.3 -b v2.3.3_mod
+$ wget https://gist.githubusercontent.com/chromabox/61404314887e61c1c32e325a6dc37e41/raw/a83699cc038dc547bb90aab6af6e810200ddee04/barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
+$ git am barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
+$ ./clean_build.sh
+$ cd build
+$ sudo make install
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+barriercの自動実行について
+</h3>
+</div>
+<p>電源投入時にBarriercも自動実行させたいときはgdm3の設定が必要になる。</p>
+<p>lightdmのときと違い、gdm3の設定はなかなかに面倒</p>
+<p>参考：
+<a href="http://masaoo.blogspot.com/2021/07/ubuntu-2004-gdm-synergyc.html">http://masaoo.blogspot.com/2021/07/ubuntu-2004-gdm-synergyc.html</a></p>
+<p><code>/usr/share/gdm/greeter/autostart/barrierc.desktop</code>を新規作成</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="o">[</span>Desktop Entry<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>Application
+</span></span><span class="line"><span class="cl"><span class="nv">Name</span><span class="o">=</span>barrierc
+</span></span><span class="line"><span class="cl"><span class="nv">Exec</span><span class="o">=</span>/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NoDisplay</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">X-GNOME-AutoRestart<span class="o">=</span><span class="nb">true</span>
+</span></span></code></pre></div><pre tabindex="0"><code>$ cd /etc/gdm3/PostLogin
+$ sudo cp Default.sample Default
+</code></pre><p><code>/etc/gdm3/PostLogin/Default</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Note: this is a sample and will not be run as is.  Change the name of this</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># file to &lt;gdmconfdir&gt;/PostLogin/Default for this script to be run.  This</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># script will be run before any setup is run on behalf of the user and is</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># useful if you for example need to do some setup to create a home directory</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for the user or something like that.  $HOME, $LOGIN and such will all be</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># set appropriately and this script is run as root.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">killall barrierc
+</span></span></code></pre></div><p><code>/etc/gdm3/PostSession/Default</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">/usr/bin/killall barrierc
+</span></span><span class="line"><span class="cl"><span class="k">while</span><span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">xauthfile</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span>grep Xauth <span class="p">|</span> grep <span class="s1">&#39;^root&#39;</span> <span class="p">|</span> grep -oP <span class="s1">&#39;\-auth \K[\w/]+&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span>:0
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">XAUTHORITY</span><span class="o">=</span><span class="si">${</span><span class="nv">xauthfile</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
+</span></span></code></pre></div><p>ログイン後に自動起動させたいので以下のようにする</p>
+<pre tabindex="0"><code>$ cd ~/
+$ mkdir bin
+$ cd bin
+$ touch start-barrierc.sh
+$ chmod 775 start-barrierc.sh
+</code></pre><p><code>start-barrierc.sh</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>/usr/bin/killall barrierc
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
+</span></span></code></pre></div>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+teamviewerを使いたい
+</h3>
+</div>
+<p>teamviwereはWaylandセッションでは動かない(対応していない)ので気をつけること</p>
+<p>Waylandを事前に無効にしておくのが良いかもしれない。</p>
+<p>以下コマンドを順に入れればOK</p>
+<pre tabindex="0"><code>$ sudo apt install wget apt-transport-https gnupg2
+$ wget -O- https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc | gpg --dearmor | sudo tee /usr/share/keyrings/teamview.gpg
+$ echo deb [arch=amd64 signed-by=/usr/share/keyrings/teamview.gpg] http://linux.teamviewer.com/deb stable main | sudo tee /etc/apt/sources.list.d/teamviewer.list
+$ sudo apt update
+$ sudo apt install teamviewer
+</code></pre><p>インストール時に設定ファイルに差異があるけど、どうするか聞いてくるけどNで良い</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+hugoのインストール
+</h3>
+</div>
+<p>最新が0.98.0なので最新をインストールする。</p>
+<p>なお、ubuntu 22.04で通常の方法でインストールすると0.92.2-1となる。</p>
+<p>※前提条件：Golangを入れておくこと</p>
+<p>0.すでにHugoを入れてしまっている場合はアンインストール</p>
+<pre tabindex="0"><code>$ sudo apt remove hugo
+</code></pre><p>１．ここから最新のdebを落とす(extend付きが良い。0.98.0で確認)</p>
+<p><a href="https://github.com/gohugoio/hugo/releases/">https://github.com/gohugoio/hugo/releases/</a></p>
+<p>２．以下コマンドでインストール。/usr/localにインストールされる</p>
+<pre tabindex="0"><code>$ sudo dpkg -i ./hugo_extended_0.98.0_Linux-64bit.deb
+</code></pre><p>３．確認</p>
+<pre tabindex="0"><code>$ hugo version
+hugo v0.98.0-165d299cde259c8b801abadc6d3405a229e449f6+extended linux/amd64 BuildDate=2022-04-28T10:23:30Z VendorInfo=gohugoio
+$ which hugo
+/usr/local/bin/hugo
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+vpnを起動時にONにする（問題あり）
+</h3>
+</div>
+<p>参考：
+<a href="https://itectec.com/ubuntu/ubuntu-20-04lts-networkmanager-vpn-always-on/">https://itectec.com/ubuntu/ubuntu-20-04lts-networkmanager-vpn-always-on/</a></p>
+<p>nm-connection-editor を使いましょうということらしい</p>
+<p>が、nm-connection-editorを使うと電源再投入後にLANが有効にならないという問題がある…（調査中）</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Lubuntuを後から入れる
+</h3>
+</div>
+<p>18.04のときのようにこれをする</p>
+<pre tabindex="0"><code>$ sudo apt install -y lubuntu-desktop
+</code></pre><p>しかし、今回ディスプレイマネージャはsddmを使うらしい…ということでgdm3かsddmかを聞いてくる</p>
+<p>自分はgdm3をやってみました。</p>
+<p>sddmはまた後ほど…</p>
+<p>Ubuntuを普通に入れた後でLubuntuを入れると日本語設定もそのままなので楽。</p>
+<p>Lubuntuから入れるとBtrfsで起動しない問題があるそうだが、この方法だとBtrfsに入れても起動しないということはない。</p>
+<p>少し試した感じでは特に問題はなかったです。</p>
+<p>Ubuntuの標準もだいぶこなれてはきたので、今更Lubuntuもという感じは多少あります…</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fubuntu2204_memo%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20ubuntu%2022.04%e8%a8%ad%e5%ae%9a%e3%83%a1%e3%83%a2" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+  </div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
