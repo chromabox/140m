@@ -32,7 +32,7 @@
   <title>ubuntu 22.04設定メモ | 140文字以上</title>
   <style>
 .container {
-  max-width: 700px;
+  max-width: 800px;
 }
 
 body {
@@ -339,8 +339,25 @@ USB版のインストールイメージを作る
 <p>特にnvidiaの新しいドライバを使用している場合などは以下のようにしてgpuを使用しないようにするとよい。</p>
 <pre tabindex="0"><code>$ ./balenaEtcher-1.7.9-x64.AppImage --disable-gpu-sandbox
 </code></pre><p>後はGUIが出てくるので、イメージを設定して、USBメモリも指定して「Flush」を押して書き込み</p>
-<p>参考：
+<p>参考：<br>
 <a href="https://kledgeb.blogspot.com/2022/04/ubuntu-2204-64-windowslinuxmacosubuntu.html">https://kledgeb.blogspot.com/2022/04/ubuntu-2204-64-windowslinuxmacosubuntu.html</a></p>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+小ネタ：FreeDOSをUSBから起動する方法
+</h3>
+</div>
+<p>古いマシンを復活させようとしてBIOSをアップデートしないといけなかったりする場合があったりするとWindowsからかDOSから起動しないといけないことって多々ありますよね。</p>
+<p>そういう場合は先程の「balenaEtcher」とFreeDOSを使えばUbuntuでもDOSの起動USBメモリを生成できます。</p>
+<p>FreeDOSはここ
+<a href="http://freedos.org/download/">http://freedos.org/download/</a>
+から[FreeDOS 1.3 LiteUSB]をダウンロードすればOK。</p>
+<p>そしてそれをbalenaEtcherで書けば動きます。楽ですね。</p>
 
 
 
