@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.81.0" />
+  <meta name="generator" content="Hugo 0.98.0" />
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -301,7 +301,7 @@ audio {
 <div class="main-box">
 <p>正式にUbnutu 22.04 LTSがリリースされ、Japan Remix（日本語環境向けに調整されたもの）もリリースされたので、18.04 LTSだった環境を入れ替えしました。</p>
 <p>ちなみに、自分が確認した環境は以下です。</p>
-<pre><code> $ screenfetch
+<pre tabindex="0"><code> $ screenfetch
                           ./+o+-       XXX@XXXXXXXX
                   yyyyy- -yyyyyy+      OS: Ubuntu 22.04 jammy
                ://+//////-yyyyyyo      Kernel: x86_64 Linux 5.15.0-27-generic
@@ -334,10 +334,10 @@ USB版のインストールイメージを作る
 8GB以上のUSBメモリ推奨とのこと。</p>
 <p><a href="https://www.balena.io/etcher/">https://www.balena.io/etcher/</a> に行ってAppimageをダウンロード</p>
 <p>解凍して以下コマンドを実行</p>
-<pre><code>$ ./balenaEtcher-1.7.9-x64.AppImage
+<pre tabindex="0"><code>$ ./balenaEtcher-1.7.9-x64.AppImage
 </code></pre><p>なお、etcherは内部的にElectronを使っていてこれはGUIの表示にChromiumレンダリングエンジンを使っていてぶっちゃけブラウザ上で走っているようなものなので（考えてみるとすごい時代だ…）、libvaのエラーが出てしまって起動しない場合がある。</p>
 <p>特にnvidiaの新しいドライバを使用している場合などは以下のようにしてgpuを使用しないようにするとよい。</p>
-<pre><code>$ ./balenaEtcher-1.7.9-x64.AppImage --disable-gpu-sandbox
+<pre tabindex="0"><code>$ ./balenaEtcher-1.7.9-x64.AppImage --disable-gpu-sandbox
 </code></pre><p>後はGUIが出てくるので、イメージを設定して、USBメモリも指定して「Flush」を押して書き込み</p>
 <p>参考：<br>
 <a href="https://kledgeb.blogspot.com/2022/04/ubuntu-2204-64-windowslinuxmacosubuntu.html">https://kledgeb.blogspot.com/2022/04/ubuntu-2204-64-windowslinuxmacosubuntu.html</a></p>
@@ -372,7 +372,7 @@ USB版のインストールイメージを作る
 </h3>
 </div>
 <p>インストール時に使用しているメディアにもよるが、最初のGrubの画面でカーネルのコマンドライン(引数)に</p>
-<pre><code>fsck.mode=skip
+<pre tabindex="0"><code>fsck.mode=skip
 </code></pre><p>を指定しないとメディアに対してfsckをやってしまうらしく、インストーラが立ち上がるのが遅いことがあるそうなので気をつけること</p>
 <br>
 
@@ -387,7 +387,7 @@ Virtualboxにインストールする場合
 </h3>
 </div>
 <p>USBメモリを使いたい場合はExtpackをインストールの後、これをしてLinux再起動</p>
-<pre><code>$ sudo gpasswd -a USER_NAME vboxusers
+<pre tabindex="0"><code>$ sudo gpasswd -a USER_NAME vboxusers
 </code></pre><p>EFIを使用するにチェックを付けておくと、Boot時にVirtualBOXのロゴが出て解像度が少し上がる<br>
 チェックを入れなくてもインストール自体は可能。</p>
 <p>しかし解像度が最低の640*480になってしまい、インストーラのGUIがはみ出て選択できなくなる。</p>
@@ -406,7 +406,7 @@ Virtualboxにインストールする場合
 </h3>
 </div>
 <p>自分はインストール後にまずこれをしてとりあえず必要なものをインストールしています</p>
-<pre><code>$ sudo apt update
+<pre tabindex="0"><code>$ sudo apt update
 $ sudo apt upgrade
 $ sudo apt install build-essential cmake git gitk ssh gufw samba vim filezilla minicom mcomix gtkterm shutter vlc ffmpeg geany flatpak flex bison screenfetch htop apt-transport-https gnupg2
 </code></pre><br>
@@ -424,7 +424,7 @@ Codecをまとめてインストール
 <p>動画のコーデック関連の話。Ubuntu18でもありましたね。<br>
 Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンスがオープンじゃなかったり)怪しいものは除外される運命だけど、これをすることによってインストール出来るというアレ。</p>
 <p>但し、libavcodecが消えてしまう(その代り権利怪しいアレなバージョンが入る)</p>
-<pre><code>$ sudo apt install ubuntu-restricted-extras
+<pre tabindex="0"><code>$ sudo apt install ubuntu-restricted-extras
 </code></pre><p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。どう違うか？は以下の通り。</p>
 <p>libavcodec　－　権利がしっかりしたもの<br>
 libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪しいもの</p>
@@ -475,9 +475,9 @@ GuestAdditionCDの導入(Virtualbox環境)
 <p>Virtualboxにインストールしたときに「GuestAddition」を入れないとクリップボード共有が動かなかったり、解像度をウィンドウサイズに追従させられなかったり等色々不便なので現状は入れておくと良い。<br>
 (本来はVboxSVGAを選択すれば要らないのだが動かないので)</p>
 <p>まずgccなど必要なコンパイラ類をまとめて入れる</p>
-<pre><code>$ sudo apt install build-essential
+<pre tabindex="0"><code>$ sudo apt install build-essential
 </code></pre><p>この後でGuest addition CDを投入後、以下実行し、再起動でOK</p>
-<pre><code>$ cd /media/xxx/VBOXxxx
+<pre tabindex="0"><code>$ cd /media/xxx/VBOXxxx
 $ ./autorun.sh
 </code></pre><br>
 
@@ -492,7 +492,7 @@ google-chromeのインストール
 </h3>
 </div>
 <p>以下のコマンドを打てばOK</p>
-<pre><code>$ sudo apt install apt-transport-https gnupg2
+<pre tabindex="0"><code>$ sudo apt install apt-transport-https gnupg2
 $ wget -O- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg
 $ echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
 $ sudo apt update
@@ -510,7 +510,7 @@ vscodeのインストール
 </h3>
 </div>
 <p>以下のコマンドを打てばOK</p>
-<pre><code>$ sudo apt install apt-transport-https gnupg2
+<pre tabindex="0"><code>$ sudo apt install apt-transport-https gnupg2
 $ wget -O- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg
 $ echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
 $ sudo apt update
@@ -529,36 +529,36 @@ sshとsshd
 </div>
 <p>sshが無いと色々めんどくさいので早めにやっておく。<br>
 この辺はUbuntu18.04と同じ。</p>
-<pre><code>ub2204: $ sudo apt install ssh
+<pre tabindex="0"><code>ub2204: $ sudo apt install ssh
 </code></pre><p>もしもホスト側の<code>.ssh/config</code>が公開鍵オンリーになっていたら以下のようにホスト側のエントリーを書かないといけない</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">Host ub2204
-	User XXX
-	HostName YYY
-	port <span class="m">22</span>
-	IdentitiesOnly no
-	PreferredAuthentications password
-</code></pre></div><p>これで一応PasswdでログインOK<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host ub2204
+</span></span><span class="line"><span class="cl">	User XXX
+</span></span><span class="line"><span class="cl">	HostName YYY
+</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
+</span></span><span class="line"><span class="cl">	IdentitiesOnly no
+</span></span><span class="line"><span class="cl">	PreferredAuthentications password
+</span></span></code></pre></div><p>これで一応PasswdでログインOK<br>
 インストール直後は.sshが作られていないのでsshで入ったあとで自分で自分のサーバに入る</p>
-<pre><code>host: $ ssh ub2204
+<pre tabindex="0"><code>host: $ ssh ub2204
 (Pass聞いてくる)
 ub2204:$ ssh localhost
 (FingerPrint合ってるかどうか聞いてくるのでYと答える)
 (Pass聞いてくる)
 ub2204:$ exit
 </code></pre><p>ホスト側(もしあれば)で、ed25519な鍵生成</p>
-<pre><code>host: $ ssh-keygen -t ed25519
+<pre tabindex="0"><code>host: $ ssh-keygen -t ed25519
 </code></pre><p>何処に出力するか聞いてくるので、設定して鍵ファイルを作る</p>
 <p>インストール先に公開鍵を転送</p>
-<pre><code>host: $ scp (作った秘密鍵).pub (転送先サーバ名):/home/xxx/
+<pre tabindex="0"><code>host: $ scp (作った秘密鍵).pub (転送先サーバ名):/home/xxx/
 </code></pre><p>転送先で鍵設定</p>
-<pre><code>ub2204:$ cp (作った秘密鍵).pub .ssh/authorized_keys
+<pre tabindex="0"><code>ub2204:$ cp (作った秘密鍵).pub .ssh/authorized_keys
 ub2204:$ chmod 600 .ssh/authorized_keys
 </code></pre><p>セキュリティを高めるために、転送先のsshd_configを触って鍵オンリーにしてパスワードログインは禁止。<br>
 <code>/etc/ssh/sshd_config</code>を以下のように変更</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">PubkeyAuthentication yes
-PasswordAuthentication no
-</code></pre></div><p>最後に、sshdリスタート</p>
-<pre><code>ub2204:$ systemctl restart sshd
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PubkeyAuthentication yes
+</span></span><span class="line"><span class="cl">PasswordAuthentication no
+</span></span></code></pre></div><p>最後に、sshdリスタート</p>
+<pre tabindex="0"><code>ub2204:$ systemctl restart sshd
 </code></pre><br>
 
 
@@ -572,19 +572,19 @@ Samba設定
 </h3>
 </div>
 <p>まず、Sambaをインストール</p>
-<pre><code>$ sudo apt install samba
+<pre tabindex="0"><code>$ sudo apt install samba
 </code></pre><p>次に<code>/etc/samba/smb.conf</code>に追記</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>ユーザ名<span class="o">]</span>
-        <span class="nv">path</span> <span class="o">=</span> /home/ユーザ名
-        <span class="nv">writeable</span> <span class="o">=</span> yes
-        <span class="nv">browseable</span> <span class="o">=</span> no
-        valid <span class="nv">users</span> <span class="o">=</span> ユーザ名
-</code></pre></div><p>browseableは必要に応じて変える</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>ユーザ名<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">path</span> <span class="o">=</span> /home/ユーザ名
+</span></span><span class="line"><span class="cl">        <span class="nv">writeable</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl">        <span class="nv">browseable</span> <span class="o">=</span> no
+</span></span><span class="line"><span class="cl">        valid <span class="nv">users</span> <span class="o">=</span> ユーザ名
+</span></span></code></pre></div><p>browseableは必要に応じて変える</p>
 <p>sambaのパスワードをセットする</p>
-<pre><code>$ sudo smbpasswd -a ユーザ名
+<pre tabindex="0"><code>$ sudo smbpasswd -a ユーザ名
 </code></pre><p>(-a を入れないとエラーになる)</p>
 <p>最後にsmbdリスタート</p>
-<pre><code>$ sudo systemctl restart smbd
+<pre tabindex="0"><code>$ sudo systemctl restart smbd
 </code></pre><br>
 
 
@@ -598,14 +598,14 @@ minicomなどで使用するターミナルの権限変更等
 </h3>
 </div>
 <p><code>/dev/ttyS</code>なんとかのグループがdialoutになっているのでそれを利用する</p>
-<pre><code>$ sudo gpasswd -a ユーザ名 dialout
+<pre tabindex="0"><code>$ sudo gpasswd -a ユーザ名 dialout
 $ sudo chown root:dialout /etc/minicom
 $ sudo chmod 775 /etc/minicom
 </code></pre><p>詳細<br>
 <a href="https://qiita.com/chromabox/items/306386a886bee4fb7810">https://qiita.com/chromabox/items/306386a886bee4fb7810</a></p>
 <p>なお、デフォルトではFT23X系のチップを使用したUSBシリアル変換を接続すると、しばらく間をおいて途中で勝手に切られてしまう&hellip;.<br>
 このときのdmesgはこんな感じ</p>
-<pre><code>[ 6114.316364] usb 1-3.4: New USB device found, idVendor=0403, idProduct=6001, bcdDevice= 6.00
+<pre tabindex="0"><code>[ 6114.316364] usb 1-3.4: New USB device found, idVendor=0403, idProduct=6001, bcdDevice= 6.00
 [ 6114.316374] usb 1-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
 [ 6114.316378] usb 1-3.4: Product: FT232R USB UART
 [ 6114.316380] usb 1-3.4: Manufacturer: FTDI
@@ -613,12 +613,12 @@ $ sudo chmod 775 /etc/minicom
 [ 6114.319137] ftdi_sio 1-3.4:1.0: FTDI USB Serial Device converter detected
 [ 6114.319181] usb 1-3.4: Detected FT232RL
 [ 6114.320031] usb 1-3.4: FTDI USB Serial Device converter now attached to ttyUSB0
-[ 6131.973998] usb 1-3.4: usbfs: interface 0 claimed by ftdi_sio while 'brltty' sets config #1
+[ 6131.973998] usb 1-3.4: usbfs: interface 0 claimed by ftdi_sio while &#39;brltty&#39; sets config #1
 [ 6131.975270] ftdi_sio ttyUSB0: FTDI USB Serial Device converter now disconnected from ttyUSB0
 [ 6131.975311] ftdi_sio 1-3.4:1.0: device disconnected
 [ 6572.726767] usb 1-3.4: USB disconnect, device number 9
 </code></pre><p>調べるとどうやら「brltty」という点字関連のアクセシビリティのものが悪さをしているので、以下を実行してbrlttyをアンインストールするとよい</p>
-<pre><code>$ sudo apt remove brltty
+<pre tabindex="0"><code>$ sudo apt remove brltty
 </code></pre><br>
 
 
@@ -632,10 +632,10 @@ sudo apt autoremoveするとnvidiaドライバが何故か消えてしまいnouv
 </h3>
 </div>
 <p>インストール時に3rdパーティのドライバをインストールするを選択すると、インストール後に自動的にNvidiaのドライバが入るようになって万々歳のところが、ここで。。。</p>
-<pre><code>$ sudo apt autoremove
+<pre tabindex="0"><code>$ sudo apt autoremove
 </code></pre><p>をやってしまうと、再起動時に何故かNvidiaのドライバがなくなりnouveauドライバになってしまう<br>
 こういうときは焦らずに</p>
-<pre><code>$ sudo ubuntu-drivers autoinstall
+<pre tabindex="0"><code>$ sudo ubuntu-drivers autoinstall
 </code></pre><p>して、再起動すれば復活する。</p>
 <br>
 
@@ -652,10 +652,10 @@ gdm3でWaylandを無効にする
 <p>Ubuntu22.04もデフォルトではWaylandを使おうとする。<br>
 しかし、barrierやteamviewer等色々と対応していないアプリはあるので、これらを動かすときはOFFにしておいたほうが無難。</p>
 <p><code>/etc/gdm3/custom.conf</code>を以下のように、WaylandEnable=falseにする。</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>daemon<span class="o">]</span>
-<span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
-<span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
-</code></pre></div><br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>daemon<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
+</span></span></code></pre></div><br>
 
 
 
@@ -695,10 +695,10 @@ Snap版にしたときは権限設定を忘れずに(ほとんどONでいいと�
 <p>そのままだと変換ボックスがウィンドウの下に出ます。<br>
 ただそれだけではなく、geditなんかで日本語入力がおかしくなり非常に日本語入力が厳しくなる。。。</p>
 <p>gsettingsの値がこうだとだめらしい</p>
-<pre><code>$ gsettings get org.gnome.desktop.interface gtk-im-module
-''
+<pre tabindex="0"><code>$ gsettings get org.gnome.desktop.interface gtk-im-module
+&#39;&#39;
 </code></pre><p>これが空なのがいけないようなので次のようにするとよい</p>
-<pre><code>$ gsettings set org.gnome.desktop.interface gtk-im-module 'ibus'
+<pre tabindex="0"><code>$ gsettings set org.gnome.desktop.interface gtk-im-module &#39;ibus&#39;
 </code></pre><p>参考：<br>
 <a href="https://askubuntu.com/questions/1405101/japanese-input-candidate-window-appears-at-the-bottom-after-upgrading-ubuntu-fro">https://askubuntu.com/questions/1405101/japanese-input-candidate-window-appears-at-the-bottom-after-upgrading-ubuntu-fro</a></p>
 <br>
@@ -714,14 +714,14 @@ Flatpakのインストール
 </h3>
 </div>
 <p>ubuntuはリリースバージョンでアプリのバージョンが固定されてしまうのでなるべくflatpakかsnapでリリースされているものを使うのが良いとのこと</p>
-<pre><code>$ sudo apt install flatpak
+<pre tabindex="0"><code>$ sudo apt install flatpak
 $ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 $ sudo apt install gnome-software-plugin-flatpak
 </code></pre><p>これをしたあとで、gimpのページの<br>
 <a href="https://www.gimp.org/downloads/">https://www.gimp.org/downloads/</a>
 にある[install flatpak GIMP]をクリックしてflatpakrefを開くとflatpak版gimpがインストールできる</p>
 <p>flatpakのアップデートは</p>
-<pre><code>$ flatpak update
+<pre tabindex="0"><code>$ flatpak update
 </code></pre><p>でOK</p>
 <br>
 
@@ -738,7 +738,7 @@ Golangのインストール
 <p>18.04や20.04の場合はlongsleep/golang-backportsのppaを取り込む必要があったけど22.04は現時点で最新版がUbuntu標準に含まれているので必要ないとのこと<br>
 (今後、Golangがアップデートされたりしたらまた必要になるのかも？)</p>
 <p>というわけで以下でOK</p>
-<pre><code>$ sudo apt install golang-go
+<pre tabindex="0"><code>$ sudo apt install golang-go
 </code></pre><br>
 
 
@@ -754,7 +754,7 @@ scrcpyのインストール
 <p>Android端末の画面をそのままコピーしてUbuntu上で操作できるようにするツール。かなり便利。<br>
 snap版のほうが新しいので、例によってsnap版のをインストールすると良い（権限設定は忘れずに）</p>
 <p>また、Android端末側はUSBデバッグを有効にするのと、初回接続時はこのPCからの接続を許可するか？の問答があるので設定をすること。</p>
-<pre><code>$ sudo snap install scrcpy
+<pre tabindex="0"><code>$ sudo snap install scrcpy
 </code></pre><br>
 
 
@@ -775,7 +775,7 @@ OBSのインストール
 <p>Webカメラが動作できて録画できることまでは確認。ただし配信は未確認（TwichかTwitterでの配信で問題ある環境があるとか？）<br>
 v4l2関連でエラーが出るかもしれないらしい（自分の環境では出ず）</p>
 <p>その時はこれをすると良いとのこと</p>
-<pre><code>$ apt install v4l-utils libv4l-dev
+<pre tabindex="0"><code>$ apt install v4l-utils libv4l-dev
 </code></pre><br>
 
 
@@ -794,7 +794,7 @@ xorg環境でないと動きません。</p>
 <p>ビルドについてはこことほとんど同じだが、ubuntu22.04はlibqt4が無いのでlibqt4-devは外してしまって良い<br>
 <a href="https://chromabox.github.io/140m/linux/barrier_ubuntu1804/">https://chromabox.github.io/140m/linux/barrier_ubuntu1804/</a></p>
 <p>以下そのまま順に実行。/usr/local/binにbarrierが入ります。</p>
-<pre><code>$ sudo apt install cmake xorg-dev g++ libavahi-compat-libdnssd-dev libx11-dev libcurl4-openssl-dev qtbase5-dev libssl-dev
+<pre tabindex="0"><code>$ sudo apt install cmake xorg-dev g++ libavahi-compat-libdnssd-dev libx11-dev libcurl4-openssl-dev qtbase5-dev libssl-dev
 $ git clone https://github.com/debauchee/barrier.git
 $ cd barrier
 $ git checkout v2.3.3 -b v2.3.3_mod
@@ -820,50 +820,50 @@ lightdmのときと違い、gdm3の設定はなかなかに面倒</p>
 <p>参考：<br>
 <a href="http://masaoo.blogspot.com/2021/07/ubuntu-2004-gdm-synergyc.html">http://masaoo.blogspot.com/2021/07/ubuntu-2004-gdm-synergyc.html</a></p>
 <p><code>/usr/share/gdm/greeter/autostart/barrierc.desktop</code>を新規作成</p>
-<div class="highlight"><pre class="chroma"><code class="language-.sh" data-lang=".sh"><span class="o">[</span>Desktop Entry<span class="o">]</span>
-<span class="nv">Type</span><span class="o">=</span>Application
-<span class="nv">Name</span><span class="o">=</span>barrierc
-<span class="nv">Exec</span><span class="o">=</span>/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
-<span class="nv">NoDisplay</span><span class="o">=</span><span class="nb">true</span>
-X-GNOME-AutoRestart<span class="o">=</span><span class="nb">true</span>
-</code></pre></div><pre><code>$ cd /etc/gdm3/PostLogin
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="o">[</span>Desktop Entry<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>Application
+</span></span><span class="line"><span class="cl"><span class="nv">Name</span><span class="o">=</span>barrierc
+</span></span><span class="line"><span class="cl"><span class="nv">Exec</span><span class="o">=</span>/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NoDisplay</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">X-GNOME-AutoRestart<span class="o">=</span><span class="nb">true</span>
+</span></span></code></pre></div><pre tabindex="0"><code>$ cd /etc/gdm3/PostLogin
 $ sudo cp Default.sample Default
 </code></pre><p><code>/etc/gdm3/PostLogin/Default</code>を編集</p>
-<div class="highlight"><pre class="chroma"><code class="language-.sh" data-lang=".sh"><span class="cp">#!/bin/sh
-</span><span class="cp"></span><span class="c1">#</span>
-<span class="c1"># Note: this is a sample and will not be run as is.  Change the name of this</span>
-<span class="c1"># file to &lt;gdmconfdir&gt;/PostLogin/Default for this script to be run.  This</span>
-<span class="c1"># script will be run before any setup is run on behalf of the user and is</span>
-<span class="c1"># useful if you for example need to do some setup to create a home directory</span>
-<span class="c1"># for the user or something like that.  $HOME, $LOGIN and such will all be</span>
-<span class="c1"># set appropriately and this script is run as root.</span>
-
-killall barrierc
-</code></pre></div><p><code>/etc/gdm3/PostSession/Default</code>を編集</p>
-<div class="highlight"><pre class="chroma"><code class="language-.sh" data-lang=".sh"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>
-/usr/bin/killall barrierc
-<span class="k">while</span><span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
-
-<span class="nv">xauthfile</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span>grep Xauth <span class="p">|</span> grep <span class="s1">&#39;^root&#39;</span> <span class="p">|</span> grep -oP <span class="s1">&#39;\-auth \K[\w/]+&#39;</span><span class="k">)</span>
-<span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span>:0
-<span class="nb">export</span> <span class="nv">XAUTHORITY</span><span class="o">=</span><span class="si">${</span><span class="nv">xauthfile</span><span class="si">}</span>
-
-/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
-
-<span class="nb">exit</span> <span class="m">0</span>
-</code></pre></div><p>ログイン後に自動起動させたいので以下のようにする</p>
-<pre><code>$ cd ~/
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Note: this is a sample and will not be run as is.  Change the name of this</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># file to &lt;gdmconfdir&gt;/PostLogin/Default for this script to be run.  This</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># script will be run before any setup is run on behalf of the user and is</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># useful if you for example need to do some setup to create a home directory</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for the user or something like that.  $HOME, $LOGIN and such will all be</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># set appropriately and this script is run as root.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">killall barrierc
+</span></span></code></pre></div><p><code>/etc/gdm3/PostSession/Default</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">/usr/bin/killall barrierc
+</span></span><span class="line"><span class="cl"><span class="k">while</span><span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">xauthfile</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span>grep Xauth <span class="p">|</span> grep <span class="s1">&#39;^root&#39;</span> <span class="p">|</span> grep -oP <span class="s1">&#39;\-auth \K[\w/]+&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span>:0
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">XAUTHORITY</span><span class="o">=</span><span class="si">${</span><span class="nv">xauthfile</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
+</span></span></code></pre></div><p>ログイン後に自動起動させたいので以下のようにする</p>
+<pre tabindex="0"><code>$ cd ~/
 $ mkdir bin
 $ cd bin
 $ touch start-barrierc.sh
 $ chmod 775 start-barrierc.sh
 </code></pre><p><code>start-barrierc.sh</code>を編集</p>
-<div class="highlight"><pre class="chroma"><code class="language-.sh" data-lang=".sh"><span class="cp">#!/bin/sh
-</span><span class="cp"></span>/usr/bin/killall barrierc
-<span class="k">while</span> <span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
-/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
-</code></pre></div><br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>/usr/bin/killall barrierc
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
+</span></span></code></pre></div><br>
 
 
 
@@ -878,7 +878,7 @@ teamviewerを使いたい
 <p>teamviwereはWaylandセッションでは動かない(対応していない)ので気をつけること<br>
 Waylandを事前に無効にしておくのが良いかもしれない。</p>
 <p>以下コマンドを順に入れればOK</p>
-<pre><code>$ sudo apt install wget apt-transport-https gnupg2
+<pre tabindex="0"><code>$ sudo apt install wget apt-transport-https gnupg2
 $ wget -O- https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc | gpg --dearmor | sudo tee /usr/share/keyrings/teamview.gpg
 $ echo deb [arch=amd64 signed-by=/usr/share/keyrings/teamview.gpg] http://linux.teamviewer.com/deb stable main | sudo tee /etc/apt/sources.list.d/teamviewer.list
 $ sudo apt update
@@ -900,13 +900,13 @@ hugoのインストール
 なお、ubuntu 22.04で通常の方法でインストールすると0.92.2-1となる。<br>
 ※前提条件：Golangを入れておくこと</p>
 <p>0.すでにHugoを入れてしまっている場合はアンインストール</p>
-<pre><code>$ sudo apt remove hugo
+<pre tabindex="0"><code>$ sudo apt remove hugo
 </code></pre><p>１．ここから最新のdebを落とす(extend付きが良い。0.98.0で確認)<br>
 <a href="https://github.com/gohugoio/hugo/releases/">https://github.com/gohugoio/hugo/releases/</a></p>
 <p>２．以下コマンドでインストール。/usr/localにインストールされる</p>
-<pre><code>$ sudo dpkg -i ./hugo_extended_0.98.0_Linux-64bit.deb
+<pre tabindex="0"><code>$ sudo dpkg -i ./hugo_extended_0.98.0_Linux-64bit.deb
 </code></pre><p>３．確認</p>
-<pre><code>$ hugo version
+<pre tabindex="0"><code>$ hugo version
 hugo v0.98.0-165d299cde259c8b801abadc6d3405a229e449f6+extended linux/amd64 BuildDate=2022-04-28T10:23:30Z VendorInfo=gohugoio
 $ which hugo
 /usr/local/bin/hugo
@@ -939,7 +939,7 @@ Lubuntuを後から入れる
 </h3>
 </div>
 <p>18.04のときのようにこれをする</p>
-<pre><code>$ sudo apt install -y lubuntu-desktop
+<pre tabindex="0"><code>$ sudo apt install -y lubuntu-desktop
 </code></pre><p>しかし、今回ディスプレイマネージャはsddmを使うらしい…ということでgdm3かsddmかを聞いてくる<br>
 自分はgdm3をやってみました。<br>
 sddmはまた後ほど…</p>
@@ -1040,9 +1040,39 @@ Flatpakでのみ存在しているのでflatpakをセットアップの後、ア
 </div>
 <p>Ubuntuに限らずLinuxにはcoreutilsにshredというコマンドがある。<br>
 NSA方式(3度ランダムデータ書く)でディスクを完全消去ができる</p>
-<pre><code>$ sudo shred -uvz &lt;ファイルシステム名&gt;
+<pre tabindex="0"><code>$ sudo shred -uvz &lt;ファイルシステム名&gt;
 </code></pre><p>全領域に対して3回ランダムデータを書くのでかなり時間がかかる。<br>
 実施の際は色々確認した上で、UbuntuのLiveUSBにも入っているのでLiveUSBからやったほうがいいかもしれない。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+snap版remminaで個々の接続の設定ができず落ちる、ある日突然接続できなくなって落ちるなどあった場合の対処法
+</h3>
+</div>
+<p>Snapの権限設定になんの問題もなく、Remminaを開いて[設定]-[オプション]-[Remminaのデータフォルダ]が<br>
+<code>/home/user/snap/remmina/バージョン/.local/share/remmina/</code><br>
+になっていて、dmesgの結果</p>
+<pre tabindex="0"><code>[87494.552862] audit: type=1400 audit(1653524117.897:180): apparmor=&#34;DENIED&#34; operation=&#34;mknod&#34; profile=&#34;snap.remmina.remmina&#34; name=&#34;/home/user/snap/remmina/バージョン/.local/share/remmina/XXX.remmina.YYYYYYY&#34; pid=141664 comm=&#34;remmina&#34; requested_mask=&#34;c&#34; denied_mask=&#34;c&#34; fsuid=1000 ouid=1000
+</code></pre><p>とか、AppArmorでDENYされて蹴られている場合は、データフォルダに原因がある。<br>
+よってこの[Remminaのデータフォルダ]を他の場所に移す。</p>
+<p>Remminaを一旦終わらせた後で以下のようにして、接続設定を移しておく</p>
+<pre tabindex="0"><code>$ cd ~
+$ mkdir remmina_data
+$ cp ~/snap/remmina/current/.local/share/remmina/* remmina_data/
+</code></pre><p>その後、Remminaを再起動して[設定]-[オプション]-[Remminaのデータフォルダ]を<br>
+<code>/home/user/remmina_data</code><br>
+に指定。<br>
+その後、もう一度Remminaを再起動すればOK。</p>
+<p>これはSnap版Remminaのコンフィグに前のバージョンのデータDIRの設定が残っていて、そこに書かれた前のSnapバージョンのDirを参照しようとしてAppArmorに「それは違うだろ」って蹴られていることが原因だが、Remminaプロジェクトはこれを治す気はないようで、データDirを共通の場所に移してほしいと言っている。</p>
+<p><a href="https://gitlab.com/Remmina/Remmina/-/issues/2548#note_622712677">https://gitlab.com/Remmina/Remmina/-/issues/2548#note_622712677</a></p>
+<p>他のSnapアプリだとそういうことはあまりないのでうーんと言ったところだけど、微妙にハマりポイントですねこれ…</p>
+<br>
 
 </div>
 
