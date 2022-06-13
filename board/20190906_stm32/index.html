@@ -32,8 +32,9 @@
   <title>STM32 NucleoボードのST-Linkを切り離してみた | 140文字以上</title>
   <style>
 .container {
-  max-width: 800px;
+  max-width: 1200px;
 }
+
 
 body {
 	margin: 0;
@@ -41,11 +42,13 @@ body {
 	color: #303030; 
 	background: rgb(245,250,254);  
 	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
 }
 
 a {
 	color: #337a33;
 	text-decoration: underline;
+  word-wrap:break-word;
 }
 
 #btitle-border {
@@ -79,7 +82,7 @@ a {
   margin-bottom: 1em;
 }
 
-#footer .container {
+#footer .my-container {
   padding: 1em 0;
 }
 #footer a {
@@ -99,16 +102,6 @@ a {
   background-color: inherit;
 }
 
-.header-box {
-	border: 1px solid #808080;
-  padding-top: 1rem;
-  padding-right: 2rem;
-  padding-bottom: 1rem;
-  padding-left: 2rem;
-	border-radius: 5px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-}
-
 .blog-post-date {
 	font-weight: 300;
   font-size: 12px;
@@ -117,20 +110,34 @@ a {
 .blog-post-title {
   margin: 0;
   padding: 0 0 0 0;
-  line-height: 1.2;
   font-weight: 500;
   font-size: 26px;
 }
 
-.main-box {
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
 	border: 1px solid #808080;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  padding-right: 2rem;
-  padding-bottom: 1rem;
-  padding-left: 2rem;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
 	border-radius: 5px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 
 .font-125 {
@@ -143,9 +150,10 @@ a {
 .content-2-title {
 	margin-top: 2rem;
 	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
   border-bottom: 1px solid #808080;
   border-left: 4px solid #808080;
-  padding-left: 5px;
+  padding-left: 0.5rem;
 }
 .content-2-title h3 {
 	font-weight: 500;
@@ -156,16 +164,42 @@ a {
 	margin-top: 15px;
 	margin-bottom: 10px;
   border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
   padding-left: 5px;
 }
-.content-3-title h3::before {
-  margin-right: 3px;
-  content: '・';
-}
+
 .content-3-title h3 {
-	font-weight: 400;
-  font-size: 16px;
+	font-weight: 500;
+  font-size: 18px;
 }
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
 
 
 .figure-img {
@@ -221,6 +255,8 @@ hr {
   background-color: #808080;
 }
 
+
+
 img,
 iframe,
 embed,
@@ -237,12 +273,13 @@ audio {
 * {
 	font-family: 'M PLUS 1p', sans-serif;
 	font-weight: 400;
+  word-wrap:break-word;
 }
 
 </style>
 </head>
   <body class="d-flex flex-column">
-    <div id="btitle-border" class="container">
+    <div id="btitle-border" class="container-fluid my-container">
   
   
   
@@ -267,7 +304,7 @@ audio {
   </div>
 </div>
 
-    <div class="container">
+    <div class="container-fluid my-container">
       <main id="main">
         
 <header class="header-box">
@@ -644,7 +681,7 @@ E5VはCN11端子に出ております。この辺はまあ解説しても面白�
       </main>
     </div>
     
-    <div class="container">
+    <div class="container-fluid my-container">
     <div>
         
         <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fboard%2f20190906_stm32%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20STM32%20Nucleo%e3%83%9c%e3%83%bc%e3%83%89%e3%81%aeST-Link%e3%82%92%e5%88%87%e3%82%8a%e9%9b%a2%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
@@ -654,7 +691,7 @@ E5VはCN11端子に出ております。この辺はまあ解説しても面白�
     
     
 <footer id="footer" class="mt-auto text-center text-muted">
-  <div class="container">
+  <div class="container-fluid my-container">
     Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
   </div>
 </footer>
