@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.98.0" />
+  <meta name="generator" content="Hugo 0.81.0" />
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -288,6 +288,7 @@ audio {
   
   
   
+  
   <div id="btitle" class="btitle">
     <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
   </div>
@@ -297,7 +298,8 @@ audio {
       <p>
         <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
         <a href="https://github.com/chromabox">github</a>,
-        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+		<a href="https://mastodon-japan.net/@chromarock">Mastodon</a>,
+        <a rel="me" href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
         <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
       </p>
   </h4>
@@ -653,10 +655,10 @@ E5VはCN11端子に出ております。この辺はまあ解説しても面白�
 多分ST提供のIDE(CubeMXなど)を使ってるとNucleoのデフォルト設定だとMCOが生きている状況で、直接方形波のクロックが入ることになるので、HSEはMCOを使う設定になってます。<br>
 セラロックから出てくる波形は方形波じゃなくて純粋な波なので、これを教えないといけません。</p>
 <p>ソフト面での変更方法ですが、CubeMXのGUIではHSEの設定がBypassになってるはずなので、それを変更するか、もしくはソースの以下行</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c:Src/main.c" data-lang="c:Src/main.c"><span class="line"><span class="cl">  <span class="n">RCC_OscInitStruct</span><span class="p">.</span><span class="n">HSEState</span> <span class="o">=</span> <span class="n">RCC_HSE_BYPASS</span><span class="p">;</span>
-</span></span></code></pre></div><p>を</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c:Src/main.c" data-lang="c:Src/main.c"><span class="line"><span class="cl">  <span class="n">RCC_OscInitStruct</span><span class="p">.</span><span class="n">HSEState</span> <span class="o">=</span> <span class="n">RCC_HSE_ON</span><span class="p">;</span>
-</span></span></code></pre></div><p>に変えればOKです。<br>
+<div class="highlight"><pre class="chroma"><code class="language-c:Src/main.c" data-lang="c:Src/main.c">  <span class="n">RCC_OscInitStruct</span><span class="p">.</span><span class="n">HSEState</span> <span class="o">=</span> <span class="n">RCC_HSE_BYPASS</span><span class="p">;</span>
+</code></pre></div><p>を</p>
+<div class="highlight"><pre class="chroma"><code class="language-c:Src/main.c" data-lang="c:Src/main.c">  <span class="n">RCC_OscInitStruct</span><span class="p">.</span><span class="n">HSEState</span> <span class="o">=</span> <span class="n">RCC_HSE_ON</span><span class="p">;</span>
+</code></pre></div><p>に変えればOKです。<br>
 これをビルドし直して焼けばOK。</p>
 <p>あと、USART2使う人はそれ用の変更するなどですね。</p>
 
@@ -693,7 +695,7 @@ E5VはCN11端子に出ております。この辺はまあ解説しても面白�
 <footer id="footer" class="mt-auto text-center text-muted">
   <div class="container-fluid my-container">
     Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
-  </div>
+</div>
 </footer>
 
     <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>

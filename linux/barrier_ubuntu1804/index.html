@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.98.0" />
+  <meta name="generator" content="Hugo 0.81.0" />
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -288,6 +288,7 @@ audio {
   
   
   
+  
   <div id="btitle" class="btitle">
     <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
   </div>
@@ -297,7 +298,8 @@ audio {
       <p>
         <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
         <a href="https://github.com/chromabox">github</a>,
-        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+		<a href="https://mastodon-japan.net/@chromarock">Mastodon</a>,
+        <a rel="me" href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
         <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
       </p>
   </h4>
@@ -375,17 +377,17 @@ Ubuntu 18.04でbarrierをソースからビルドする
 <p>次はUbuntu18.04にbarrierを導入するのですが、バイナリイメージはなく、ソースからビルドしないといけません。<br>
 とは言ってもビルドはそんなに難しくはなくて、barrierのGithubに書いてある<a href="https://github.com/debauchee/barrier/wiki/Building-on-Linux">これ</a>を見ればいいわけですが、手順を書いておきます。</p>
 <p>1.ビルドに必要なパッケージをインストール</p>
-<pre tabindex="0"><code>$ sudo apt install git cmake make xorg-dev g++ libcurl4-openssl-dev \
+<pre><code>$ sudo apt install git cmake make xorg-dev g++ libcurl4-openssl-dev \
 libavahi-compat-libdnssd-dev libssl-dev libx11-dev \
 libqt4-dev qtbase5-dev
 </code></pre><p>2.ソースをgithubからダウンロード</p>
-<pre tabindex="0"><code>$ git clone https://github.com/debauchee/barrier.git
+<pre><code>$ git clone https://github.com/debauchee/barrier.git
 </code></pre><p>3.バージョン2.3.3のブランチをきって、ビルドする</p>
-<pre tabindex="0"><code>$ cd barrier
+<pre><code>$ cd barrier
 $ git checkout v2.3.3
 $ ./clean_build.sh
 </code></pre><p>4.ビルドして問題がなければ、Daemon指定で堕ちてしまうバグを治すパッチを当ててもう一回ビルドする</p>
-<pre tabindex="0"><code>$ wget https://gist.githubusercontent.com/chromabox/61404314887e61c1c32e325a6dc37e41/raw/a83699cc038dc547bb90aab6af6e810200ddee04/barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
+<pre><code>$ wget https://gist.githubusercontent.com/chromabox/61404314887e61c1c32e325a6dc37e41/raw/a83699cc038dc547bb90aab6af6e810200ddee04/barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
 $ git checkout -b v2.3.3_mod
 $ git am barrier-2_3_3-Fix-daemon-mode-execute-missing.patch
 $ ./clean_build.sh
@@ -397,7 +399,7 @@ $ ./clean_build.sh
 これを適用しないと、PCの電源が入ってログイン画面時に実行する時に実行できなくなってしまいます。<br>
 daemonとして起動しているのにSTDINを使用しようとしているのが問題であり、STDINを開かないようにしています。</div>
 <p>5.ビルドして問題がなければ、インストールする</p>
-<pre tabindex="0"><code>$ cd build
+<pre><code>$ cd build
 $ sud make install
 </code></pre><p>※デフォルトでは/usr/local 以下に入ります。</p>
 
@@ -413,11 +415,11 @@ barrierを起動時に有効にする(lightdm)
 </div>
 <p>これはSynergycのときと同じです<br>
 ログイン時にbarrierc(barrierのクライアント)を利かせる場合は次のようにします</p>
-<pre tabindex="0"><code>$ sudo touch /etc/lightdm/lightdm.conf.d/50-barrierc.conf
+<pre><code>$ sudo touch /etc/lightdm/lightdm.conf.d/50-barrierc.conf
 </code></pre><p>で、<code>50-barrierc.conf</code>を作成した後、同ファイルを以下のように編集。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>SeatDefaults<span class="o">]</span>
-</span></span><span class="line"><span class="cl">greeter-setup-script<span class="o">=</span>/usr/local/bin/barrierc --debug INFO --name サーバで名前設定したこのPCの名前 サーバのIP
-</span></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>SeatDefaults<span class="o">]</span>
+greeter-setup-script<span class="o">=</span>/usr/local/bin/barrierc --debug INFO --name サーバで名前設定したこのPCの名前 サーバのIP
+</code></pre></div>
 </div>
 
       </main>
@@ -435,7 +437,7 @@ barrierを起動時に有効にする(lightdm)
 <footer id="footer" class="mt-auto text-center text-muted">
   <div class="container-fluid my-container">
     Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
-  </div>
+</div>
 </footer>
 
     <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
