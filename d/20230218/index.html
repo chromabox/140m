@@ -1,0 +1,542 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.81.0" />
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="Twitter API有料化に思うこととmisskey等fediverseの動きその他">
+<meta property="twitter:title"          content="Twitter API有料化に思うこととmisskey等fediverseの動きその他">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/d/20230218/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="Twitter APIの有料化が段階的に施行されるそうです。 生き残っているBOTもありますが、いわゆる「3rdパーティクライアント」は大体終了宣言をしてい">
+<meta property="twitter:description"    content="Twitter APIの有料化が段階的に施行されるそうです。 生き残っているBOTもありますが、いわゆる「3rdパーティクライアント」は大体終了宣言をしてい">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>Twitter API有料化に思うこととmisskey等fediverseの動きその他 | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2023-02-18">2023-02-18</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/d/20230218/">Twitter API有料化に思うこととmisskey等fediverseの動きその他</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/140m/tags/diary">diary</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>Twitter APIの有料化が段階的に施行されるそうです。<br>
+生き残っているBOTもありますが、いわゆる「3rdパーティクライアント」は大体終了宣言をしています。</p>
+<p>自分も以前はLinuxとWindowsのコマンドラインでツイートが出来るcmdline_twitterという3rdパーティクライアントアプリを作ってコード含めて公開していた時期があり、思うことがあったので書きました</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Twitter API有料化について
+</h3>
+</div>
+<p>API有料化についての顛末はこの辺の記事を参考にしてもらったほうがわかりやすいかなと思います。<br>
+<a href="https://www.itmedia.co.jp/news/articles/2302/02/news171.html">Twitter、APIを有料化へ　無料提供は9日で終了　「詳細は来週発表する」</a><br>
+<a href="https://www.itmedia.co.jp/news/articles/2302/09/news089.html">Twitter、API有料化を延期　13日まで無料で　有料プランは月額100ドルから</a><br>
+<a href="https://forest.watch.impress.co.jp/docs/news/1478314.html">Twitter APIの有償化は再延期、2月13日の予定をさらに数日遅らせる</a><br>
+<a href="https://www.watch.impress.co.jp/docs/news/1479765.html">Twitter APIの有償化は再延期。「数週間で段階的に提供」</a></p>
+<p>ちなみに、Twitterそのものが有料化するわけではありません。<br>
+早い話がTwitterを公式のWebや公式（やT社から認証を受けた）アプリ以外から使ってTwitterに何かをするという場合にAPIが必要になるので、今後はそれに課金していこうという話になります。<br>
+よって、一般ユーザにはあまり関係がないことですが、有料化によってこれまで使っていたTwitterと連携して何かをするサービスが使えなくなる…といった可能性はあります。<br>
+特に3rdパーティークライアント（sobachaとかOpenTween等）は前々から何故か目の敵にされているような感じですので、作者がお金を払って継続しようとしても値段的にも無理だろうなあという感じです。</p>
+<p>Twitterは別に公的サービスでもないし、マスク氏が買収する前から「どうも収益状況がやばいのでは」とは言われていたので有料化やむなしというのは仕方ない感じはボクもわかります。<br>
+それだけ巨大なサーバを運用するのはリソース的にも大変なわけなのもよくわかりますし、我々は(広告を見せられながら)無料でTwitterを使えているのはある意味で有り難いといえばそうなのです。気がついていない人も多いですがサーバ管理は得てして物理で盛っていくといった<strong>お金が掛かる</strong>ものなのです。</p>
+<p>とはいえ、それにしても急にAPI有料化に舵切った挙句「API無料提供終了は来週、詳細も来週」となかなか都合を考えてくれなかったりとちょっとな〜みたいな感じはありました。
+そしてこれはその後結局間に合わなくてそのまた来週に伸び、13日に有料化含めて詳細も出す予定がまた伸びてまた伸びて段階的？に施行…みたいな</p>
+<p>その途中でやっぱりこれまでAPI使ってBOT等運用してきた人からは色々反発があって、結局書き込みのみのAPIは条件付きで無料提供するとのアナウンスもあってなんだかゴタゴタしているなあと…</p>
+<p>ここまで有料化は悪いことみたいに書いているので一応フォローしておくと、これは悪いことだけでもなくてAPIで怪しいリンクをDMで送りつけるBOTとか、プロフィールに「資産◎◎億あります、フォローしてください」的な変なアカウントのフォローは、その有料APIの値段にもよりますが少なくなる効果はあると思います。<br>
+しかし、悪意BOTマンは商売でやっているわけで対策をしてきて最終的にはイタチごっこになってしまうかもしれません。。。。<br>
+（DM送るAPIとかフォローするAPIは多分有料APIの範疇になると思うんだけど、悪意BOTマンはそんなの関係なしにAPI使わずにwebスクレイピングやらいろんな手で対応してきそうなので）</p>
+<p>マスク氏も「これで悪質BOTが減る」的なことを言っているあたり、我々の見えないところでアカウント作りまくってフォローしてDM送りつけるみたいなBOTが無数に湧いては消えていて無駄にTwitterのサーバリソースを消費しまくっていて、それが結構バカにならないコストになっている…のかもしれません。</p>
+<p>こういった二面性があるので自分としてはAPI有料化としては賛成でも反対でも無いのですが、とりあえずTwitterのAPIに自由は無くなったな〜という感じがしており、またコードがAPIがstandard v1.1と現在も使えなくはないものの「非推奨(推奨はTwitter API V2)」なものなので、もうcmdline_twitterのリポジトリをごっそり消すことにしました。<br>
+なお、cmdline_twitterとはなんぞや？って人は以下の記事を見てください<br>
+<a href="https://qiita.com/chromabox/items/a4e1b5a7f074e84417ed">Qiitaに書いた当時の記事</a></p>
+<p>あと、ここに鍵とクッキーを入れてください的な3rdパーティークライアントは今後使わないほうが良いんじゃないかなと。<br>
+自分で申請して取ってきた鍵ならまだしも、どこかにアップされてるような鍵とかだと悪意BOTとT社との戦いに巻き込まれて凍結される可能性が高いとボクは思いますよ。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+fediverseを見ていて
+</h3>
+</div>
+<p>TwitterのAPI有料化と、定期的にカジュアルに行われてる<strong>シャドウバン</strong>や<strong>アカウント凍結</strong>に嫌気がさして、misskeyやMastodonやPawooなどのfediverseに逃避というか移住しようとしている人は日々少しつづ増えつづけています。<br>
+現にPawooは2/11くらいに急に重たくなって画像のアップロードすら出来なかったり、fediverseの一つであるmisskey.ioは雰囲気が10年前のTwitterっぽいということで、アカウントが急増しているようです。</p>
+<p>挙句のはてに<strong>いにしえのSNS</strong>である<strong>mixi</strong>に戻ろうという人まで出始める始末。。<br>
+（ボクも一応mixiのアカウントはあるのですが今更mixi?!という気持ちと、それ以前にパスとか忘れていてもう入れないというのがあります）</p>
+<p>Mastodonなどのfediverseについては各々調べてもらうとして、ボクも少し前くらいからfediverseどんなものかな〜と思って、色々観察してみました。</p>
+<p>感想としては、fediverseなだけあって色々なサーバがありこれらのサーバは一部を除き会社ではない個人、もしくはごく小規模なグループがサーバを建てて<strong>自費で</strong>やっていること、あとどうしてもその個人の管理人の趣向が多少なりとも出ているということですね。<br>
+例えるならばTwitterは大規模なチェーン店ラーメン屋で、Fediverseはチェーン店じゃない小規模または個人経営なラーメン屋であって、しかもそれが乱立していてそれぞれの店長の顔なり考えが見えている、または見えやすいといった状況ということでしょうか。</p>
+<p>一つ例を上げるとMastodonやmisskeyはfediverse全体に公開される通常のタイムライン(連合タイムライン)の他に、そのサーバ内のローカルなタイムライン（LTL）というものがあり、公開範囲を考えずに普通にトゥート（ツイートみたいなもん）をするとLTLにも同じ内容が流れます。<br>
+実は各サーバによって住人はLTLで会話をする文化があったりするので、この辺りの扱いというか住人がリプライも付けずに会話をしていってるというのがTwitterから移住してきた人は違和感というかちょっと気を遣ってしまう部分があるかもしれません。（昔の住人の少ない時代のTwitterには空リプというのがあり、その文化に近いので逆に昔からTwitter使っていた人にとっては懐かしい感じがすると思います。特にmisskey.ioは。）</p>
+<p>LTLに流したくない場合は公開範囲を非収蔵にすればホームにだけ乗るのでLTLに流さずに済むわけですが、そうすると連合タイムラインにも乗らないのでアカウントを作ったサーバによっては、この辺の扱いが難しいなとちょっと思いました。<br>
+（そういうのを考慮してかどうなのか、LTLが最初から省かれているサーバも実はあります）</p>
+<p>話を戻しまして、その店長の顔が見えるのが鼻につく…のであればもしかしたらfediverseは向いていないのかもしれませんが、究極的な方法としてMastdonやmisskeyはオープンソースであるので、自分でも費用を出せば自分の店といいますか城といいますか、つまりは自分専用サーバを建てられるので、サーバを自分で建てて自分だけで運用していく（お一人様サーバ）ということも一応できます。</p>
+<p>とはいえ何も知らない人がサーバを建てるのは結構難しいことですが、最近ではこのようなサービスもあってお一人様サーバ程度なら建てやすくはなっています。<br>
+<a href="https://hostdon.jp/#/">自分の分散SNSを建てよう Hostdon</a><br>
+↑のサービスを使うなら簡単そうですし、自分専用なお一人様サーバなら最低月550円で建てられるので良いなぁとは思いました。<br>
+Twitterから理不尽な理由で凍結されたと思ってる人に、これは向いているんではないかなと思います（とはいえ我が国の法律には従い、反した場合は最悪責任は自分で取らないといけませんが）</p>
+<p>今後、こういったサービスは増えるんじゃないかなと思います。サーバ運営会社が採算取れれば…ですが…<br>
+というより小規模サーバやお一人様サーバが増えたほうがfediverse的にも全体の負荷低減になり究極的にはそうなっていくと思うので良いことだとは思います。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+fediverseへの移住は今急がなくてよし
+</h3>
+</div>
+<p>じゃぁ今すぐ移住したら良いのか？といえばそうでもなくて、Twitterのアカウントを消してまで完全移住するのは待ったほうが良いですね。<br>
+というのもTwitterが少なくとも今のところは完全に有料化するわけでも、資金がショートして明日から閉鎖するわけでもないので。。。</p>
+<p>あと、前述のラーメン屋の話の通りfediverseにはいろんな景色のいろんなサーバがあって「郷に入っては郷に従え」じゃないですが、実際アカウント作って入ってしばらく浸ってみないと、この絶妙なニュアンスといいますか雰囲気といいますか、そういうのがわからないことが結構ありました。</p>
+<p>なので、とりあえず気になったサーバにアカウント作ってみて様子を見る…というのがおすすめです。</p>
+<p>自分は色々見て回り考えた挙句、とりあえずmastodon-japan.netとmisskey.ioにアカウントを作りました。<br>
+まだ本調子ではないですが、よろしくおねがいします。<br>
+<a href="https://mastodon-japan.net/@chromarock">Mastodonのボクのアカウント @chromarock@mastodon-japan.net</a><br>
+<a href="https://misskey.io/@chromarock">misskeyのボクのアカウント @chromarock@misskey.io</a> ←こっちによくいますというかハマりました</p>
+<p>あとUIの出来はmastodonよりもmisskeyのほうがtwitter民からしてみれば<strong>非常にとっつきやすく</strong>、標準のUIがTweetDeckみたいに出来てこういうのでいいんだよみたいなのがあってとても良い感じですね（というのも作者がツイ廃だったという話があるので納得の出来です）</p>
+
+
+
+
+<figure class="figure">
+  <a href="data/misskey_ui.jpg"><img src="data/misskey_ui.jpg" class="figure-img img-fluid"></a>
+  <figcaption class="figure-caption">misskeyのUI。UI切り替え機能で某Deckに限りなく似せることも可能。misskeyよくできてんな。こういうのでいいんだよ</figcaption>
+</figure>
+
+
+
+<p>mastodonやらmisskeyではあまりトゥートしておりませんが、最終的にはお一人様サーバつくってそっちに移転しようかなという考えは少しあります。<br>
+しかし、fediverseのサーバを止めるのはあまり良くないとされている（仕組み上、周りに迷惑がかかりやすい）し、固定費もそれなりには掛かるというのもあり、おそらく面倒さが上回りそうなのでかなりしばらくはこのままだと思います。</p>
+<p>サーバを建てることは勉強にはなるんですが、日常的に切れないサービスを実施していかなくてはいけないのでこれらの運用の手間や費用を考えても、これはなかなか難しいところですね。サーバ管理者への感謝は忘れないようにしたいところですね。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+参考文献
+</h3>
+</div>
+<p>最後に、fediverse周りを調べるにあたって参考にした文献（？）を載せておきます。</p>
+<p><a href="https://ch.dlsite.com/matome/227051">【マストドン・Misskeyなど】SNS連合『Fediverse』の遊び方</a><br>
+いきなりあのDlsiteかい！って感じですが侮るなかれ、文章としては長いですがfediverseの現状などが<strong>本当に非常によく</strong>まとまっており、大変わかりやすい文章でした。<br>
+まずこの参考文献を見てから、ボクの文章を見ていただくとよりわかりやすいかなと。。。</p>
+<p><a href="https://note.com/okayu_tar_gz/n/n59a941ae0e21">Twitterユーザーに送るMisskeyのススメ～最高に楽しいSNSへようこそ！～</a><br>
+misskeyの簡単な紹介などです。<br>
+自分も完全移住はそんな急がなくて良い派です</p>
+<p><a href="https://gihyo.jp/article/2023/02/misskey-01">Misskey &amp; Webテクノロジー最前線 第1回 分散型SNS「Misskey」、それを支える技術スタック</a><br>
+misskeyを作ったSyuilo氏が書いた技術的な話です<br>
+最近始まった連載で、いろいろ学びがあります</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+補足
+</h3>
+</div>
+<p>misskey.ioは今ユーザが本当に急増していてサーバが重いときがあるので、それに伴って新規登録が出来ない場合があるようです<br>
+半分個人運用なので仕方ない部分はありますね。<br>
+ただ、利用者を拡大したいという思いはあるようで順次サーバを増強していくというストロングスタイルだそうなので、登録できないときはしばらく待ったほうがよいです</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fd%2f20230218%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20Twitter%20API%e6%9c%89%e6%96%99%e5%8c%96%e3%81%ab%e6%80%9d%e3%81%86%e3%81%93%e3%81%a8%e3%81%a8misskey%e7%ad%89fediverse%e3%81%ae%e5%8b%95%e3%81%8d%e3%81%9d%e3%81%ae%e4%bb%96" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/d/20230218/" data-title="140文字以上: Twitter API有料化に思うこととmisskey等fediverseの動きその他" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
