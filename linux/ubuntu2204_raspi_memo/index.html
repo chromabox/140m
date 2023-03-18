@@ -1,0 +1,1005 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.110.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="Raspberry PI 4 ubuntu 22.04(Server) 設定メモ">
+<meta property="twitter:title"          content="Raspberry PI 4 ubuntu 22.04(Server) 設定メモ">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/ubuntu2204_raspi_memo/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="Raspberry PI 4BにUbnutu 22.04 LTSを入れるときのメモです。 自分は普段からUbuntuを使っているのでラズパイもUbuntuしか考えられません Raspberry P">
+<meta property="twitter:description"    content="Raspberry PI 4BにUbnutu 22.04 LTSを入れるときのメモです。 自分は普段からUbuntuを使っているのでラズパイもUbuntuしか考えられません Raspberry P">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>Raspberry PI 4 ubuntu 22.04(Server) 設定メモ | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2023-03-18">2023-03-18</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/ubuntu2204_raspi_memo/">Raspberry PI 4 ubuntu 22.04(Server) 設定メモ</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/raspberry">raspberry</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/sbc">sbc</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>Raspberry PI 4BにUbnutu 22.04 LTSを入れるときのメモです。<br>
+自分は普段からUbuntuを使っているのでラズパイもUbuntuしか考えられません</p>
+<p>Raspberry PIにはGUIを入れずに各種検証用サーバにしたいので、以下はUbuntuServerでの内容です</p>
+<p>なお、環境はこのような感じです。（8GBモデル＋SSD 1TBを使用しています）</p>
+<pre tabindex="0"><code> $ screenfetch
+                          ./+o+-       xxx@xxxxxx
+                  yyyyy- -yyyyyy+      OS: Ubuntu 22.04 jammy
+               ://+//////-yyyyyyo      Kernel: aarch64 Linux 5.15.0-1025-raspi
+           .++ .:/++++++/-.+sss/`      Uptime: 0m
+         .:++o:  /++++++++/:--:/-      Packages: 924
+        o:+o+:++.`..```.-/oo+++++/     Shell: bash 5.1.16
+       .:+o:+o/.          `+sssoo+/    Disk: 4.3G / 954G (1%)
+  .++/+:+oo+o:`             /sssooo.   CPU: BCM2835 @ 4x 1.8GHz
+ /+++//+:`oo+o               /::--:.   RAM: 501MiB / 7807MiB
+ \+/+o+++`o++o               ++////.  
+  .++.o+++oo+:`             /dddhhh.  
+       .+.o+oo:.          `oddhhhh+   
+        \+.++o+o``-````.:ohdhhhhh+    
+         `:o+++ `ohhhhhhhhyo++os:     
+           .o:`.syhhhhhhh/.oo++o`     
+               /osyyyyyyo++ooo+++/    
+                   ````` +oo+++o\:    
+                          `oo++.  
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストールイメージを作る
+</h3>
+</div>
+<p>前は公式HPからOSイメージをダウンロードして、ddとかで書くみたいな感じでしたが、現在では<code>Raspberry Pi Imager</code>を使ったほうが圧倒的に楽です。<br>
+良い時代になりました。<br>
+Windowsな人はここからImagerを落とすのが吉。<br>
+<a href="https://www.raspberrypi.com/software/">公式HP</a></p>
+<p>Ubuntuの人はいつものapt get install でも入れられなくはないけど、Flathubにもあるので、Flathubから入れたほうが良いと思います（バージョンはこちらのほうが新しい場合が多い）</p>
+<p>[OSを選ぶ]を選んで、[Other general-puropose OS]を選ぶと、Ubuntu他色々なOSが出てくるのでUbuntuを選択してからいろんなUbuntuをインストールできるという親切設計。。<br>
+またユーザ名などもここで設定が出来たりします。もうちょっと凝ったことがしたければ次に説明する<code>cloud-init</code>を編集していくのが吉。</p>
+<p>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+UbuntuのOSイメージコピー後、初回電源投入前にするべきこと
+</h3>
+</div>
+<code>Raspberry Pi Imager</code>はどうやってユーザ設定をしているのかな？みたいなことを思うでしょうが、現在は<code>cloud-init</code>という仕組みを使って初回電源投入前の初期設定が行えます。<br>
+本当に良い時代になりました。(何度目だ)<br>
+<code>cloud-init</code>はその名の通り、最初の電源投入の後に一回だけ実行されるスクリプトのようなものです。よって再起動時に再び動くことはない…という感じです<br>
+（もともとは似たようなインスタンスを作りまくるクラウド環境で「毎回毎回手で初期設定するのも面倒だしこれなんとかならんか？」みたいな感じで作られていったそうです）</p>
+<p>実は、<code>Raspberry Pi Imager</code>もこの仕組みを使ってログインユーザなどの設定をしています。<br>
+実機でもこの仕組みが使えるのは素晴らしいですね。</p>
+<p>実は最初のユーザとユーザグループもこの仕組みで作っています。<br>
+初回起動時にファイルシステムをうまい感じにリサイズするのもこいつが内部的に行っています(resize2fs)。<br>
+またDHCPで好きなIPアドレスを振るのが出来ない環境で、最初から固定IPを設定したいとかそういうことが出来たりします。</p>
+<p>ubuntuでのraspberry piはsystem-bootパーティションに<code>user-data</code>と<code>network-config</code>が入っています。</p>
+<p>このうち、<code>user-data</code>は設定したいユーザとパスワードなどの設定、sshdの設定、初期のロケール設定などなど…他色々細かいことが出来ます。
+<code>network-config</code>はLANやWifiの初期設定です。<br>
+よって、パソコンでsystem-bootをマウントし、これらのファイルを編集していけばよく、同じようなUbuntu-Raspberryを複数台用意しなければならない場合はこの設定の「決定版」を作ってこれだけを保管しておけば展開も楽！ということになります。<br>
+なんかdockerの<code>Dockerfile</code>みたいですね。</p>
+<p>話を戻して、パスワード指定で入る場合の<code>user-data</code>はこうなっていると思います</p>
+<pre tabindex="0"><code>#cloud-config
+users:
+- name: xxx
+  groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
+  shell: /bin/bash
+  lock_passwd: false
+  passwd: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+ssh_pwauth: true
+
+timezone: Asia/Tokyo
+runcmd:
+- localectl set-x11-keymap &#34;jp&#34; pc105
+- setupcon -k --force || true
+</code></pre><p>いきなり公開鍵でsshログインする場合は次のようにします</p>
+<pre tabindex="0"><code>users:
+- name: xxx
+  groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
+  shell: /bin/bash
+  ssh_authorized_keys:
+    - ssh-ed25519 AAAABBBBCCCCDDDD...
+
+ssh_pwauth: false
+</code></pre><p>こうやっておくとsshd周りの少し面倒な設定も良い感じに<code>cloud-init</code>がやってくれます<br>
+なお、公開鍵は事前に用意しておく必要はあります。公開鍵はrsaではなく、ed25519で作成したほうが良いでしょう</p>
+<p>ロケールの設定は<code>imager</code>でやると甘いので、これも追加もやっておいたほうが良いですね</p>
+<pre tabindex="0"><code>locale: ja_JP.UTF-8
+</code></pre><p>なお、ロケール変更をするとrebootしたほうが良いので、runcmdの最後にrebootを入れておいたほうが良いと思います</p>
+<pre tabindex="0"><code>runcmd:
+- localectl set-x11-keymap &#34;jp&#34; pc105
+- setupcon -k --force || true
+- reboot
+</code></pre><p>この辺はお好みでですが、いきなりインターネットからパッケージを更新したい場合は次のエントリを加えると良いです</p>
+<pre tabindex="0"><code>package_update: true
+package_upgrade: true
+</code></pre><p><code>packages</code>エントリを使うと、インターネットからパッケージを入れてくれます。</p>
+<pre tabindex="0"><code>packages:
+- vim
+</code></pre><p>ボクはルータのDHCPでMACアドレスをみて固定IPを振るので変更していませんが、IPを固定させたい場合などは<code>network-config</code>を変更します。
+以下は固定IP例です</p>
+<pre tabindex="0"><code>(略)
+# Some additional examples are commented out below
+
+network:
+  version: 2
+
+  ethernets:
+    eth0:
+    addresses:
+      - 192.168.1.10/24
+    gateway4: 192.168.1.1
+    nameservers:
+      addresses: [192.168.1.1]
+    optional: true
+
+(略)
+</code></pre><p>なお、<code>user-data</code>は奥深く、詰めてゆくと/tmpやらいろんなものをtmpfsとしてRAMに割り振ることも出来ます。<br>
+ubuntuは/tmpのRAMディスク化はデフォルトではやってくれないので、/tmpくらいはここでやっても良いかもしれません。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+最初にSSHで入る前にやるべきこと
+</h3>
+</div>
+<p><code>cloud-init</code>を触らずにパスワードログインの場合は、Raspberry PI側の<code>.ssh/sshd_config</code>が公開鍵オンリーになっていないので、ホストの.ssh/configに以下エントリーを入れておくと良いです。<br>
+こうやってRaspberry PI用のを書くと後々楽<br>
+IPアドレスはルータを調べるなり<code>cloud-init</code>で固定するなりして調べておきましょう。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host raspi_ub2204
+</span></span><span class="line"><span class="cl">	User XXX
+</span></span><span class="line"><span class="cl">	HostName IPアドレス
+</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
+</span></span><span class="line"><span class="cl">	IdentitiesOnly yes
+</span></span><span class="line"><span class="cl">	PreferredAuthentications password
+</span></span></code></pre></div><p>こうしておくと <code>ssh raspi_ub2204</code> で入れる<br>
+これで一応PasswdでログインOK</p>
+<p>なお、いきなり公開鍵の人はこうします</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host raspi_ub2204
+</span></span><span class="line"><span class="cl">	User XXX
+</span></span><span class="line"><span class="cl">	HostName IPアドレス
+</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
+</span></span><span class="line"><span class="cl">	Identityfile ~/.ssh/（作った秘密鍵）
+</span></span><span class="line"><span class="cl">	IdentitiesOnly yes
+</span></span><span class="line"><span class="cl">	PreferredAuthentications publickey
+</span></span></code></pre></div>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ルートディレクトリをext4→btrfsに切り替えるのとfstabsの設定
+</h3>
+</div>
+<p>インストール時にルートディレクトリ<code>/</code>をbtrfsにするのはなかなかキツイので、一度インストールして起動させてからbtrfsに切り替えるという手段を取ったほうが良いです<br>
+SDだけで運用やってる人にbtrfsは微妙(寿命的な問題で適切に設定しないとデフォルトのext4より厳しい)だけど、SSDからブートさせて運用している人はbtrfsにしたほうが障害にもある程度強いし各種メリットあるかな…というやつです。あとスナップショットが取れたりするのもデカイですね。</p>
+<p>Raspberry pi（Ubuntu）の場合、初回起動時はcloud-initの作用によって<code>resize2fs</code>によってめいいっぱい拡張するので考えをちょっとひねる必要があります。</p>
+<p>なお、一般的にはext3や4などのファイルシステムは<code>btrfs-convert</code>を使うとbtrfsに変換出来ることが知られています。<br>
+これを利用した簡単な手段としては一応別のLinuxマシンか、もしくはSSD運用の人はSDにRaspberry Ubuntuをまた入れて、Ubuntuを起動させ、変換対象のデバイスに対して<code>btrfs-convert</code>をすると良い…ということです。</p>
+<p><code>btrfs-convert</code>はこんな感じで使います</p>
+<pre tabindex="0"><code>host$ sudo btrfs-convert /dev/partition
+</code></pre><p>変換には多少時間がかかりますが、これ一発で済んでしまうので一見すると簡単そうです。<br>
+しかしArchWikiには破壊されたみたいな報告があったともされているため、やる前に重要なデータがある場合はどこかに退避させておいたほうがいいかもしれませんね。<br>
+自分は問題ありませんでしたが。。。</p>
+<p>もしくは、Ubuntuインストールして初回起動して一旦電源を切り、その次のタイミングで実施したほうがいい…かもしれません。</p>
+<p>変換に成功したら何らかの方法でBtrfsにしたパーティションをマウント<br>
+そして以下でsubvolumeを消して、その後rebalanceしておきます</p>
+<pre tabindex="0"><code>host$ cd マウント先
+host$ sudo btrfs subvolume delete ./ext2_saved
+host$ sudo btrfs balance ./
+</code></pre><p>終わったら、<code>/etc/fstab</code>のLABEL=writableエントリをbtrfsを読ますようにを変更。自分はnoatimeだけを付けて運用していますが、透過圧縮オプションを付けることもできます。<br>
+するなら<code>compress=lzo</code>か<code>compress=zstd:1</code>かなと。そのへんはお好みで。</p>
+<p>最終的に<code>/etc/fstab</code>はこんな感じになるかなと思います</p>
+<pre tabindex="0"><code># /etc/fstab: static file system information.
+#
+# Use &#39;blkid&#39; to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# &lt;file system&gt;     &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;                            &lt;dump&gt;  &lt;pass&gt;
+LABEL=writable      /               btrfs   defaults,noatrime                    0 1
+LABEL=system-boot   /boot/firmware  vfat    defaults                             0 1
+tmpfs               /tmp            tmpfs   defaults,size=256m,noatime,mode=1777 0 0
+</code></pre><p>このタイミングで/tmpも/tmpfsに切り替えをしてRAM化しておいたほうが良いですね。<br>
+神経質な人は/var/logなんかもそうしますが、logはあとから読みたいときがあるので。。。<br>
+サイズは256M取ってますが適当です。あまり使ってる様子がないのですが、この辺の適切な値が今ひとつわかりません</p>
+<p>system-bootも何らかの方法でマウントして、その中にある<code>cmdline.txt</code>もext4に指定しているのでbtrfsに変更</p>
+<pre tabindex="0"><code>console=serial0,115200 dwc_otg.lpm_enable=0 console=tty1 root=LABEL=writable rootfstype=btrfs rootwait fixrtc quiet splash
+</code></pre><p>ちょっと手数はかかりますが、以上でルートファイルシステムがbtrfsになって、/tmpがRAM化します。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストール後の基本セット
+</h3>
+</div>
+<p>インストール後にまずこれをしてとりあえず必要なものをインストールしています</p>
+<pre tabindex="0"><code>$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install build-essential cmake git gitk ssh samba vim ffmpeg flex bison screenfetch htop apt-transport-https gnupg2 btop raspi-config python3-gpiozero
+</code></pre><p>img2sixel (ターミナルからおおよその画像表示)もあったほうが良さそう。わざわざscpしてクライアントから見なくて済む。<br>
+これを使って画像を見る場合は、sshを使用しているホストの端末はsixelに対応したmltermなどが良い。</p>
+<pre tabindex="0"><code>$ sudo apt install libsixel1 libsixel-bin
+$ img2sixel ./nanika_gasou.jpg
+</code></pre><p>flatpakはまぁええかなというところ<br>
+サーバ運用するときに欠かせないtmuxはデフォルトで入っているようなので指定しなくてよし</p>
+<p>次は使わなさそうなサービスを切っておきます。<br>
+avahi-daemonは使わない（〜.localで検索出来るようになるけど、.localドメインは問題が出やすい）ので、以下はやっておいたほうが良いかも</p>
+<pre tabindex="0"><code>$ sudo systemctl stop avahi-daemon.socket
+$ sudo systemctl disable avahi-daemon.socket
+$ sudo systemctl stop avahi-daemon
+$ sudo systemctl disable avahi-daemon
+</code></pre><p>bluetoothは多分使わないことが多いハズなので以下やっておきます</p>
+<pre tabindex="0"><code>$ sudo systemctl stop hciuart.service
+$ sudo systemctl stop bluetooth.service
+$ sudo systemctl disable hciuart.service
+$ sudo systemctl disable bluetooth.service
+</code></pre><p>完全を喫するならbootにある<code>config.txt</code>に以下も書き加えるのもアリです</p>
+<pre tabindex="0"><code>dtoverlay=dtoverlay=disable-bt
+</code></pre><p>wifiを使う人には関係ないですが、使わない人はこうしておいて電源を落としたほうが良いですね</p>
+<pre tabindex="0"><code>$ sudo apt install wireless-tools
+$ sudo iwconfig wlan0 txpower off
+$ sudo systemctl stop wpa_supplicant
+$ sudo systemctl disable wpa_supplicant
+</code></pre><p>完全を喫するならbootにある<code>config.txt</code>に以下も書き加えるのもアリです</p>
+<pre tabindex="0"><code>dtoverlay=disable-wifi
+</code></pre><p>ちなみにサービスの起動確認は以下のようにします。</p>
+<pre tabindex="0"><code>$ service --status-all
+</code></pre><p>これを見て自分は使わなさそうなサービスがあれば切っていく感じですね。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+GeekwormのX735を持ってる人向けの各種設定
+</h3>
+</div>
+<p>X735にくっついてるファンはPWMファンで負荷に応じて風量調整ができます。
+これはRaspberryPIのGPIOで制御できるわけですが、ありがたいことにGeekworm公式がPythonスクリプトを作っています。</p>
+<p><a href="https://wiki.geekworm.com/X735_Software">X735 Software</a></p>
+<p>やり方は上記Wikiを見ればいいわけですが、Ubuntu 22.04だと上記方法では色々行儀悪いので自分で作りなおしました。<br>
+<a href="https://github.com/chromabox/x735-v2.5_ubuntu_fancon">x735-v2.5_ubuntu_fancon</a><br>
+以下、これを使った方法を紹介します</p>
+<p>１．[インストール後の基本セット]を行った上で、必要なツールををまとめて入れる</p>
+<pre tabindex="0"><code>$ sudo apt install python-setuptools python3-distutils python3-rpi.gpio
+</code></pre><p>２．どこか適当なディレクトリを作ってスクリプト類をダウンロード、インストールする</p>
+<pre tabindex="0"><code>$ mkdir /home/xxx/x735_software
+$ cd /home/xxx/x735_software
+$ git clone https://github.com/chromabox/x735-v2.5_ubuntu_fancon
+$ cd x735-v2.5_ubuntu_fancon
+$ sudo chmod +x *.sh
+$ sudo bash ./install.sh
+</code></pre><p>３．動いているか確認。</p>
+<pre tabindex="0"><code>$ sudo systemctl status x735fan.service 
+● x735fan.service - x735 fan service
+     Loaded: loaded (/etc/systemd/system/x735fan.service; enabled; vendor prese&gt;
+     Active: active (running) since Thu 2023-03-16 23:40:07 JST; 11s ago
+   Main PID: 1369 (python3)
+      Tasks: 2 (limit: 9237)
+     Memory: 4.1M
+        CPU: 318ms
+     CGroup: /system.slice/x735fan.service
+             └─1369 /usr/bin/python3 /usr/local/bin/pwm_fan_control.py
+
+ 3月 16 23:40:07 xxxxxx.xxx systemd[1]: Started x735 fan service.
+</code></pre><p>このように出ればOK。</p>
+<p>４．ここまでの作業が終わったら一旦シャットダウン</p>
+<pre tabindex="0"><code>$ sudo shutdown -h now
+</code></pre><p>しばらく待って電源ボタンを8秒ほど押して完全に電源を止めてから、ジャンパのFanFSを付属のジャンパピンで埋める<br>
+(注意：基板ウラ面にFanFSとAutoOnと書かれているので、それをみて、表面のFanFSのところのジャンパを埋めること)</p>
+<p>次にRaspberry PI の電源を入れるとPWMでファン制御が有効になります<br>
+X735はもともと静かめのファンがついているのでフルでもそんなに気にならないのですが、PWM制御させると何もしていないときは大体3000回転くらいに収まるようなので、静かですね</p>
+<p>ただ、geekwormオリジナルのスクリプト類とは違って、電源スイッチ類は無効にしており、やっぱり完全に電源落とせたほうが気持ちが良いので、ちょっと挙動調べてなんかまた作ろうと思っています。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ホスト名の変更
+</h3>
+</div>
+<p>気が変わってホスト名を変えたいときは<code>hostnamectl</code>を利用すると楽 <br>
+昔は<code>/etc/hostname</code>を変更すればよかったけど、最近はそれだけだと足りない場合が多い</p>
+<pre tabindex="0"><code>$ sudo hostnamectl set-hostname rpi4test.lan
+</code></pre><p>LAN内でつかうドメイン名は.lanや.private、.intranet、.internalにしておくと吉<br>
+.localはApple製品や昔のMS製品が使っていたりする(mDNS関連)のでトラブルになりやすいですはい。</p>
+<p>他のホストから見たい場合は素直に見たいPCの<code>/etc/hosts</code>ファイルにエントリーを追加するか、<code>dnsmasq</code>をどこかに建てて、ルータかPCからDNSでそっちを見に行って名前解決しておくのが有効と思われます。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+後から固定IPにしたい場合
+</h3>
+</div>
+<p>初回起動前は<code>cloud-init</code>の仕組みを使ったほうが圧倒的に楽ですが、途中から変えたい場合は<code>/etc/netplan/50-cloud-init.yaml</code>を以下のように変えます</p>
+<pre tabindex="0"><code># This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init&#39;s
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        eth0:
+            addresses:
+            - 192.168.xx.x/24
+            dhcp4: false
+            gateway4: 192.168.xx.xxx
+            nameservers:
+                addresses:
+                - 192.168.xx.xxx
+    version: 2
+</code></pre><p>変更したあとでリブートするか</p>
+<pre tabindex="0"><code>sudo netplan apply
+</code></pre><p>とすると反映されます。</p>
+<p>なお、DHCPに戻す場合は以下</p>
+<pre tabindex="0"><code># This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init&#39;s
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        eth0:
+            dhcp4: true
+            optional: true
+    version: 2
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+日本語ロケールの追加設定(端末メッセージ類の日本語表示)
+</h3>
+</div>
+<p>日本語ロケール追加/設定を忘れた場合は、以下やっていきます</p>
+<pre tabindex="0"><code>$ sudo apt install language-pack-ja 
+$ sudo localectl set-locale LANG=ja_JP.UTF-8
+</code></pre><p>なお、変更したらリブートしたほうが良いです。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Dockerのインストール
+</h3>
+</div>
+<p>実験用とはいえ、Dockerは非常に便利なので入れておきます</p>
+<p>以下のコマンドを打てばOK<br>
+現在はCompose V2もこれで入るので楽</p>
+<pre tabindex="0"><code>$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+$ echo \
+  &#34;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable&#34; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+
+$ sudo apt update
+$ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</code></pre><p>無事完了したら以下で確認</p>
+<pre tabindex="0"><code>sudo docker run hello-world
+</code></pre><p>dockerコマンドをsudoなしにしたい場合は以下すると良いです</p>
+<pre tabindex="0"><code>$ sudo usermod -aG docker $USER
+</code></pre><p>これをした後で一旦ログアウトをして再度入り直したあと</p>
+<pre tabindex="0"><code>$ docker run hello-world
+</code></pre><p>でDockerが動くことを確認します</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+sshd設定
+</h3>
+</div>
+<p>この辺は通常のUbuntu2204と同じ。</p>
+<p>ホスト側(もしあれば)で、ed25519な鍵生成</p>
+<pre tabindex="0"><code>host: $ ssh-keygen -t ed25519
+</code></pre><p>何処に出力するか聞いてくるので、設定して鍵ファイルを作る</p>
+<p>インストール先に公開鍵を転送</p>
+<pre tabindex="0"><code>host: $ scp (作った公開鍵).pub (転送先サーバ名):/home/xxx/
+</code></pre><p>転送先で鍵設定</p>
+<pre tabindex="0"><code>ub2204_raspi:$ cp (作った公開鍵).pub .ssh/authorized_keys
+ub2204_raspi:$ chmod 600 .ssh/authorized_keys
+</code></pre><p>セキュリティを高めるために、転送先のsshd_configを触って鍵オンリーにしてパスワードログインは禁止。<br>
+<code>/etc/ssh/sshd_config</code>を以下のように変更</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PubkeyAuthentication yes
+</span></span><span class="line"><span class="cl">PasswordAuthentication no
+</span></span></code></pre></div><p>最後に、sshdリスタート</p>
+<pre tabindex="0"><code>ub2204_raspi:$ systemctl restart sshd
+</code></pre><p>ホスト側で.ssh/configを変更</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host raspi_ub2204
+</span></span><span class="line"><span class="cl">	User XXX
+</span></span><span class="line"><span class="cl">	HostName IPアドレス
+</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
+</span></span><span class="line"><span class="cl">	Identityfile ~/.ssh/（作った秘密鍵）
+</span></span></code></pre></div><p>これでパスなしで <code>ssh raspi_ub2204</code> で入れればOK</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Samba設定
+</h3>
+</div>
+<p>まず、Sambaをインストール</p>
+<pre tabindex="0"><code>$ sudo apt install samba
+</code></pre><p>次に<code>/etc/samba/smb.conf</code>に追記</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>ユーザ名<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">path</span> <span class="o">=</span> /home/ユーザ名
+</span></span><span class="line"><span class="cl">        <span class="nv">writeable</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl">        <span class="nv">browseable</span> <span class="o">=</span> no
+</span></span><span class="line"><span class="cl">        valid <span class="nv">users</span> <span class="o">=</span> ユーザ名
+</span></span></code></pre></div><p>browseableは必要に応じて変える</p>
+<p>sambaのパスワードをセットする</p>
+<pre tabindex="0"><code>$ sudo smbpasswd -a ユーザ名
+</code></pre><p>(-a を入れないとエラーになる)</p>
+<p>最後にsmbdリスタート</p>
+<pre tabindex="0"><code>$ sudo systemctl restart smbd
+</code></pre><p>無事に入れたことを確認したら、<code>/etc/samba/smb.conf</code>を触って、ログファイルを出さないようにしても良いと思います</p>
+<pre tabindex="0"><code>#   log file = /var/log/samba/log.%m
+   log file = /dev/null
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ディスクの完全消去
+</h3>
+</div>
+<p>Ubuntuに限らずLinuxにはcoreutilsにshredというコマンドがある。<br>
+NSA方式(3度ランダムデータ書く)でディスクを完全消去ができる</p>
+<pre tabindex="0"><code>$ sudo shred -uvz &lt;ファイルシステム名&gt;
+</code></pre><p>実施の際はファイルシステムを間違えないこと。<br>
+全領域に対して3回ランダムデータを書いて最後に0で埋めるそうなので、かなり時間がかかる。<br>
+完全消去は大変時間がかかる（500GBで大凡3〜4時間）ので廃棄するようなHDDを Raspberry PIに接続してこれをすると終わるまで放置出来て良い感じ。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ストレステストをする
+</h3>
+</div>
+<p>linuxにはもともと<code>stress</code>というシステムに負荷を掛けるテストツールがあります<br>
+システムの安定性を測る上で欠かせません。</p>
+<p>さらにRaspberryでは<code>stressberry</code>というのがあり、これは<code>stress</code>を走らせつつRaspberryのクロックと温度も同時に取ってくれるという有用ツールで、これ使うと非常に有効です。</p>
+<pre tabindex="0"><code>$ sudo apt install stress python3-pip
+$ sudo pip3 install stressberry
+</code></pre><p>以下を実行すると、ストレステストを行いながらグラフデータを作ってくれます。テストは大体5分くらいで終わります</p>
+<pre tabindex="0"><code>$ stressberry-run out.dat
+</code></pre><p>グラフとして画像化するには以下</p>
+<pre tabindex="0"><code>$ stressberry-plot out.dat -o out.png
+</code></pre><p>ボクの環境で実施してみたところ室温19度では最高で大体50度くらいでした。<br>
+(X735+ヒートシンク、オーバークロックなしの最大1.8GHz動作です)<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_stress_heatsink.jpg"><img src="data/rpi4_stress_heatsink.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>Raspberry PI 4Bは85度を超えるとスロットリングが働くので良くないのですが、かなり余裕そう。<br>
+夏に計測するとまた変わってくるかもしれないので時々確認したほうが良いかもしれませんが、これはX735のファンの効果が非常に効いているのか、少々オーバークロックしても大丈夫そうです</p>
+<p>参考:<br>
+<a href="https://japan.zdnet.com/article/35201090">「Raspberry Pi」をオーバークロックしてみた</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+misskeyを試す(Dockerで同一LANなどインターネットの外に出さない場合の設定とビルド)
+</h3>
+</div>
+<p>とりあえずで良ければ簡単に出来ます。<br>
+ローカルで3rdパーティアプリとかの動作確認、BOTを作ったときの動作確認したいときに使えると思います。<br>
+本格的に外に出すにはこの設定では不十分なので注意。</p>
+<p>misskeyソースのクローン(とりあえず最新マスター)</p>
+<pre tabindex="0"><code>$ git clone -b master https://github.com/misskey-dev/misskey.git
+$ cd misskey
+</code></pre><p>終わったらとりあえずDockerでのデフォルト設定のコピー</p>
+<pre tabindex="0"><code>cd .config
+cp docker_example.yml default.yml
+cp docker_example.env docker.env
+cd ..
+cp docker-compose.yml.example docker-compose.yml
+</code></pre><p>.config/default.ymlを編集<br>
+例えば以下のようにURLを変更。<br>
+URLは同じRaspberry PIの中で見るだけならlocalhost:3000で構わないけど、同一LANの他から観たい場合はhttp://ラズパイに割り振ったipアドレス:3000としないと画像がでてこなかったりします。<br>
+（つまりこのURLはWebページに埋め込まれるので他マシンのブラウザからも参照が引ける名前を入れないとだめ。本番を建てる場合は気をつけましょう）</p>
+<pre tabindex="0"><code># Final accessible URL seen by a user.
+# url: https://example.tld/
+url: http://192.168.x.xxx:3000
+</code></pre><p>Misskeyのビルド
+気長に待ちます。。。（redisやポスグレのイメージがない場合は30〜40分くらいかかりました@raspi4B 8GB）</p>
+<pre tabindex="0"><code>$ cd [Misskeyのソースツリー]
+$ docker compose build
+$ docker compose run --rm web pnpm run init
+</code></pre><p>問題なければ以下で実行</p>
+<pre tabindex="0"><code>$ cd [Misskeyのソースツリー]
+$ docker compose up -d
+</code></pre><p>完全に立ち上がるのに時間がかかるので、ちょっと待ってからブラウザでアクセスすればOK<br>
+こんなかんじで管理者として入れます<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_misskey01.jpg"><img src="data/rpi4_misskey01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_misskey02.jpg"><img src="data/rpi4_misskey02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>一通り遊び終わってサーバを終了するには以下</p>
+<pre tabindex="0"><code>$ cd [Misskeyのソースツリー]
+$ docker compose down
+</code></pre><p>結構あっさりできてびびりました。</p>
+<p>余談：最初からやり直す<br>
+なんかもう一度本当の最初からやり直したい場合は、以下で消さないと残っています。</p>
+<pre tabindex="0"><code>$ cd [Misskeyのソースツリー]
+$ sudo rm -rf db redis files
+$ docker rmi misskey-web
+</code></pre><p>データベースなどを飛ばして再度composeする場合、前回ログアウトし忘れている場合は、ブラウザのクッキーを除去しないとちゃんと入れないので注意すること</p>
+
+
+
+
+<div class="alert alert-warning" role="alert">注意：<br>
+これをそのまま外（LANの外）に出して正式運用するのはおすすめしません<br>
+cloudflareを挟むなど、正式運用するにはより多くの設定が必要になります。<br>
+また、ufwで不必要なポートをブロック、dockerのvolume設定なども考えたほうがいいでしょう。</div>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fubuntu2204_raspi_memo%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20Raspberry%20PI%204%20ubuntu%2022.04%28Server%29%20%e8%a8%ad%e5%ae%9a%e3%83%a1%e3%83%a2" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/linux/ubuntu2204_raspi_memo/" data-title="140文字以上: Raspberry PI 4 ubuntu 22.04(Server) 設定メモ" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>

@@ -1,0 +1,813 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.110.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="Raspberry PI 4B向け電源＋ファン＋SSDの拡張キットレビュー（Geekworm X735/X825）">
+<meta property="twitter:title"          content="Raspberry PI 4B向け電源＋ファン＋SSDの拡張キットレビュー（Geekworm X735/X825）">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/d/20230318_x735_review/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="事の経緯 Raspberry PI 4Bなのですが実は8GBモデルを出た当初に入手しておりまして、ほぼ当時の定価(11,000くらいだったかな？)で入手したのは良か">
+<meta property="twitter:description"    content="事の経緯 Raspberry PI 4Bなのですが実は8GBモデルを出た当初に入手しておりまして、ほぼ当時の定価(11,000くらいだったかな？)で入手したのは良か">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>Raspberry PI 4B向け電源＋ファン＋SSDの拡張キットレビュー（Geekworm X735/X825） | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2023-03-18">2023-03-18</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/d/20230318_x735_review/">Raspberry PI 4B向け電源＋ファン＋SSDの拡張キットレビュー（Geekworm X735/X825）</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/diary">diary</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/raspberry">raspberry</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/sbc">sbc</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+事の経緯
+</h3>
+</div>
+<p>Raspberry PI 4Bなのですが実は8GBモデルを出た当初に入手しておりまして、ほぼ当時の定価(11,000くらいだったかな？)で入手したのは良かったのですが、使用用途といえばちょっと動画のエンコードを試してみたのと廃棄するHDDの完全消去程度…というわけであまり活用出来ていませんでした</p>
+<p>NASという手もあったのですが、当時はキットもあまりなくてしかもUSB3経由だったので微妙で、結局PCIE→SATAコン→HDDが出来る<code>NanoPi M4</code>で構築してしまっていたので余計にこのRaspberryPIどうするかな〜という感じでした。</p>
+<p>ところが、最近<code>Misskey</code>というSNSにハマってしかもそれがオープンソースであって、さらに「Raspberry PI 4Bでもサーバ建てられる」という情報を得たので、これを気にちょっと実験用として真面目に環境揃えるかぁという感じで重い腰を上げた…という経緯があります。</p>
+<p>というわけで実験用とはいえ、曲がりなりにもサーバを建てるとなるとそれなりに安定動作する環境が必要でして、つまり以下のものが必要になります。</p>
+<p>・安定した電源<br>
+・SSD接続可能<br>
+・ファン+ヒートシンクも必要</p>
+<p>言うまでもなくRaspberry PI4はCPUに負荷掛けると結構発熱して85℃付近に達するとスロットリングといいまして、破損を防ぐために強制的にクロックを落とすという動作をします。<br>
+高負荷でもパフォーマンスを落とさないようにするためには何らかの冷却手段が必要で、ファン＋ヒートシンクは必須です。</p>
+<p>あと、電源は実は特に重要でして、安定した電源はRaspberry 4Bを運用する上で重要だったりします。<br>
+うまく動かない…って言っている人の半分くらいはここで引っかかっているのでは？みたいなのがあります。</p>
+<p>公式が出しているRaspberry PI 3用の電源は「5.1V 2.1A」でこれではちょっと物足りない。<br>
+というか多分2.1Aじゃ足りなくてちょっと負荷かかるとメッセージに<code>Undervoltage</code>出されそうだなぁと（いわゆる低電圧だよと知らせる雷マークが出るアレ）</p>
+<p>で、最近よく売られているのが「5V4A」のRaspberry PI 4用と称されているACです。<br>
+とりあえず4A供給(=最大20w)できれば大丈夫みたいな感じなのですが、そもそもUSB-Cの仕様として<strong>eMarker入りケーブルでもなく、機材側も対応していない場合は5V3Aまで</strong>と仕様が決まっていたはずで、また現在は改善されてますが古いバージョンのRaspberry PI 4は電源供給用のUSB-Cの仕様がミスっているせいでeMarker入りのケーブルを使うとAC側が誤認識し電源供給しないという問題もあり…ということで電源周りは結構鬼門だったりします。</p>
+<p>これはちょっと…ということで安心して使えるものがなさそうかな…という感じでした。<br>
+（そういうわけでラズパイ専用の5V4AなACは実はeMarkerなさそうなんでは？…という感じですが、Raspberry PI4とか、シングルボードコンピュータ専用と割り切る使い方をすればまぁ大丈夫だろうとは思います）</p>
+<p>あと、やっぱり実験用とはいえSDだとデータが壊れやすいし遅いしストレスが溜まりやすいので、最近かなり安くなってきたSSDも装着してみようかなという感じで、USB-SSD出来るキットで何か…ということで探してみました。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+今回購入したキットについて
+</h3>
+</div>
+<p>ということでこんな感じで色々注文して届きました
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_001.jpg"><img src="data/rpi4_ext_001.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_dc_5521_01.jpg"><img src="data/rpi4_ext_dc_5521_01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>一応これらのリンクを貼ります<br>
+<a href="https://www.amazon.co.jp/dp/B07S1T6Z3G/?coliid=I3BV9NZNEMHSG5&amp;colid=2IWGNZS26U41G&amp;psc=1&amp;ref_=lv_ov_lig_dp_it">Geekworm ラズバリーパイ（Raspberry Pi）X735 電源管理および自動冷却拡張ボード、安全なシャットダウン機能、ラズパイ4B/3B+(plus) /3Bに適用</a></p>
+<p><a href="https://www.amazon.co.jp/dp/B07VWNZPFX/?coliid=I1XP8TG6K4GF3N&amp;colid=2IWGNZS26U41G&amp;psc=1&amp;ref_=lv_ov_lig_dp_it">Geekworm ラズベリーパイ(Raspberry Pi 4) 2.5 インチ SATA HDD/SSD X825 V2.0 ストレージ拡張ボード、ラズベリーパイ4モデルBのみ適用</a></p>
+<p><a href="https://www.amazon.co.jp/Geekworm-%E9%9B%BB%E6%BA%90%E3%82%A2%E3%83%80%E3%83%97%E3%82%BF%E3%83%BCDC-Max-5A-Gemini-V2-0%E9%81%A9%E7%94%A8/dp/B0BD82HHNK/ref=sr_1_32?m=A1XBOB53JDD8QM&amp;marketplaceID=A1VC38T7YXB528&amp;qid=1678077604&amp;s=merchant-items&amp;sr=1-32">Geekworm 電源アダプターDC(55*21)12V Max.5A 60W、 X735 V3.0 / X832 / X880 / NASPi Gemini V2.0適用</a></p>
+<p>この手のものは色々な所が出していますが、geekwormは評判もまずまず＆Amazonでも取り扱いあるということでこちらで揃えてみました。<br>
+合計としては\9000くらいですね。</p>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+X735(電源＋PWM)について
+</h3>
+</div>
+<p>電源は自分の中では重要なので電源HAT、あわよくばファン付きということでX735にしてみました。<br>
+入力可能電源は6v〜30vと対応電源も広く、またPWMというのも大きいですね</p>
+<p>中身はこんな感じです<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_002.jpg"><img src="data/rpi4_ext_002.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+6V〜30V受けられるということでDCDCコンバータっぽい構成ですね。部品点数少なくまとまってる感じです</p>
+<p>なお、X735はVersion2.5と3があるので注意です。<br>
+多分もう2.5は売って無くてほとんど3ですが、買うときはよく見て買いましょう。<br>
+後述する対応ACも違います。<br>
+自分としてはV3のほうが6v〜30v対応と広く、無理をして高い電流値を使用することもなくなり安心なので出来ればこちらを推奨したいところですね。</p>
+<p>やり方はgeekwormのWikiに大体書いてあります。<br>
+<a href="https://wiki.geekworm.com/X735">X735概要</a><br>
+<a href="https://wiki.geekworm.com/X735_Hardware">X735_Hardware、ピン配置など</a><br>
+<a href="https://wiki.geekworm.com/X735_Software">X735_Software、ファンコン用のソフトの入れ方など</a></p>
+<p>ここからX735の重要事項（ややこしい部分）を抜粋するとこんな感じです。<br>
+
+
+
+
+<div class="alert alert-warning" role="alert"><p>・Version 2.5と3があり、電源周りが異なっている<br>
+V2.5はDC 55☓25mm 5Vに対応<br>
+V3.0はDC 55☓21mm 6V〜30Vに対応</p>
+<p>・他の拡張ボードとの組み合わせについて<br>
+X735 をX835 / X832で使用する場合、X735 から電源を供給しないでください。X835/X832 DC 12V IN ポート経由で電源を供給してください。<br>
+↑X832のページを観ると最悪Burnoutすると書かれているので供給場所には注意</p>
+<p>X825、X828、X829、X857、X856、X855、X820、X850、X872、X862、X860、X870、X822、X852 で X735 を使用する場合は、X735 経由で電源を供給してください。</p>
+</div>
+というわけで、今回はX825を使うのでX735にDCを接続し電源を供給、X825のDCには何も接続しないということになりますね。</p>
+<p>あと、Ubuntuを入れる場合は、X735用の公式スクリプトは色々イケてないので自分で作りました。<br>
+もしX735＋Ubuntuという使い方をされている方は参考にしてください。</p>
+<p><a href="https://github.com/chromabox/x735-v2.5_ubuntu_fancon">x735-v2.5_ubuntu_fancon</a><br>
+<a href="https://chromabox.github.io/140m/linux/ubuntu2204_raspi_memo">Raspberry PI 4 ubuntu 22.04(Server) 設定メモ</a></p>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+X825(2.5inch SATA用拡張)について
+</h3>
+</div>
+<p>SATAはAmazonではX825ともう一つNVMe（M.key）用のX876があったのですが、帯域活かせないだろうということで、SATA版のX825にしました。<br>
+中身こんな感じです。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_003_001.jpg"><img src="data/rpi4_ext_003_001.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_003_002.jpg"><img src="data/rpi4_ext_003_002.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+基板はスッキリしており余計なものはついてない感じです<br>
+使用しているチップはASMedia 1153Eです。外付けケースによく使われるやつです<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_x825_chip.jpg"><img src="data/rpi4_ext_x825_chip.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>裏側に2.5 SATA SSDもしくはHDDが搭載できます。<br>
+USB3接続になっていてこれをRaspberry PIのUSB3に接続するということで、他に特筆すべきことはあまりないのですが、SSDならまだしもHDDだとX735を使うとこちらへの電源供給どうしてるのかな?と言う感じにはなると思います。Raspberry PIはUSB3からの電源供給は弱いというのもあります。</p>
+<p>実は、このような感じで基板からピンが出ています。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_005.jpg"><img src="data/rpi4_ext_005.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+拡張コネクタは使用できない中、どうやらこのピン経由で電源を供給しているようで、Raspberry PIとの対応を図示するとこんな感じ<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_006.jpg"><img src="data/rpi4_ext_006.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+つまりこれはRaspberryの基板上にあるTP（テストポイント）からピン経由で電気を取っているということになります。
+本来TPは検査用に使うわけでその発想はなかった…しかしそれでええんか…みたいな感じなんですが、まぁ動いているのできっちりネジ止めしてズレなきゃ大丈夫だろうということです…
+（出来れば直接X735とのワイヤー接続方法も残してほしかったけど）</p>
+<p>ということで、装着するとこうなってTPと接触して電源供給するという感じですね<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_007.jpg"><img src="data/rpi4_ext_007.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>一つ注意点として、X825はWifi2G帯と干渉してしまうようで、Wifi 2GHz帯でRaspberryPIを使いたい人には向いていないです。
+このようなことが書かれておりました
+
+
+
+
+<div class="alert alert-warning" role="alert">USB 3.0 デバイスは無線周波数干渉を生成する可能性があり、2.4 GHz 帯域で動作する Wi-Fi やその他のワイヤレス デバイスが Raspberry Pi4 との通信に問題を引き起こす可能性があります。<br>
+Wi-Fi を使用して 2.4GHz 帯での干渉を避けるには、代わりに 5GHz 帯を使用してみてください。<br>
+問題が解決しない場合は、WiFi をオフにして、代わりに有線ネットワークを使用してください。</div>
+ということですが、今回は有線LANしか使わないので自分としては無問題です。</p>
+<p>一応lsusbの結果を載せておきます</p>
+<pre tabindex="0"><code>xxx@xxxx:~$ lsusb 
+Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+Bus 002 Device 002: ID 174c:0825 ASMedia Technology Inc. X825
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 002: ID 2109:3431 VIA Labs, Inc. Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+xxx@xxxx:~$ lsusb -t
+/:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=dwc2/1p, 480M
+/:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/4p, 5000M
+    |__ Port 2: Dev 2, If 0, Class=Mass Storage, Driver=uas, 5000M　←これ
+/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/1p, 480M
+    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/4p, 480M
+</code></pre><p>480Mじゃなくて5000M認識は一応しているので、この辺は問題ない感じですね。
+<code>uas</code>と出ているのでuasに対応しているのもわかるかと思います。(これが<code>usb-storage</code>だったら遅いらしい)</p>
+<p>一つ残念な部分としてはTrimに対応をしていないところですね<br>
+中についている<code>ASMedia 1153E</code>のfirmwareを新しくすれば良い…らしいのですが、肝心のファームがどこにあるかわからず、しかもファームを更新して文鎮化するかもしれないということで…気になるようであれば時々SSDを外してやって定期的にTrim対応している外付ケース、もしくは普通にPCのマザーに取り付けてTrimするしかないかな…と言った感じです</p>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+ACアダプダーについて
+</h3>
+</div>
+<p>ACについてはgeekwormで合わせたほうが良いだろうということで、55mm*21mmの12V5AのACを買いました。
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_dc_5521_02.jpg"><img src="data/rpi4_ext_dc_5521_02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+少しデカイのでコンセントに接続する際は干渉しないように何らかの対策をする必要はあります。<br>
+12V5A=60Wということで電力的にもかなり余裕がありX735との組み合わせで安定供給できそうです。</p>
+<p>なお、55mm*25mmの5V4Aが売っていることがありますが、これは対応していないので注意してください。</p>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+その他
+</h3>
+</div>
+<p>ヒートシンクに関しては干渉しないものとしてファンもあるし気休めということで、秋月電子で200円で売っているこれにしました。<br>
+<a href="https://akizukidenshi.com/catalog/g/gP-16098/">ＲａｓｐｂｅｒｒｙＰｉ　４Ｂ用　ヒートシンクキット　Ｂｌａｃｋ　Ａｌｕｍｉｎｕｍ</a></p>
+<p>SSDに関しては最近滅茶安いで噂のこれを手に入れました<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_ext_ssd.jpg"><img src="data/rpi4_ext_ssd.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>こちらはAmazonでは買わずに楽天経由です。<br>
+なお1TBで6000円を切ってきてます。一応日本語で保証も受けられます、すごいですね。</p>
+<p>ただ、これ中身はTLCではなくQLCらしいのでデータを保管するとかそういう用途ではちょっとという感じはします<br>
+保管するにしても毎日どこか別のストレージなりにバックアップするみたいなのはやっておいたほうが良いですね。<br>
+しかしながら、今回の実験検証用途で使い捨てとか、OSやらゲームのブート用には最悪無くなっても良いのでとても良いと思います。これはもう適材適所ということで。</p>
+<p>Raspberry PIはもともとストレージはSDしかないのですが、SDはSSDと比べても書き込み可能回数が少ない＆Raspberry PIのスロットがロック無しな仕様でして（これはつまり接点の問題が出やすく、この辺もよくデータが飛ぶ要因じゃないかなと思っています）…この観点からしてもSDでなにかするよりなんらかの形でSSDにしたほうが遥かに良いと思います。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+まとめ
+</h3>
+</div>
+<p>最終的にこれが<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_mng.jpg"><img src="data/rpi4_mng.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+こうなりました。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_mng_full.jpg"><img src="data/rpi4_mng_full.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p><code>stressberry</code>を掛けて低電圧エラーが発生しないかと冷えてるかどうか確認しましたが、下のグラフを見てもらうとわかるとおりかなり余裕があり問題さなそうです。</p>
+<p>負荷かけ続けた温度に関してはこんな感じです。<br>
+こちらはX735+ヒートシンクなしの状態<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_stress_noheatsink.jpg"><img src="data/rpi4_stress_noheatsink.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>こちらはX735+ヒートシンクありの状態<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_stress_heatsink.jpg"><img src="data/rpi4_stress_heatsink.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+ヒートシンクのありなしで5度変わってくるので、ヒートシンクはやっぱり付けておいたほうがよさそうです。
+ヒートシンクは200円ですからね</p>
+<p>SSDに負荷を掛けても落ちたり変な挙動することはなく、極めて安定しています。<br>
+重い処理をさせても安定はしているので、このへんでコスト掛ける価値はあったなと。<br>
+SSDキットも正しく認識しており、PWMファンもちゃんと動作しており、スクリプトの組み方にもよりますが温度変化があれば回転数も追従出来て普段は静か（最高回転でもそんなに気になりませんが）非常に良いです。</p>
+<p>最初はアマゾン経由で買ったので「粘土が入ってたらどうしよう…」的な心配があったのですが、思った以上にマトモな製品が来たので嬉しい誤算でした。</p>
+<p>当初の目的（？）だった、ローカルでMisskeyのサーバを建てるのも、公式がDockerで簡単に組めるように各種スクリプトが用意されていたため余裕でできました。<br>
+みんなも建てようローカルMisskey鯖<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_misskey01.jpg"><img src="data/rpi4_misskey01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/rpi4_misskey02.jpg"><img src="data/rpi4_misskey02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+ということでとりあえずそれなりに実用に耐え運用が出来るRaspberry PI 4Bが出来たわけですが&hellip;今Raspberry PI 4を持ってない人がRaspberry PI 4から揃えるのはちょっとおすすめ出来ないかなと。。</p>
+<p>というのも入手難もあるのですが、ここでRaspberry PI 4を持ってないとして一から用意する費用を計算すると…</p>
+<p>X735+X825+専用ACアダプダー<br>
+合計 ￥9,097<br>
+RPI4B 8G ＝ ￥17,800(千石で在庫があればこれが最安値)<br>
+ここまでで￥26,897<br>
+＋SSD 1TB ＝ ￥6,000くらい(Suneastのやつ)<br>
+総合計 ＝ ￥32,897</p>
+<p>ということになるので、これだったら用途次第ではパフォーマンスが若干上だと思われる中古のLenovo M710q辺りを買ったほうが良いまでありますね。<br>
+自分のようにRaspberry PI 4Bを余しているなら今回の補助パーツで底上げする意味は充分にあるわけですが。。</p>
+<p>とにかく現状はRaspberry PI 4Bの値段が割高なのがやはりネックかなと。<br>
+前は8GBモデルでも￥11,000程度だった(！)ので、まだこっちだったらコストメリットがあって組む価値はあるのですが、現状の値段だとなぁということで早く元の値段に戻ってくれることを期待するばかりです。</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fd%2f20230318_x735_review%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20Raspberry%20PI%204B%e5%90%91%e3%81%91%e9%9b%bb%e6%ba%90%ef%bc%8b%e3%83%95%e3%82%a1%e3%83%b3%ef%bc%8bSSD%e3%81%ae%e6%8b%a1%e5%bc%b5%e3%82%ad%e3%83%83%e3%83%88%e3%83%ac%e3%83%93%e3%83%a5%e3%83%bc%ef%bc%88Geekworm%20X735%2fX825%ef%bc%89" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/d/20230318_x735_review/" data-title="140文字以上: Raspberry PI 4B向け電源＋ファン＋SSDの拡張キットレビュー（Geekworm X735/X825）" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
