@@ -1,0 +1,783 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.110.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="gpgで署名用の鍵を作ってgithubに署名付きコミットをする方法">
+<meta property="twitter:title"          content="gpgで署名用の鍵を作ってgithubに署名付きコミットをする方法">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/github_gpg_sign/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="はじめに もう半年も前のことになりますが、githubでリポジトリにマルウェアが勝手にコミットされているとか汚染されたとか騒がれていました。 実">
+<meta property="twitter:description"    content="はじめに もう半年も前のことになりますが、githubでリポジトリにマルウェアが勝手にコミットされているとか汚染されたとか騒がれていました。 実">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>gpgで署名用の鍵を作ってgithubに署名付きコミットをする方法 | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2023-03-21">2023-03-21</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/github_gpg_sign/">gpgで署名用の鍵を作ってgithubに署名付きコミットをする方法</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/git">git</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/github">github</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+はじめに
+</h3>
+</div>
+<p>もう半年も前のことになりますが、githubでリポジトリにマルウェアが勝手にコミットされているとか汚染されたとか騒がれていました。</p>
+<p>実はこれ蓋を開けてみるとアカウントが奪取されたとか、なんか勝手にマルウェアなコードが混ざったとかそんな致命的なことが発生したわけでなく、大凡このような感じでした。</p>
+<p>１．誰かが有名所のOSS(githubでは管理されていない、Sourceforgeで管理されているとかなど)のcloneリポジトリを作る<br>
+２．悪意のある誰かがクローンしたリポジトリの最後に怪しいURLやコードを(もっともらしいユーザ名とメールアドレスで)コミットする<br>
+３．それを何食わぬ顔でGithubにプッシュして元のOSSに「これ適用して」とプルリクを投げる(多分これが悪意ある人の本来の目的らしい)。<br>
+だがそのOSSのメンバーがよほど手抜きで無い限りコードレビューされるので怪しかったら拒否されるはず。。<br>
+４．暫くして、何も知らない人が大本のOSSリポジトリのクローンではなく、悪意ある人のリポジトリをクローン、もしくはサブモジュールに加えてしまう事例が発生する…</p>
+<p>しばらくして、GithubSecurityチームは次のような見解を出しました</p>
+<pre tabindex="0"><code>GitHub は、2022 年 8 月 3 日水曜日に公開されたツイートを調査しています。
+* リポジトリは侵害されませんでした
+* リポジトリ自体ではなく、複製されたリポジトリに悪意のあるコードが投稿された
+* クローンは隔離され、GitHub またはメンテナー アカウントの明らかな侵害はありませんでした
+</code></pre><p>参考：
+<a href="https://twitter.com/GitHubSecurity/status/1554843443200806913">github securityの当時のツイート</a></p>
+<p>これはgitを使っているとそのうち気がつくことですが、コミットユーザはgit configでのユーザ名とメールアドレスのみで<strong>コミットした人が真にその人だよという証明</strong>はしているわけではないんです。<br>
+つまり、簡単になりすましが出来てしまうんですよね。<br>
+しかしこれはgitの仕様といえば仕様です。</p>
+<p>広く不特定多数の開発者を抱えているOSSリポジトリだと、上記仕様から勝手にコミッタになりすまして勝手にコミット…は出来なくはないという話で、今回それを本当にやろうとしてちょっと捻って悪用した人が居る…ということなんですね。</p>
+<p>ということでなりすまし防止といえばおなじみの「公開鍵暗号方式での電子署名」ということでgitにもgithubにもそれが備わっており、コミット時に鍵で署名をすることでとりあえずなりすまし防止ができるという話です。<br>
+これでそのコミットが本人かどうかは署名を見ればわかるみたいな話になります。</p>
+<p>これをやっておくとGithubのコミットログに「Verified」マークが付いて、真にこの人がコミットしたことがわかります。</p>
+<p>前にgithubはセキュリティ関連でベーシック認証はナシになってsshを強制することになった経緯があったので、これもそのうち強制になるんじゃないかな…なんて思います。</p>
+<p>とはいえ、これをやっておけば諸問題が解決するかと言うとそうではなく鍵が奪われて気が付かなかった場合はどうしょうもないですし、コミットする人が悪に目覚めたらこれも仕方ないですし、そもそも署名が本当にその人の署名なのかどうか(つまりオレオレではないのか？)ということも複数のソースからたどって(あるいは本人から公開鍵を聞いたり、<a href="https://keybase.io/">keybase.io</a>に登録してたらそれを見るとか…)確認する必要がありますし、これはもうOSS管理者(？)の気づきの能力に掛かってしまうところだとは思います。。</p>
+<p>あとはこの辺りのコミット時の署名を有名所のコミッタの人にやってもらうこと、よくCloneされそうなリポジトリは署名コミット以外は受け付けなくしてもらうとか、クローンしたりサブモジュールとして追加するときは「その人の責任で」署名を検証するとかやってもらえれば、なりすましに関わる問題は最低限防げるのかなと言った感じではありますね。。。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gpgで署名用の鍵ペアを作る
+</h3>
+</div>
+<p>この辺りの流れは実はGithubに細かく書かれています。<br>
+<a href="https://docs.github.com/ja/authentication/managing-commit-signature-verification/generating-a-new-gpg-key">新しい GPG キーを生成する</a></p>
+<p>しかし、今回は楕円曲線でEd25519(Curve 25519)な鍵ペアを作りたいのでそのようにします。<br>
+アルゴリズムはRSAやNIST P-XXXでもいいのですが、もうEd25519が通らないようなOSなりアーキテクチャはあまり無いと思いますので…</p>
+<p>gpgは鍵自身の「証明」用鍵をまず作ってから(＝主鍵)、用途ごとに副鍵を作るのが良いとされています。<br>
+今回はそのようにします。</p>
+<p>ということでまず主鍵の生成。
+ここでは「証明」以外の機能は持たせないので、「Certify」のみとするのがポイント<br>
+あと、Ed25519は楕円曲線(ECC)系なので&ndash;expertをつけないと出てこない場合があります。<br>
+主鍵を作る途中で主鍵に設定するパスワードを聞かれます</p>
+<pre tabindex="0"><code>$ gpg --full-gen-key --expert
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+ご希望の鍵の種類を選択してください:
+   (1) RSA と RSA (デフォルト)
+   (2) DSA と Elgamal
+   (3) DSA (署名のみ)
+   (4) RSA (署名のみ)
+   (7) DSA (機能をあなた自身で設定)
+   (8) RSA (機能をあなた自身で設定)
+   (9) ECC と ECC
+  (10) ECC (署名のみ)
+  (11) ECC (機能をあなた自身で設定)
+  (13) 既存の鍵
+  (14) カードに存在する鍵
+あなたの選択は? 11
+
+鍵ECDSA/EdDSAに認められた操作: Sign Certify Authenticate 
+現在の認められた操作: Sign Certify 
+
+   (S) 署名機能を反転する
+   (A) 認証機能を反転する
+   (Q) 完了
+
+あなたの選択は? s
+
+鍵ECDSA/EdDSAに認められた操作: Sign Certify Authenticate 
+現在の認められた操作: Certify 
+
+   (S) 署名機能を反転する
+   (A) 認証機能を反転する
+   (Q) 完了
+
+あなたの選択は? q
+ご希望の楕円曲線を選択してください:
+   (1) Curve 25519
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+あなたの選択は? 1
+鍵の有効期限を指定してください。
+         0 = 鍵は無期限
+      &lt;n&gt;  = 鍵は n 日間で期限切れ
+      &lt;n&gt;w = 鍵は n 週間で期限切れ
+      &lt;n&gt;m = 鍵は n か月間で期限切れ
+      &lt;n&gt;y = 鍵は n 年間で期限切れ
+鍵の有効期間は? (0) 0
+鍵は無期限です
+これで正しいですか? (y/N) y
+
+GnuPGはあなたの鍵を識別するためにユーザIDを構成する必要があります。
+
+本名: &lt;名前&gt;
+電子メール・アドレス: &lt;メールアドレス&gt;
+コメント: 
+次のユーザIDを選択しました:
+    &#34;ユーザ名 &lt;メールアドレス&gt;&#34;
+
+名前(N)、コメント(C)、電子メール(E)の変更、またはOK(O)か終了(Q)? o
+たくさんのランダム・バイトの生成が必要です。キーボードを打つ、マウスを動か
+す、ディスクにアクセスするなどの他の操作を素数生成の間に行うことで、乱数生
+成器に十分なエントロピーを供給する機会を与えることができます。
+gpg: 鍵XXXXXXXXXXXを究極的に信用するよう記録しました
+gpg: 失効証明書を &#39;xxxx&#39; に保管しました。
+公開鍵と秘密鍵を作成し、署名しました。
+
+pub   ed25519 20xx-xx-xx [C]
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+uid                      ユーザ名 &lt;メールアドレス&gt;
+</code></pre><p>ユーザ名やパスワードは、Githubの登録したものと同じにしておくと面倒がなくて良いですが、鍵を作った後でユーザ名やメールアドレスを追加することも出来ます。<br>
+（但し、名前を足すような感じになるので他の名前が知られたくない場合は、これはGithub専用の鍵としておいたほうが良いかもしれません）</p>
+<p>次に署名のみの副鍵を生成します。(これをgitやgithubのコミット署名用として使います)</p>
+<pre tabindex="0"><code>$ gpg --expert --edit-key メールアドレス 
+gpg (GnuPG) 2.2.27; Copyright (C) 2021 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+秘密鍵が利用できます。
+
+sec  ed25519/xxxxxxxxxxxxxxxxx
+     作成: 20xx-xx-xx  有効期限: 無期限       利用法: C   
+     信用: 究極        有効性: 究極
+[  究極  ] (1). ユーザ名 &lt;メールアドレス&gt;
+
+gpg&gt; addkey
+ご希望の鍵の種類を選択してください:
+   (3) DSA (署名のみ)
+   (4) RSA (署名のみ)
+   (5) Elgamal (暗号化のみ)
+   (6) RSA (暗号化のみ)
+   (7) DSA (機能をあなた自身で設定)
+   (8) RSA (機能をあなた自身で設定)
+  (10) ECC (署名のみ)
+  (11) ECC (機能をあなた自身で設定)
+  (12) ECC (暗号化のみ)
+  (13) 既存の鍵
+  (14) カードに存在する鍵
+あなたの選択は? 10
+ご希望の楕円曲線を選択してください:
+   (1) Curve 25519
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+あなたの選択は? 1
+鍵の有効期限を指定してください。
+         0 = 鍵は無期限
+      &lt;n&gt;  = 鍵は n 日間で期限切れ
+      &lt;n&gt;w = 鍵は n 週間で期限切れ
+      &lt;n&gt;m = 鍵は n か月間で期限切れ
+      &lt;n&gt;y = 鍵は n 年間で期限切れ
+鍵の有効期間は? (0) 0
+鍵は無期限です
+これで正しいですか? (y/N) y
+本当に作成しますか? (y/N) y
+たくさんのランダム・バイトの生成が必要です。キーボードを打つ、マウスを動か
+す、ディスクにアクセスするなどの他の操作を素数生成の間に行うことで、乱数生
+成器に十分なエントロピーを供給する機会を与えることができます。
+
+sec  ed25519/xxxxxxxxxxxxxxxxxxxxx
+     作成: 20xx-xx-xx  有効期限: 無期限       利用法: C   
+     信用: 究極        有効性: 究極
+ssb  ed25519/yyyyyyyyyyyyyyyyyyyyy
+     作成: 20xx-yy-yy  有効期限: 無期限       利用法: S   
+[  究極  ] (1). ユーザ名 &lt;メールアドレス&gt;
+
+gpg&gt; save
+$
+</code></pre><p>最後にsaveでgpgの対話モードを終わることを忘れないようにしてください。</p>
+<p>以下で確認。[S]がついていればそれは署名用の鍵で、[C]は認証用鍵を意味します</p>
+<pre tabindex="0"><code>$ gpg -k
+
+----------------------------
+pub   ed25519 20xx-xx-xx [C]
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+uid           [  究極  ] ユーザ名 &lt;メールアドレス&gt;
+sub   ed25519 20xx-yy-yy [S]
+</code></pre><p>Githubに登録しているユーザ名やメールアドレスが異なる場合は次のようにして、鍵にユーザ名やメールアドレスを足すとOKです。</p>
+<pre tabindex="0"><code>$ gpg --edit-key 今のユーザ名
+gpg&gt; key
+sec  ed25519/xxxxxxxxxxxxxxxxxxxx
+     作成: 2022-xx-xx  有効期限: 無期限       利用法: C   
+     信用: 究極        有効性: 究極
+ssb  ed25519/yyyyyyyyyyyyyyyyyyyy
+     作成: 2022-yy-yy  有効期限: 無期限       利用法: S   
+[  究極  ] (1).  ユーザ名 &lt;メールアドレス&gt;
+
+gpg&gt; key yyyyyyyyyyyyyyyyyyyy
+gpg&gt; adduid
+本名: Githubユーザ名
+電子メール・アドレス: Githubに登録しているメールアドレス
+コメント: 
+次のユーザIDを選択しました:
+    &#34;Githubユーザ名 Githubに登録しているメールアドレス&#34;
+
+名前(N)、コメント(C)、電子メール(E)の変更、またはOK(O)か終了(Q)? o
+
+sec  ed25519/xxxxxxxxxxxxxxxxxxxxxx
+     作成: 20xx-xx-xx  有効期限: 無期限       利用法: C   
+     信用: 究極        有効性: 究極
+ssb* ed25519/yyyyyyyyyyyyyyyyyyyyyyy
+     作成: 20x-YY-YY  有効期限: 無期限       利用法: S   
+[  究極  ] (1)  ユーザ名 &lt;メールアドレス&gt;
+[  不明  ] (2). Githubユーザ名 &lt;Githubに登録しているメールアドレス&gt;
+
+gpg&gt; save
+$
+</code></pre><p>なお、ユーザ名が表示されている(番号)に. (ドット)が付いているのがメインIDとして使用されます。<br>
+このコマンドで追加した場合は、前の名前やメールアドレスも公開鍵に含められるのでそれを秘密にしておきたい場合は、Github用に主鍵を作ったほうがいいかもしれません。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+作った公開鍵をGithubへ登録
+</h3>
+</div>
+<p>先ほど作った副鍵の公開鍵をGithubに登録します。<br>
+まず副鍵のIDを知る必要があるので以下入力します。</p>
+<pre tabindex="0"><code>$ gpg --list-secret-keys --keyid-format LONG
+----------------------------
+sec   ed25519/主鍵ID 2022-XX-XX [C]
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+uid                 [  究極  ] ユーザ名 &lt;メールアドレス&gt;
+ssb   ed25519/副鍵ID 2022-YY-YY [S]
+</code></pre><p>副鍵IDが分かったので、以下のようにしてASCIIで出力</p>
+<pre tabindex="0"><code>gpg --armor --export 副鍵ID
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+公開鍵の文字列
+-----END PGP PUBLIC KEY BLOCK-----
+</code></pre><p>Githubにサインインして、[Setting]-[SSH and GPG keys] [new gpg key]で追加。<br>
+これでGithubには登録OK。</p>
+<p>当たり前ですが、公開鍵は公開して問題のないものです。<br>
+そして秘密鍵は<strong>絶対に秘密</strong>です。<br>
+公開鍵はなくそうが漏らそうが問題ないですが、秘密鍵だけはなくしたり漏らしたら失効しなきゃだめなので色々面倒なことになります。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+git にコミットするときに鍵を使って署名するように指定
+</h3>
+</div>
+<p>以下のようにします。</p>
+<pre tabindex="0"><code>$ git config --local commit.gpgSign true
+$ git config --local tag.gpgsign true
+$ git config --local user.signingKey 副鍵ID
+</code></pre><p>ボクの場合はリポジトリごとに使用ユーザを替えているのでグローバルにはしていません。<br>
+どんなリポジトリにも使いたい場合は &ndash;local を &ndash;globalにすればOKです。<br>
+(windowsとかの場合は、gpgのプログラムもgpg.programで指定しないといけないそうです)</p>
+<p>あとは普通にいつものようにCommitします。<br>
+(git commit に-sをつけないといけないとかあるそうですが、自分の場合はつけなくても自動的に署名されました)<br>
+なお、Commitの際にPGPのパスワードを聞かれます。<br>
+ようはこのときにgitがgpgに「秘密鍵を使ってこのコミットを署名してくれ」とお願いして署名をするわけですね。</p>
+<p>ローカルで確認する場合は以下のようにするとOK</p>
+<pre tabindex="0"><code>$ git log --show-signature
+commit 86ed1ea3d75b1961a05c2ad4c11fd29aa5c39cc9 (HEAD -&gt; master)
+gpg: 2022年08月04日 17時20分19秒 JSTに施された署名
+gpg:                EDDSA鍵895298048177DF79E46BFE7989A86B70D99E6120を使用
+gpg: &#34;chromabox &lt;chromarockjp@gmail.com&gt;&#34;からの正しい署名 [究極]
+gpg:                 別名&#34;chromarock &lt;chromarockjp@gmail.com&gt;&#34; [究極]
+Author: chromabox &lt;chromarockjp@gmail.com&gt;
+Date:   Thu Aug 4 17:20:19 2022 +0900
+
+    commit test
+</code></pre><p>後はGithubにpushして、このようにコミットログに「Verified」と出てくればOK<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/github_log_verify.jpg"><img src="data/github_log_verify.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>登録したのにVerifiedが出てこない場合は、鍵のユーザ名やメールアドレスがGithubに登録したユーザ名とメールアドレスかを確認してみてください。違っているとだめです。</p>
+<p>確認できたら、ついでにGithubの各リポジトリを署名したもののみコミット可としておきましょう。<br>
+より堅牢となります。</p>
+<p>Githubから設定したいリポジトリを開き、[Settings]-[Branches]を選んで、[Branch protection rules]の[Add rules]を押します。<br>
+すると、ルール入力画面が出るので保護したいブランチ名(master)を入力して、[Require signed commits]にチェックを入れるとOK。これをするとコミット時に署名が必須となります。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/github_rules_branch.jpg"><img src="data/github_rules_branch.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>参考：<br>
+<a href="https://docs.github.com/ja/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/managing-a-branch-protection-rule">ブランチ保護ルールを管理する</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+秘密鍵のバックアップ
+</h3>
+</div>
+<p>他のマシンで同じ鍵を使用して署名など使わなければならない場合、秘密鍵をExportする必要があります。<br>
+以下のようにします</p>
+<pre tabindex="0"><code>$ gpg --export-secret-keys --armor &gt; gpg-private.keys
+</code></pre><p>これを何らかの安全な手段で持っていった後、別PCでインポートするには</p>
+<pre tabindex="0"><code>$ gpg --import gpg-private.keys
+</code></pre><p>でOK<br>
+なお、これは秘密鍵なので<strong>絶対に</strong>漏らしてはいけません。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+鍵類をGUIで確認管理したい
+</h3>
+</div>
+<p>Ubuntuの場合、「ソフトウェアセンター」から「パスワードと鍵」を調べてインストールすればOK(22.04だとデフォルトで入っているかも)<br>
+Exportもできます。SSH用の鍵も管理できます。<br>
+この画面で鍵を信用するかどうかも設定できるので便利です<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/software001.jpg"><img src="data/software001.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fgithub_gpg_sign%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20gpg%e3%81%a7%e7%bd%b2%e5%90%8d%e7%94%a8%e3%81%ae%e9%8d%b5%e3%82%92%e4%bd%9c%e3%81%a3%e3%81%a6github%e3%81%ab%e7%bd%b2%e5%90%8d%e4%bb%98%e3%81%8d%e3%82%b3%e3%83%9f%e3%83%83%e3%83%88%e3%82%92%e3%81%99%e3%82%8b%e6%96%b9%e6%b3%95" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/linux/github_gpg_sign/" data-title="140文字以上: gpgで署名用の鍵を作ってgithubに署名付きコミットをする方法" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
