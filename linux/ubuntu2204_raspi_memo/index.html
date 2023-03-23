@@ -748,6 +748,99 @@ $ sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 
 <div class="content-2-title">
   <h3>
+Dockerのイメージ場所変更
+</h3>
+</div>
+<p>raspberry piではDockerイメージのディレクトリを変える意味ってあまりないかもしれませんが一応…</p>
+<p>デフォルトのイメージは<code>/var/lib/docker</code>に置かれています。以下コマンドでも確認できるはず</p>
+<pre tabindex="0"><code>$ docker info
+Client:
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.10.2
+    Path:     /usr/libexec/docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.16.0
+    Path:     /usr/libexec/docker/cli-plugins/docker-compose
+
+（略）
+
+ Kernel Version: 5.15.0-1025-raspi
+ Operating System: Ubuntu 22.04.2 LTS
+ OSType: linux
+ Architecture: aarch64
+ CPUs: 4
+ Total Memory: 7.624GiB
+ Name: xxxxxxx.xxx
+ ID: xxxxxxxxxxxxxxxxxxxxxxxxxx
+ Docker Root Dir: /var/lib/docker   　←これ
+ Debug Mode: false
+ Registry: https://index.docker.io/v1/
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+</code></pre><p>確認したら一旦Dockerのサービスを完全停止させます</p>
+<pre tabindex="0"><code>$ sudo service docker stop
+Warning: Stopping docker.service, but it can still be activated by:
+  docker.socket
+$ sudo systemctl stop docker.socket
+# 以下でdockerサービスが本当にいないか確認
+$ ps aux | grep docker
+</code></pre><p>docker_imageというディレクトリを作ってその中をdockerルートディレクトリにするにはまず<code>rsync</code>を使ってコピーします。<br>
+例では<code>/dockerdata</code>に入れるとします。
+
+
+
+
+<div class="alert alert-warning" role="alert">コピー先のディレクトリ名に_(アンダーバー)があると-(ハイフン)として解釈されてしまうので注意<br>
+属性をミスるとエラーになりやすいので、<code>rsync</code>のオプションには注意しましょう</div></p>
+<pre tabindex="0"><code>$ sudo mkdir /dockerdata
+$ sudo rsync -aHAXS --info=progress2 /var/lib/docker/. /dockerdata/
+</code></pre><p><code>rsync</code>のオプションの意味は以下の通り。<br>
+なおこのオプションはファイルシステムの属性などをできるだけ変えずに完璧にそのままバックアップするときにも使えます</p>
+<pre tabindex="0"><code>-a: アーカイブ モード。-rlptgoD に等しい (-H、-A、-X なし)  
+-H: ハードリンクを保持
+-A: ACLを保持
+-X: 拡張属性を保持
+-S: スパースファイルを効率的に処理する。特にDockerの場合はスパースファイルを作ってることがままあるので必要。
+--info=progress2: 通常-vだとファイル名が流れるけど、進捗と転送速度を表示する
+</code></pre><p>ラズパイでやるとさすがに時間がちょっとかかりますが、終わったら<code>/etc/docker/daemon.json</code>を作ります。</p>
+<pre tabindex="0"><code>$ sudo touch /etc/docker/daemon.json  
+$ sudo vim /etc/docker/daemon.json  
+</code></pre><p>中身はこんな感じでやっておきます</p>
+<pre tabindex="0"><code>{
+  &#34;data-root&#34;: &#34;/dockerdata&#34;
+} 
+</code></pre><p>(<code>graph</code>でも良いのですがv17.05.0以降は廃止されているそうなので、<code>data-root</code>にしておきましょう)<br>
+編集終わったら以下でサービス再起動</p>
+<pre tabindex="0"><code>$ sudo systemctl daemon-reload
+$ sudo service docker start
+</code></pre><p>特にエラーもでずに以下で再確認して問題なければOK</p>
+<pre tabindex="0"><code>$ docker info 
+（略）
+ Docker Root Dir: /dockerdata　←変わっている
+ Debug Mode: false
+ Registry: https://index.docker.io/v1/
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+
+$ docker images
+（今まで作ったイメージがあればOK）
+</code></pre><p>問題なさそうであれば<code>/var/lib/docker</code>は使わないので削除</p>
+<pre tabindex="0"><code>$ sudo rm -rf /var/lib/docker
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
 sshd設定
 </h3>
 </div>
@@ -801,8 +894,7 @@ Samba設定
 </code></pre><p>無事に入れたことを確認したら、<code>/etc/samba/smb.conf</code>を触って、ログファイルを出さないようにしても良いと思います</p>
 <pre tabindex="0"><code>#   log file = /var/log/samba/log.%m
    log file = /dev/null
-</code></pre><br>
-
+</code></pre>
 
 
 
