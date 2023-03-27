@@ -588,8 +588,8 @@ $ sudo systemctl disable wpa_supplicant
 </code></pre><p>完全を喫するならbootにある<code>config.txt</code>に以下も書き加えるのもアリです</p>
 <pre tabindex="0"><code>dtoverlay=disable-wifi
 </code></pre><p>ちなみにサービスの起動確認は以下のようにします。</p>
-<pre tabindex="0"><code>$ service --status-all
-</code></pre><p>これを見て自分は使わなさそうなサービスがあれば切っていく感じですね。</p>
+<pre tabindex="0"><code>$ systemctl list-units -t service
+</code></pre><p>これを見て自分は使わなさそうなサービスがあれば<code>systemctl stop systemctl disable</code>で切っていく感じですね。</p>
 
 
 
@@ -894,6 +894,11 @@ Samba設定
 </code></pre><p>無事に入れたことを確認したら、<code>/etc/samba/smb.conf</code>を触って、ログファイルを出さないようにしても良いと思います</p>
 <pre tabindex="0"><code>#   log file = /var/log/samba/log.%m
    log file = /dev/null
+</code></pre><p>sambaを使わないヒトは以下で切っておきます</p>
+<pre tabindex="0"><code>sudo systemctl stop smbd
+sudo systemctl stop nmbd
+sudo systemctl disable smbd
+sudo systemctl disable nmbd
 </code></pre>
 
 

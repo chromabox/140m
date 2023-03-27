@@ -450,7 +450,7 @@ Virtualboxにインストールする場合
 <p>自分はインストール後にまずこれをしてとりあえず必要なものをインストールしています</p>
 <pre tabindex="0"><code>$ sudo apt update
 $ sudo apt upgrade
-$ sudo apt install build-essential cmake git gitk ssh gufw samba vim filezilla minicom mcomix gtkterm shutter vlc ffmpeg geany flatpak flex bison screenfetch htop apt-transport-https gnupg2
+$ sudo apt install build-essential cmake git gitk ssh gufw samba vim filezilla minicom mcomix gtkterm shutter vlc ffmpeg geany flatpak flex bison screenfetch htop apt-transport-https gnupg2 gnome-shell-extension-manager
 </code></pre><br>
 
 
@@ -502,7 +502,37 @@ Btrfsにインストール
 <p>20.04のときは確かBtrfsを選べなかった気がするが、22.04になってようやくBtrfsにも入れることができるようになった。<br>
 Ext4と比べても良くなってるので、もうできる限りBtrfsにしましょう。<br>
 →標準のUbuntuからインストールではなくて、Lubuntuフレーバでいきなりインストールする人はBtrfsで動かんらしいので気をつけよう</p>
-<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gnome-shell拡張の導入 (gnome-extension-manager)
+</h3>
+</div>
+<p>Ubuntuのデフォルトではデスクトップの細かいカスタマイズができません<br>
+gnome-shell拡張はこれを拡張してくれるやつで、入れておくと使い勝手が格段に向上するので入れておいたほうが吉です。</p>
+<pre tabindex="0"><code>$ sudo apt install gnome-shell-extension-manager
+</code></pre><p>これをしてから、<code>extension-manager</code>で探して起動するとGUIが出てくると思います。<br>
+この中からオススメは以下です</p>
+<pre tabindex="0"><code>Allow Locked Remote Desktop   
+ Ubunutの標準のデスクトップ共有を使うと、画面をロックしたりログアウトするとリモートデスクトップが完全停止してしまい
+ 再び許可しないと受付してくれないのでそれをどうにかする拡張。
+ したがって、標準のまま共有を使うにはほぼ必須級だがセキュリティは弱くなるので考えてから導入  
+Applications Menu  
+ アクティビティの横にアプリケーションメニューできて、そこからアプリを選べる
+Frippery Move Clock
+ 時刻表示を通知バー右端に寄せるとかできる
+NVIDIA GPU State Tool
+ 通知バーにGPUの温度とかを表示できる(NVidia GPU専用)
+Status Area Horizonatal Spacing
+ 通知バーのスペース具合を調整できる
+Vitals
+ 通知バーにCPU温度とかシステムの状況を表示できる
+</code></pre><br>
 
 
 
@@ -661,7 +691,21 @@ $ sudo chmod 775 /etc/minicom
 [ 6572.726767] usb 1-3.4: USB disconnect, device number 9
 </code></pre><p>調べるとどうやら「brltty」という点字関連のアクセシビリティのものが悪さをしているので、以下を実行してbrlttyをアンインストールするとよい</p>
 <pre tabindex="0"><code>$ sudo apt remove brltty
-</code></pre><br>
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+flatpakの権限設定を変えたい
+</h3>
+</div>
+<p>flatpakは便利なのですが権限設定がやりにくいというのがあります<br>
+（権限関連でうまく動かなかったりするとかあります）</p>
+<p>権限設定するにはflatsealをflatpakから入れるのが楽です</p>
+<br>
 
 
 
@@ -715,13 +759,17 @@ RDP（Ubuntu22.04で標準で入るようになったgnome-remote-desktop）に�
 <p>これは、RemminaをSnap版にして新しいのを入れると問題なく接続できるようになります。<br>
 Snap版にしたときは権限設定を忘れずに(ほとんどONでいいと思う)</p>
 <p>この際なのでUbuntu22.04側のRemminaもSnap版に入れ替えしたほうが良いですね。</p>
-<p>なお、セッションがXorgの場合はなぜかこのRDPが使用できないので、Xorg環境でリモートデスクトップを使いたい場合は、VNCを許可としておく必要があります<br>
-→接続元はなんらかのVNCクライアントで接続することになります。</p>
-<p>VNCの共有設定でデフォルトだといちいち接続先に接続しても良いかの問い合わせが出てきて接続先に人がいないと接続できないという問題がでるので、パスワードを要求するを選択すると聞いてこなくなります。</p>
-<p>また、Wayland環境でもVNCでも画面をロックしたりログアウトするとリモートデスクトップが切れます…これが地味にしんどい…<br>
-(TeamviewerやWindowsリモートデスクトップのような完全なリモートデスクトップじゃなくて、gnome-remote-desktopは、操作アシスタント的な使い方を想定している…とのことのようです。)</p>
-<p>リモートデスクトップが標準になるということで個人的に期待していたのですが肩透かしといった感じですね。。。<br>
-なかなかこの仕様は正直つらいので、本格的にリモートなデスクトップを使用したい人は従来どおりxrdpするか、Teamviewerを入れたほうがよさそうです。</p>
+<p>また、Wayland環境でもVNCでも画面をロックしたりログアウトするとリモートデスクトップが切れ、次に接続しようとしても受付しなくなります。これが地味にしんどい…<br>
+(TeamviewerやWindowsリモートデスクトップのような完全なリモートデスクトップじゃなくて、gnome-remote-desktopは、操作アシスタント的な使い方を想定している…とのことのようです。)<br>
+これなんですが、一応の解決策として<code>extension-manager</code>を入れてから<code>Allow Locked Remote Desktop</code>を入れるという手が使えます。<br>
+これをすると、画面をロックしたりログアウトしてもリモートデスクトップ機能が切れずに受付はされるので活用したいヒトにはかなりの朗報です。</p>
+<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。
+これの説明はとても長くなるのでこちらへ…</p>
+<p>あとは昔からあるXRDPを使うという方法もあります。<br>
+ただ、物理マシンを使うときにリモートがそのまま動いていると入れない（この逆もあり、物理マシンでログインしているとリモートからは同じユーザでログイン不可）とかいう場合が出てきたり、音声がうまく飛んでくれなかったりするのでケースバイケースですね</p>
+<p>2方式の違いをまとめると次のような感じです<br>
+「Ubuntu標準のリモートデスクトップ」: ユーザで画面を共有できる感じ。VNCやTeamviewerのRDP版。プロトコルがRDPなので軽い。デスクトップ音声も飛んでくる。<br>
+「XRDP」: ユーザで画面は共有できず、ログインしたユーザに固定する。WindowsのProエディションで入ってくるリモートデスクトップのイメージに近い。XRDPはデスクトップ音声を飛ばすのは難しい</p>
 <br>
 
 
@@ -905,7 +953,8 @@ $ chmod 775 start-barrierc.sh
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>/usr/bin/killall barrierc
 </span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
 </span></span><span class="line"><span class="cl">/usr/local/bin/barrierc --debug INFO --name <span class="o">(</span>このマシンの設定名<span class="o">)</span> <span class="o">(</span>サーバIP<span class="o">)</span>
-</span></span></code></pre></div><br>
+</span></span></code></pre></div><p>あとは、この<code>start-barrierc.sh</code>をUbuntuの「自動起動するアプリケーション」（システムツールの自動起動するアプリケーション）で指定してあげればOK</p>
+<br>
 
 
 
@@ -917,8 +966,10 @@ $ chmod 775 start-barrierc.sh
 teamviewerを使いたい
 </h3>
 </div>
-<p>teamviwereはWaylandセッションでは動かない(対応していない)ので気をつけること<br>
-Waylandを事前に無効にしておくのが良いかもしれない。</p>
+<p>gnome-extension-managerを入れることによってteamviewerをUbunut22.04で使う意義はまま薄れましたが、それでもLAN内からとかVPNでリンクされている箇所からとかじゃなくて、本当にグローバルなネットからでも接続できるとか利点はあるのでそういうことをしたい人向け。(最低でもVPN間接続して保護したほうがいいとは思うけど)<br>
+teamviwereはWaylandセッションでは動かない(対応していない)ので気をつけること<br>
+Waylandを事前に無効にしておくのが良いかもしれない。<br>
+ただ、パフォーマンスはRDP(Ubuntuの標準デスクトップ共有)と比べるとやっぱり悪い</p>
 <p>以下コマンドを順に入れればOK</p>
 <pre tabindex="0"><code>$ sudo apt install wget apt-transport-https gnupg2
 $ wget -O- https://download.teamviewer.com/download/linux/signature/TeamViewer2017.asc | gpg --dearmor | sudo tee /usr/share/keyrings/teamview.gpg
@@ -1115,6 +1166,26 @@ $ cp ~/snap/remmina/current/.local/share/remmina/* remmina_data/
 <p><a href="https://gitlab.com/Remmina/Remmina/-/issues/2548#note_622712677">https://gitlab.com/Remmina/Remmina/-/issues/2548#note_622712677</a></p>
 <p>他のSnapアプリだとそういうことはあまりないのでうーんと言ったところだけど、微妙にハマりポイントですねこれ…</p>
 <br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+使用カーネルをMainlineにする(13世代Intel向け)
+</h3>
+</div>
+<p>Ubuntu22.04はRaptorなどの比較的新しいCPUに完全には対応していません。<br>
+これには（AlderはCPUにもよりますが）PコアとEコアという2種類のスペックの違うコアが協調して動いており（ハイローミックス）、ある程度はCPUで面倒を見る感じなのですが、完全にきれいにスケジューリングするにはOSでも対応が必要となっています。<br>
+Alderは5.16から対応が始まっており、Ubuntu 22.04をアップデートしていれば現在は5.19になっているので特に何もすることはないのですが、Raptorに関しては6.1からの対応ということで、カーネルを自力で上げるかUbuntu公式が変えてくれるのを待つしかありません。</p>
+<p>昔はUbuntuで使っているカーネルを自力更新するのは手間だったわけですが、現在は <code>Ubuntu Mainline Kernel Installer</code> というものがありGUIで入れ替えることができ相当楽になっています。</p>
+<p><code>Ubuntu Mainline Kernel Installer</code>は以下のようにしてインストールします。</p>
+<pre tabindex="0"><code>sudo add-apt-repository ppa:cappelikan/ppa
+sudo apt update
+sudo apt -y install mainline
+</code></pre><p>その後、<code>Ubuntu Mainline Kernel Installer</code>を起動して、使用したいカーネルバージョンを選択すればOKです。</p>
 
 </div>
 
