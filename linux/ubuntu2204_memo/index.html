@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.110.0">
+  <meta name="generator" content="Hugo 0.111.3">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -343,24 +343,25 @@ audio {
 <div class="main-box">
 <p>正式にUbnutu 22.04 LTSがリリースされ、Japan Remix（日本語環境向けに調整されたもの）もリリースされたので、18.04 LTSだった環境を入れ替えしました。</p>
 <p>ちなみに、自分が確認した環境は以下です。</p>
-<pre tabindex="0"><code> $ screenfetch
-                          ./+o+-       XXX@XXXXXXXX
+<pre tabindex="0"><code>$ screenfetch
+                          ./+o+-       xxx@xxxxxxxx
                   yyyyy- -yyyyyy+      OS: Ubuntu 22.04 jammy
-               ://+//////-yyyyyyo      Kernel: x86_64 Linux 5.15.0-27-generic
-           .++ .:/++++++/-.+sss/`      Uptime: 4h 6m
-         .:++o:  /++++++++/:--:/-      Packages: 2192
+               ://+//////-yyyyyyo      Kernel: x86_64 Linux 5.19.0-35-generic
+           .++ .:/++++++/-.+sss/`      Uptime: 5h 29m
+         .:++o:  /++++++++/:--:/-      Packages: 2186
         o:+o+:++.`..```.-/oo+++++/     Shell: bash
        .:+o:+o/.          `+sssoo+/    Resolution: 1920x1080
-  .++/+:+oo+o:`             /sssooo.   DE: GNOME 41.4
+  .++/+:+oo+o:`             /sssooo.   DE: GNOME 41.7
  /+++//+:`oo+o               /::--:.   WM: Mutter
  \+/+o+++`o++o               ++////.   WM Theme: Adwaita
-  .++.o+++oo+:`             /dddhhh.   GTK Theme: Yaru [GTK2/3]
+  .++.o+++oo+:`             /dddhhh.   GTK Theme: Yaru-dark [GTK2/3]
        .+.o+oo:.          `oddhhhh+    Icon Theme: Yaru
         \+.++o+o``-````.:ohdhhhhh+     Font: Ubuntu 11
-         `:o+++ `ohhhhhhhhyo++os:      Disk: 3.2T / 8.2T (39%)
-           .o:`.syhhhhhhh/.oo++o`      CPU: Intel Core i7 950 @ 8x 3.068GHz
+         `:o+++ `ohhhhhhhhyo++os:      Disk: 1.8T / 8.2T (22%)
+           .o:`.syhhhhhhh/.oo++o`      CPU: Intel Core i7-4790 @ 8x 4GHz [45.0°C]
                /osyyyyyyo++ooo+++/     GPU: NVIDIA GeForce GTX 960
-                   ````` +oo+++o\:     RAM: 4307MiB / 11960MiB
+                   ````` +oo+++o\:     RAM: 3960MiB / 15917MiB
+                          `oo++.  
 </code></pre>
 
 
@@ -1186,6 +1187,23 @@ Alderは5.16から対応が始まっており、Ubuntu 22.04をアップデー�
 sudo apt update
 sudo apt -y install mainline
 </code></pre><p>その後、<code>Ubuntu Mainline Kernel Installer</code>を起動して、使用したいカーネルバージョンを選択すればOKです。</p>
+<p>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+UEFIが有効になっているようなPCでBIOS画面に入りたい
+</h3>
+</div>
+最近、ようやくBootがUEFIなPCにUbuntuを入れることになってハマりそうになったので…</p>
+<p>UEFIなPCにUbuntuを入れて電源を入れるとUEFI BIOSの設定によっては間髪入れずgrubが立ち上がってどうやってBIOSに入るんだこれみたいな感じになりますが、そんなときはこれをすると良いそうな</p>
+<pre tabindex="0"><code>$ sudo systemctl reboot --firmware-setup
+</code></pre><p>これを実行すると再起動して、すぐさまUEFIなBIOSに入れます。(最近のWindowsで言うところの[システム]→[回復]からの[トラブルシューティング]のあれみたいなもんですな)<br>
+めでたしめでたし。<br>
+(なお、poweroffコマンドもrebootコマンドも実体はsystemctlだったりします)</p>
 
 </div>
 
@@ -1215,7 +1233,7 @@ sudo apt -y install mainline
 <script src="https://chromabox.github.io/140m/js/code-title.js"></script>
 
 
-<script src="https://chromabox.github.io/140m/js/jquery-3.3.1.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
 <script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
 <script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
 
