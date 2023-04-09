@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.111.3">
+  <meta name="generator" content="Hugo 0.110.0">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -1204,6 +1204,31 @@ UEFIが有効になっているようなPCでBIOS画面に入りたい
 </code></pre><p>これを実行すると再起動して、すぐさまUEFIなBIOSに入れます。(最近のWindowsで言うところの[システム]→[回復]からの[トラブルシューティング]のあれみたいなもんですな)<br>
 めでたしめでたし。<br>
 (なお、poweroffコマンドもrebootコマンドも実体はsystemctlだったりします)</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gdbでlibなんとかなどの既にインストールされているライブラリのデバッグをしたい
+</h3>
+</div>
+<p>主にプログラムを作る人向けの話です<br>
+ubuntuのデフォルトではgdb（や、そこにつながるvscode）でコードのデバッグをするときに既にインストールされているライブラリの挙動が観たい場合があります。<br>
+そのときにそのライブラリのデバッグシンボル情報が入っていないと、正しく追っかけることができません。<br>
+デフォルトでは入れてくれないので、以下手順で入れます。</p>
+<p>１．デバッグシンボル用の鍵を入れる</p>
+<pre tabindex="0"><code>$ sudo apt install ubuntu-dbgsym-keyring
+</code></pre><p>２．デバッグシンボルのパッケージのダウンロード先をaptに教えるために<code>ddebs.list</code>を追加する</p>
+<pre tabindex="0"><code>$ echo -e &#34;deb http://ddebs.ubuntu.com $(lsb_release -cs) main restricted universe multiverse \ndeb http://ddebs.ubuntu.com $(lsb_release -cs)-updates main restricted universe multiverse \ndeb http://ddebs.ubuntu.com $(lsb_release -cs)-proposed main restricted universe multiverse&#34; |  sudo tee -a /etc/apt/sources.list.d/ddebs.list &gt; /dev/null
+</code></pre><p>３．パッケージリストを更新</p>
+<pre tabindex="0"><code>$ sudo apt update
+</code></pre><p>４．必要なデバッグ対象のライブラリのシンボルを得る(例ではlibcurl4とstdcのデバッグシンボル)</p>
+<pre tabindex="0"><code>$ sudo apt install libcurl4-dbgsym libstdc++6-11-dbg
+</code></pre><p>これでgdbは一応シンボルを探してくれます。</p>
+<p>実は22.04以降ではこれをしなくても<code>Debuginfod</code>というサービスが有効にできて、自動的にシンボルをUbuntuサーバからダウンロードしてくれるという便利機能があるのですが、時々まともに動かずgdbそのものがうんともすんとも言わないことがあるので手動インストールしたほうが無難かな…という感じです。</p>
 
 </div>
 
