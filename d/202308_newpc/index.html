@@ -1,0 +1,944 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.117.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="13年ぶりに新しい自作PCを組んだ話">
+<meta property="twitter:title"          content="13年ぶりに新しい自作PCを組んだ話">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/d/202308_newpc/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="事の経緯 家ではPCでゲームとかしなくなったりPC自作熱も冷めた感じだったので、今までこんな構成のPCを使っていました。 パーツ 名称 CPU Intel Core i7-950 マザ">
+<meta property="twitter:description"    content="事の経緯 家ではPCでゲームとかしなくなったりPC自作熱も冷めた感じだったので、今までこんな構成のPCを使っていました。 パーツ 名称 CPU Intel Core i7-950 マザ">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>13年ぶりに新しい自作PCを組んだ話 | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://mstdn.jp/@chromarock">Mastodon(jp)</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2023-08-16">2023-08-16</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/d/202308_newpc/">13年ぶりに新しい自作PCを組んだ話</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/diary">diary</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/pc">pc</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/windows">windows</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+事の経緯
+</h3>
+</div>
+<p>家ではPCでゲームとかしなくなったりPC自作熱も冷めた感じだったので、今までこんな構成のPCを使っていました。<br>
+
+
+  
+
+
+
+<table  class="table table-dark table-sm  table-hover table-striped table-bordered ">
+<thead>
+<tr>
+<th>パーツ</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>Intel Core i7-950</td>
+</tr>
+<tr>
+<td>マザー</td>
+<td>MSI X58 Pro-E (MS-7522)</td>
+</tr>
+<tr>
+<td>メモリ</td>
+<td>DDR3 1066Mhz 4096MB x 5 = 20GB</td>
+</tr>
+<tr>
+<td>グラボ</td>
+<td>GeForce GTX 560 Ti</td>
+</tr>
+<tr>
+<td>ケース</td>
+<td>CoolerMaster COSMOS (初代)</td>
+</tr>
+<tr>
+<td>電源</td>
+<td>600w(ブロンズだったかな)</td>
+</tr>
+<tr>
+<td>CPUクーラー</td>
+<td>虎徹だったかな？</td>
+</tr>
+<tr>
+<td>ストレージ1</td>
+<td>Crucial SSD 500GB</td>
+</tr>
+<tr>
+<td>ストレージ2</td>
+<td>Westan digital HDD 4TB</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Ubuntu 22.04</td>
+</tr>
+</tbody>
+</table>
+</p>
+<p>はいi7-950です、初代Core-i7です。ネハレム爺でした。。。<br>
+OSは最初Windows Vistaだか7だかを使っていましたが、途中でUbuntuになりました。PCでゲームもしなくなりプライベートでもUbuntuで事足りていたので…。<br>
+Ubuntuだとリモートで色々できるため、皆がコロナでPC買わなきゃとか言ってるテレワーク時代もこれで全然余裕でした(CPUとグラボがしょぼいですが、メモリを20GBも積んでたのが大きかったかなと)。</p>
+<p>電源だけは3年に一度の割合で変えたり、グラボが途中で今のものになったり、HDDを増やしたり減らしたり、システムをHDD→SSDになったりと小幅な変更はありますが…CPUとマザーとメモリは当時構成でしてトータル20〜30万くらいしたかなと…</p>
+<p>COSMOSは当時3万くらいしたと思います。<br>
+当時3万のPCケースはタワー型でも充分に高級でケースにそんなにケースに掛けてどうすんの？という感じでしたが、今となれば3万はミドルタワーかフルだったら普通それくらいするよねみたいな感もあり物価上昇を感じます。<br>
+実はこれにプラスして、COSMOS用ガチ水冷パーツもあったりします。<br>
+<a href="https://akiba-pc.watch.impress.co.jp/hotline/20100130/ni_cagate.html">2010年1月30日号 COOLER MASTER Aquagate Max 限定版(RL-HUB-KBU1-GP-JP)</a><br>
+これ買ったのは良かったのですが、結局この水冷パーツは使わずじまいでずっと押入れの奥で寝ています。。。</p>
+<p>そんなこんなでそろそろ新しいのにしたいなぁと思いつつ今まで「時期が悪い」と言ってノラリクラリと先伸ばしにしていてもう13年経ちました。
+初代i7を使っていたとはHaswellおじさんもこれにはびっくりですね。</p>
+<p>で、こんなPCでは強化学習(AI関連)なんて夢のまた夢でして、強化学習をちょっと腰を据えて勉強しないとマズイなぁ…新しいPC組まないといけないかもなぁ…と思ったりしてるところへ、去年末に「アーマードコア6が2023年に出るぞ〜」という思いもよらぬ吉報が入り、アーマードコアシリーズを1〜3までやっていた自分としては、これはなんとしても綺麗な映像で…PCでやらなきゃだめでしょということで、結局これが心の中の時期が悪いおじさんに「オレはアーマードコア6を綺麗な画面でやりたい！AIも環境揃えて本格的に勉強しないとヤバイ！」とトドメを刺して年初に「2023年はPCを新しく組むぞ！」という硬い思いに至りました。</p>
+<p>PCを1から組むのは13年ぶりと言いましたが、社のマシンはBTOで選んで一個でもオトクなPCを買ってたりと一応最近のPCパーツ類の知識はあるつもりでした。<br>
+でしたって言ってるのはBTOではやはり実際に組んでいないわけで、現状の自作PCのトレンドというか傾向を完全には知らないっていうことです。</p>
+<p>世の中便利になったもので昔は雑誌を買ったりして、パーツは何が良いとかの情報を集めてたわけですが最近は取捨選択こそ必要なものの、Youtubeで情報が割と集まるので良いですね。<br>
+BTOへの発注知識のみと昔の自作PC知識だけではわからなかった部分が多かったです。</p>
+<p>例えばDDR5メモリは適当に買って刺すのは駄目で枚数増やすと速度下がるとか、PMICがメモリ側にあるので相性問題がDDR3とか4より相当きつくなってて、ロットが違ってもPMICや周辺変わってる可能性があるため不味くて、結果メモリをあとから増やそうと思うと枚数追加で増設は難しくメモリそのものを全交換だよとか…<br>
+(だからDDR5構成の場合は最初からある程度覚悟してメモリは多めにしたほうが結果的に無駄がない)</p>
+<p>あとは、PCケースのトレンドも大きく変わってて5インチベイを装備しているのがレアで、CPUや各パーツ(グラボもメモリもそうだし、マザーに生えてるVRMだったりMVNEなSSDだったり…)の発熱が昔とは比べ物にならないため前面吸気でもってファンを回してエアフローを多くして排熱するというのがメジャーになっているというところとかです。<br>
+昔はやった静音ケースも無くはないのですが、やっぱり静音ではどうしても排熱厳しくCPUに電力制限掛けるなど、性能を犠牲にすればできなくもないという感じのようですね。</p>
+<p>Intel CPUもPL1/PL2の概念があって、K付きではないオーバクロックモデルでなくてもまずBIOSの設定を触らないとCPUへの電力が制限されていて言うほど性能がでなくなっていて、この制限を解除するにはそれなりに冷却に気を使ってからBIOSの設定を触って電力制限緩めないと、すぐにサーマルスロットリング発生して性能頭打ちになるか下手したら落ちるとか、VRMフェーズ数の概念とか…まぁいろいろですね。</p>
+<p>ということで、昔ほど「完全に動かない」みたいな罠は無いけど調べないとわからない細かい罠が多いなぁという感じでした。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+今回組んだPC構成
+</h3>
+</div>
+<p>色々考えた挙句こうなりました。今年1月から色々考えに考え今8月なので構想半年以上ですね…</p>
+
+
+  
+
+
+
+<table  class="table table-dark table-sm  table-hover table-striped table-bordered ">
+<thead>
+<tr>
+<th>パーツ</th>
+<th>名称</th>
+<th>価格</th>
+<th>ポイント分</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU</td>
+<td>Intel Core i7 13700</td>
+<td>55,980</td>
+<td>839.7</td>
+</tr>
+<tr>
+<td>マザー</td>
+<td>Asrock Z790 Livemixer</td>
+<td>45,580</td>
+<td>4594.8</td>
+</tr>
+<tr>
+<td>メモリ</td>
+<td>ADATA AD5U480032G-DT DDR5 32GB 2枚組セット(=64GB)</td>
+<td>24,799</td>
+<td>472.99</td>
+</tr>
+<tr>
+<td>グラボ</td>
+<td>RTX 4080 16GB GAMING X TRIO</td>
+<td>188,000</td>
+<td>18268</td>
+</tr>
+<tr>
+<td>ケース</td>
+<td>lian li LANCOOL III RGB</td>
+<td>25,080</td>
+<td>477.01</td>
+</tr>
+<tr>
+<td>電源</td>
+<td>DEEP COOL PX1000G 1000W</td>
+<td>28,980</td>
+<td>552.8</td>
+</tr>
+<tr>
+<td>簡易水冷(CPUクーラー)</td>
+<td>DeepCool LS720</td>
+<td>18,090</td>
+<td>271.35</td>
+</tr>
+<tr>
+<td>MVNE.M2</td>
+<td>WD_Black SN770 (1GB)x2</td>
+<td>19,480</td>
+<td>3734.8</td>
+</tr>
+<tr>
+<td>MVNE.M2</td>
+<td>WD_BLACK SN850X (1GB)x2</td>
+<td>22,500</td>
+<td>337.5</td>
+</tr>
+<tr>
+<td>ストレージ1</td>
+<td>Crucial SSD 500GB</td>
+<td>0(持ち越し)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>ストレージ2</td>
+<td>Westan digital HDD 4TB(持ち越し)</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Windows 11 Pro パッケージ版</td>
+<td>24,101</td>
+<td>2431.01</td>
+</tr>
+<tr>
+<td>CPUグリスクリーナ</td>
+<td>SMZ-CLN</td>
+<td>297</td>
+<td>2.97</td>
+</tr>
+<tr>
+<td>CPUグリス</td>
+<td>OC Master 1g　SMZ-01R-01</td>
+<td>715</td>
+<td>7.15</td>
+</tr>
+</tbody>
+</table>
+
+<p>合計は453,423でした。
+ここから色々楽天ポイント分やクレカのポイント分を換算すると33,860になり、最終的に419,562となりました。<br>
+予想はしていましたがまぁ半分はグラボ代ですよね、、ほんとグラボ高い…</p>
+<p>自分は楽天経済圏に居るので大抵は楽天で揃えました。お陰様でポイントだけでも結構つきました。<br>
+(ポイントで得をしたいと考えるときは出口戦略が必要ですが、ボクは西友で日々の買い物をしているのでそこが優秀な出口として機能します)</p>
+<p>ここのポイント分に「買い周りポイント」は入ってないので実際にはもうちょっとポイントがついてます。<br>
+ただ、今後楽天ポイントも若干改悪というかせこい絞られ方をするっぽいので、やっぱり「PC組むのは今が最も時期が良い」のかもしれませんねぇ。。。</p>
+<p>今(2023年7〜8月)は円安ですがコロナ禍でのPC需要も一巡したということで価格自体がお安くなっており、またGPUやSSDも減産しているのに値下がりが続いていて「本当に大変時期が良い」ということで円安はそこまで進行してなかったけどPC需要逼迫して時期が悪かった1〜2年前に比べたらだいぶお得に組めたかなと(同じような構成で半年前くらいに組もうとすると多分50万超えると思います)</p>
+<p>構成は全てにおいて悩みました…</p>
+<p>当初ケースはそのまま流用しようかなと思ったのですが、今のトレンドは違うので静音設計重視の初代COSMOSではとてもとても…といったところです。<br>
+ただ、この辺は5インチベイと3インチベイを完全排除すればあるいはできなくもないんですが、色々工作が必要で現実的ではないなぁと。<br>
+あと「裏配線」がメジャーになっており、このままだと配線だらけになり排熱しんどい…という感じもありました<br>
+USBもフロントが2.0x4、今は懐かしいIEEE1394もフロントにあるということで、もう変えてもいいよね…といった感じです。</p>
+<p>ということでケースは評判の良いLianliのLANCOOL-IIIにしました。<br>
+何が決めてになったかというと今のトレンドに沿った設計かつよく冷える自由度が高いケースで、360ミリラジエータが難なく組み込めるというところですね。<br>
+モノによってはですが天面420ミリラジエータも行けるということで今後5年のうちにCPU、GPUその他が爆熱方向に行ってもなんとか大丈夫かなと。<br>
+（PC環境は今後も爆熱必至だとボクは思っていて、もしかしたら本格水冷じゃないと間に合わないとか…またはなんか画期的な冷却方が編み出されるとかでまたトレンドが変わったりするかもしれませんけどね）</p>
+<p>マザーはまずDDR4にするか5にするかで悩みました。<br>
+DDR5の値段が下がってきたところと、そのときには相性がどうのこうのと聞いてたので実際に調べて組まないとパソコンの大先生を名乗れないな…と思ったのでちょっと割高なのですがDDR5のにしました。</p>
+<p>実はDDR5が乗るマザーと決めたことで選択肢が増えたのですがPCI-Eの配置とほどほどなVRMフェーズ数、コンデンサの種類と安定性に気を使っているところ、削るところは削っている(DDR5ソケットが金属ではなく樹脂。メモリなんて頻繁に差し替えしないので樹脂で良い)、USBに大変気を使って設計している…という点から●み込●おじさんのボクとしてはそこが大変非常に高印象で、結局ASrock Z790 LiveMixerにしました。</p>
+<p>USBは結構定格守ってないマザボは実のところ多くて悩みの種だったりします。よくあるのが電力不足(電圧降下してんじゃねこれとか…)。<br>
+次くらいに仕様を間違って解釈しとるとか…………。あとはあるケーブルとの組み合わせで駄目とか… <br>
+一時期USBデバイス作っていた身からしたらあんなユニバーサルっていう名前が付いてるUSBでありながらテキトーに作ってるところがほんと多くて、組み●みおじさんのボクはよく泣かされたものです…</p>
+<p>似たような感じでSteel legendもなかなか良かったのですが、派手さと作り手の妙な拘りと価格でLiveMixerになりました。<br>
+ボクは別にゲーム配信とかそういうのはする気がないのですが、ボクはマザーには何より安定性を求めています。<br>
+Intelがまだマザー作っていた頃はIntelマザーしか買わないみたいな時期もありました。</p>
+<p>配信というのは結構色々なところに負荷が掛かる行為でして「配信者向け」ということは安定性を重視しているというところと、＝クリエイティブ方面に強そうという点ですね。</p>
+<p>あと、LiveMixerはBTO採用例も多いですね。<br>
+普通BTOは1円でもやすくするために●●カスタムモデルとかマザーがカスタム仕様になってるのがあったりするわけですが、市販品がそのまま使われているのが珍しいなと。<br>
+自分で構成考えて実際にPCを自作するのは難しくて無理だけど、LiveMixerみたいにUSB大量に積んでて、それこそゲーム実況配信とか動画編集とか確実に安定動作するPC欲しい〜って人は考慮に入れたほうがかなりいいと思います。<br>
+というかボクにもし「ゲーム配信もできるPCがほしいんだけど、どうしたら良い??」って質問がきたら「このBTO買っておけば問題ないよ」みたいなのを上げときます。</p>
+<p>・Dosparaのガレリア配信モデル。13700KF+Geforce RTX4070モデル＋LS520で29.9万(2023年8月現在)とこれはお求めやすいですね。<br>
+簡易水冷もLS520と、今回ボクの構成に入っているLS720の240ミリモデルで、これもかなり冷えると評判のやつです。<br>
+構成がなかなか考えられていて自分で考えて組んでもここまで安くするのは難しいレベルです。<br>
+今回組むにあたってBTOも検討範囲に入れていればボクもこれを選んていたかな？みたいな感じでとてもお求めやすい＆安牌過ぎて、時々品切れになっていますね。<br>
+<a href="https://www.dospara.co.jp/gamepc/galleria-haishin.html">https://www.dospara.co.jp/gamepc/galleria-haishin.html</a></p>
+<p>・サイコムの配信モデルBTO。こちらは13700K+Geforce RTX 4070で35万でAverMediaのキャプチャ付きです。すぐに配信始められそうですね。<br>
+サイコムは細かくパーツを選べてある程度値段と性能のコントロールができるのが良いかなと思います<br>
+<a href="https://www.sycom.co.jp/custom/model?no=000919">https://www.sycom.co.jp/custom/model?no=000919</a></p>
+<p>脱線しましたが、話戻しましてMVNEなSSDは4枚にしました。<br>
+これには理由があって、自分はLinux(Ubuntu)とWindowsをデュアルブートで動かすためこうなっています<br>
+つまりこういう構成にしています。</p>
+<pre tabindex="0"><code>SN850x --- Windows11 Cドライブ
+SN850x --- Ubuntu の root (/)
+SN770 --- Windows11のデータドライブ関連(D:)
+SN770 --- Ubuntuのhome (/home)　データドライブ代わりですね
+</code></pre><p>この他に今まで使っていたSSD500GとHDD4Tを積んでいます。<br>
+どっちかのOSに使うのであればここまでする必要はないんですけど、それぞれ物理的に別に入れたほうがメンテの上でもOS入れ直しの必要が出た場合においても何かと都合が良いのでこうなっています。</p>
+<p>Ubuntuのバージョンは23.04にしていましたが、Linux6.2が22.04.3にもやってきたので後ほどUbuntu 22.04.3を入れ直しています。</p>
+<p>グラボもどれにするか悩みました。<br>
+順当に考えると4070Tiが一番コスパが良いのですが、不人気の4080にしました。<br>
+FHDが普通にストレス無くできるゲーム環境だけならぶっちゃけ4070TIでもオーバスペック気味で、4060でも充分なのですが、生成AI系も触っておかないといけないなぁというのがあってGPUのRAMも必要だろうなぁということで、4080にしました。<br>
+4060TI(16GB)の出方次第ではそっちだったのですが、帯域が残念すぎるのと価格に見合っていない…ということでかつ4080も値段が落ちてきていてまぁこれなら頑張れば行けるかな…という感じで4080にしました。<br>
+ただ、4080といっても各社色々出していて値段も下は17万を切る感じのクロシコのヤツから上は22〜24万と下手したら安い4090に手が届きそうなのまであり、これも結構悩みましたが最終的にMSIのGAMING TRIOに落ち着きました。</p>
+<p>OSはWin11Proのパッケージ版を買いました。<br>
+DSP版のほうが実際安いですが、ライセンス関連で色々悩みたくないし価格差も確か3000円くらいだった気がするので、だったらライセンス的にも緩めのパッケージ版で良いかと。<br>
+ProにしたのはHyper-Vマネージャとリモートデスクトップが便利なので…
+リモートデスクトップクライアントはHomeでもありますが、サーバ(RDPサーバ)はPro版にしか使用できないので…</p>
+<p>ゲームしないんであればWindowsは無視してUbuntuだけで良かったのですが、目的の半分くらいに「アーマードコア6をプレイするPC環境を作る」というのもあるためWindowsOSを入れることとなりました。<br>
+ただ、最近のUbuntuのSteam環境ではWindowsのゲームも結構動き、フロムが作ってるエルデンリングもUbuntuで動くそうなのでアーマードコア6もUbuntuで動くのでは…なんて思ったのですが、悩みに悩んだ末確実性を取りました…</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+実際の様子など
+</h3>
+</div>
+<p>ということで今回は店に行くこともなく(下見はしましたが)、楽天その他で通販しまくったので色々バラバラに届き完成したのが8月の10でした</p>
+<p>LiveMixerは(マザーボード)以下の通り見た目派手ですが、見る人が見ればわかるとおり実直剛健なマザーです。<br>
+見た目派手なのに実は割としっかりしている「おしえて！ ギャル子ちゃん」のギャル子みたいなマザーです。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/part_07.jpg"><img src="data/part_07.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+マザーボードの裏はほとんど見ることがないですが、裏もこんな感じでうまく見せられるケースがあれば映えるんだろうなぁという感じ<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/part_08.jpg"><img src="data/part_08.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+裏のIOパネルはこれだけのUSBポートがあり、MBのピンヘッダのUSBを含むとすごい数になります。<br>
+全部のUSBポートをどうしても表に出したいときはケースを選ぶか、裏のPCI拡張スロットの一つを潰してUSBにする感じじゃないととても使い切れません<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/mb_bp.jpg"><img src="data/mb_bp.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>DDR5メモリ拡大。
+ADATAのこのメモリ(ADATA AD5U480032G-DT [DDR5 PC5-38400])はLiveMixerの動作確認メモリに入っていたので買いました。チップはSK-Hynix製なようです<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/part_15.jpg"><img src="data/part_15.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+DDR5メモリのPMICにも何か文字が書いてありますが謎…<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/part_16.jpg"><img src="data/part_16.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>最終的に組み込んで、裏配線はこうなりました。<br>
+裏配線初めてなので難しいですね。話によるとBTOには裏配線用のマニュアルがあるらしく、この辺も綺麗ですね。
+
+
+
+
+<figure class="figure">
+  <a href="data/part_27.jpg"><img src="data/part_27.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>最終的にこうなりました。普段は光らせないんですが光らせてみるとこんな感じです<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/pc_last01.jpg"><img src="data/pc_last01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>ゲーミングっぽくレインボーに光らせるとこんな感じになります。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/pc_lastmov.gif"><img src="data/pc_lastmov.gif" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>BIOSも派手<br>
+(これはBIOSをアップデートしていない状態だとメモリクロックが4400Mhzと表示されちょっと認識が変でした。BIOSを最新にアップデートしたらメモリクロックが正常になりました)<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/part_30.jpg"><img src="data/part_30.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>新旧ケース比較。前に使っていたのがCOSMOSなだけにこうしてみると「LANCOOL-IIIも意外と小さいな、もっと大きいケースでも良かったかも…」みたいに思ってしまいました。
+
+
+
+
+<figure class="figure">
+  <a href="data/case_01.jpg"><img src="data/case_01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/case_02.jpg"><img src="data/case_02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>あとはベンチ結果などなど…<br>
+全てグラボはデフォルト設定で、CPUは電力制限がPL1/PL2=218W/218Wくらいです。<br>
+Geforceのドライバは安全性を考慮して、531.61のStdioDriverで、Gaming Driverでは無いのでスコアはちょっと落ちるかなと。</p>
+<p>DQベンチはこんな感じで、CPUとグラボは終始20〜30％くらいしか使用しておらず、ファンも唸りもせず遊んでいる感じでした。<br>
+DQベンチごときでは負荷が全然足らないので多分天井なんだろうなぁと…さすがに今後もうDQベンチで測ることはあまりなさそうで時代の流れを感じさせます。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/dqbernch.jpg"><img src="data/dqbernch.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>FFXVベンチはこんな感じでRTX4080積んだシステムの平均値かなと<br>
+さすがにFFベンチはグラボが暇になるとかはありませんでした。95〜99％くらいですね<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/ffbench_hd.jpg"><img src="data/ffbench_hd.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/ffbench_fhd.jpg"><img src="data/ffbench_fhd.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>3DMarkのTimeSpyとFireStrikeのベンチ結果。グラボもCPUもフルに使ってくれます。<br>
+今まで強めのゲーミングPC触ったことがなかったので知りませんでしたが、その都度レンダリングで映画のような綺麗な映像を出してくれるんですね。すごい時代です。<br>
+これも大体4080システムの平均値っぽいですね。<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/3dmark_timespy.jpg"><img src="data/3dmark_timespy.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/3dmark_fire.jpg"><img src="data/3dmark_fire.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>Ubuntu 22.04.3でのSteam上で3Dmarkも試してみました。<br>
+これがとりあえず動いたら他のWindowsゲームも問題なく動くだろうと言う感じですが、何故かTimespyは情報収集中の段階で諦めてしまい動かずでした。。。<br>
+FireStrikeはなんか動いたのでベンチを取ってみましたが、結果は1割〜2割ほど落ちるようです。<br>
+3DMarkのベンチはもともとWindowsアプリなので間にProtonなどのレイヤが挟まっているUbuntuではやっぱり多少オーバヘッドがある感じですね。<br>
+ドライバもLinux用なのでそのへん何か違うのかなというのもあります。(見た目には遅くなってるとかは感じませんでした)<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/3dmark_fire_ubuntu.jpg"><img src="data/3dmark_fire_ubuntu.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+おわりに
+</h3>
+</div>
+新しいPCはやっぱり良いものですね。<br>
+まだそれほどバリバリとは使い込んでなくてアレですが、昔のPCだとchromeを起動すると暫く謎な待ちがあってSSDにしても遅いなぁというのがありました。<br>
+しかし新PCは流石にそんな細かいストレスが全く無く、重たいAdblockが入ったchromeブラウザも一瞬で起動して、本当にキビキビ動きます。</p>
+<p>CPUの世代もあるかもしれませんが、通常のSATAなSSDが遅く感じてしまう時代が来るとは思いもしませんでした。<br>
+社で12世代のi5(i5-12500)は使っているのでそんなに衝撃はなかったんですが、まぁ初代i7ネハレムからラプターまで13世代分の進化というものを見せつけられました。<br>
+しかし、そのi5-12500+M2のPCIe3構成よりもchromeの動作が早い気がします…。<br>
+(これはまぁBTOでしかもリテールクーラだから電力制限緩められないのでそうなんですが…こいつにもあと3000円くらい課金してリテールクーラーじゃなくてAK400くらい装備して電力制限を150〜200wあたりまで緩めたいところです)</p>
+<p>M.2もPCIe4なので、こりゃいろんなコードのビルドも圧倒的に早いんだろうなぁと…。</p>
+<p>あと簡易水冷はやっぱ冷えますね。DeepCool LS720は評判通りの性能でした。<br>
+夏で室温28度くらいなんですが、WebやYoutube閲覧だと30〜35度くらいで涼しい顔してます。<br>
+前のPCだとこれでも50度〜60行ってましたね…(クーラーは虎徹だった気がするんですけど)</p>
+<p>PL1の電力制限を218Wあたりにして使っていますが、Cinebench回しても75度くらいでサーマルスロットリングも発生せずでした。<br>
+流石にちょっと性能過剰な気もしますがさすが360ミリラジエーターは格が違いますね。今思えば240ミリでも足りた気もしますがまぁ…<br>
+無いとは思いますが、CPU足りないと思ってしまいさらに爆熱になりそうな14世代に換装したとしてもこれなら安心できそうです。</p>
+<p>前のCOSMOSケースと違って給排気重視系ケースだったので騒音に関して心配していたのですが、何も設定しないとフロントも強めに回ってて「手動で調整居るかな？」みたいな感じでした。<br>
+ただ、BIOSでなんか「Fan Tuning(ファン最適化)」みたいな項目を押すと自動でいい感じに調整してくれました。冷却にも影響なかったです。便利になったもんですね。<br>
+この自動設定では普段は30〜40デシベル程度とそんなに気にはなりません。</p>
+<p>さすがにCPUがフルで回っているときは唸りあげますが、GPUが95％いってもそんなに気にならない感じで前面吸気が流行ってるのもそういうことだったのかと。</p>
+<p>ということで無事組み上がり大変満足しているわけですが、今まで使用していた古いPCがそのまま余ってしまいました。<br>
+このまま飾っておいても良いわけですが、家はスペースの余裕がもうないのでハードオフに持っていくなりして手放さないとなぁといった感じです。(誰か欲しい人って居るもんですかねぇ…)</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fd%2f202308_newpc%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%2013%e5%b9%b4%e3%81%b6%e3%82%8a%e3%81%ab%e6%96%b0%e3%81%97%e3%81%84%e8%87%aa%e4%bd%9cPC%e3%82%92%e7%b5%84%e3%82%93%e3%81%a0%e8%a9%b1" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/d/202308_newpc/" data-title="140文字以上: 13年ぶりに新しい自作PCを組んだ話" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
