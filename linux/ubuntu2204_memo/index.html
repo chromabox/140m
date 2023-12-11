@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.117.0">
+  <meta name="generator" content="Hugo 0.121.1">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -1231,6 +1231,98 @@ ubuntuのデフォルトではgdb（や、そこにつながるvscode）でコ�
 <pre tabindex="0"><code>$ sudo apt install libcurl4-dbgsym libstdc++6-11-dbg
 </code></pre><p>これでgdbは一応シンボルを探してくれます。</p>
 <p>実は22.04以降ではこれをしなくても<code>Debuginfod</code>というサービスが有効にできて、自動的にシンボルをUbuntuサーバからダウンロードしてくれるという便利機能があるのですが、時々まともに動かずgdbそのものがうんともすんとも言わないことがあるので手動インストールしたほうが無難かな…という感じです。</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+画像をきれいにアップスケールしたい（超解像に特化した機械学習を使ってアップスケール）
+</h3>
+</div>
+<p>小さい画像を手軽にきれいにアップスケールしたいなんてことはよくあるかなと思います。<br>
+そういう場合は、ESRGANの一種の実装であるRealESRGANを入れるのが良いです。<br>
+ESRGANというのは、元々SRGAN(Super-Resolution Generative Adversarial Network)っていう深層学習系のがあって、これは深層学習を利用した超解像＝元画像を強化学習器を使ってできるだけきれいにアップスケールする手法なのですが、それにEがついてEnhanced SRGAN＝ESRGANというわけですな。</p>
+<p>で、RealESRGANは元々Pythonを入れないといけなかったりするのですが、RealESRGANのプロジェクトページには親切にもVulkanさえあれば動くものも用意されています。<br>
+試した所GTX960でも動きました。<br>
+ということでなかなか良さげなのですが、sudo apt では入れられないので以下手順を踏む必要があります。</p>
+<p>１．githubにあるRealesrganのプロジェクトからportable版を落としてくる</p>
+<pre tabindex="0"><code>$ wget realesrgan-ncnn-vulkan-20220424-ubuntu.zip  
+</code></pre><p>２．落としてきたものを解凍</p>
+<pre tabindex="0"><code>$ unzip realesrgan-ncnn-vulkan-20220424-ubuntu.zip
+</code></pre><p>３．ここから<code>realesrgan-ncnn-vulkan</code>に実行権限を付与して、<code>realesrgan-ncnn-vulkan</code>と<code>models</code>を実行パスを指定しているパスへコピー</p>
+<pre tabindex="0"><code>$ chmod +x realesrgan-ncnn-vulkan
+$ cp realesrgan-ncnn-vulkan /usr/local/bin/
+$ cp -r models /usr/local/bin/
+</code></pre><p>以上で使えます。
+こんな感じで使うと良いです<br>
+(例ではsrc.pngを2倍にしてdst.pngを生成します。モデルはアニメビデオに強いrealesr-animevideov3を指定)</p>
+<pre tabindex="0"><code>$ realesrgan-ncnn-vulkan -i src.png -o dest.png -s 2 -n realesr-animevideov3 -v
+MESA-INTEL: warning: Haswell Vulkan support is incomplete
+[0 NVIDIA GeForce GTX 960]  queueC=0[16]  queueG=0[16]  queueT=1[2]
+[0 NVIDIA GeForce GTX 960]  bugsbn1=0  bugbilz=105  bugcopc=0  bugihfa=0
+[0 NVIDIA GeForce GTX 960]  fp16-p/s/a=1/1/0  int8-p/s/a=1/1/1
+[0 NVIDIA GeForce GTX 960]  subgroup=32  basic=1  vote=1  ballot=1  shuffle=1
+[1 llvmpipe (LLVM 15.0.7, 256 bits)]  queueC=0[1]  queueG=0[1]  queueT=0[1]
+[1 llvmpipe (LLVM 15.0.7, 256 bits)]  bugsbn1=0  bugbilz=0  bugcopc=0  bugihfa=0
+[1 llvmpipe (LLVM 15.0.7, 256 bits)]  fp16-p/s/a=1/1/1  int8-p/s/a=1/1/1
+[1 llvmpipe (LLVM 15.0.7, 256 bits)]  subgroup=8  basic=1  vote=1  ballot=1  shuffle=1
+[2 Intel(R) HD Graphics 4600 (HSW GT2)]  queueC=0[1]  queueG=0[1]  queueT=0[1]
+[2 Intel(R) HD Graphics 4600 (HSW GT2)]  bugsbn1=0  bugbilz=0  bugcopc=0  bugihfa=0
+[2 Intel(R) HD Graphics 4600 (HSW GT2)]  fp16-p/s/a=1/0/0  int8-p/s/a=1/0/0
+[2 Intel(R) HD Graphics 4600 (HSW GT2)]  subgroup=32  basic=1  vote=1  ballot=1  shuffle=1
+0.00%
+25.00%
+50.00%
+75.00%
+src.png -&gt; dest.png done
+</code></pre><p>あと、当然なんですが元画像はある程度解像度があったほうがいいです。<br>
+256x256くらいからかなとは思います。</p>
+<p>なお、Realesrganのプロジェクトは以下にあります。<br>
+ソースコードからビルドしたい人はこの辺から<code>git clone</code>すればいいと思います。<br>
+<a href="https://github.com/xinntao/Real-ESRGAN">https://github.com/xinntao/Real-ESRGAN</a><br>
+<a href="https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan">https://github.com/xinntao/Real-ESRGAN-ncnn-vulkan</a></p>
+<p>もし、UbuntuのGUIでお手軽にやりたい場合は「Upscaler」というFlathubのアプリがRealESRGAN-Vulkanを内包しているようなのでそれを使うのがいいと思います。<br>
+普通にソフトウェアから検索したらFlathub版が出てくるのでそれを入れましょう。<br>
+ただし、倍率は4倍固定になってたりFlathub特有の制限があるので、FlatsealでHomeディレクトリを許可するかアクセスできるディレクトリを有効にする必要があります。</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Stable Diffusion Web UI（AUTOMATIC1111）を動かす  
+</h3>
+</div>
+<p>画像生成AIのアレです。<br>
+最近何かと騒がしているStable Diffusionですが、素の実装ではコマンドラインだけだったり簡単には動かしにくいものになっています。<br>
+ということでフロントエンドをかぶせて、ブラウザ上から実行できあたかもGUIアプリとして利用できるようにしたのが、Stable Diffusion Web UI（AUTOMATIC1111）となります。</p>
+<p>Ubuntuでも以前はCUDAライブラリやらcuDNNライブラリを入れたり色々しないとGPUが使えなかったり、Pythonのバージョンを合わせないと動かなかったんですが、最近だとvenvという仮想環境みたいなのをWebUI側が使ってくれるおかげで元のUbuntuの環境を触らずにCUDAもcuDNNも使って動くようになったので素のUbuntuに気軽に入れられるようになりました。<br>
+(わざわざDocker環境を作る必要性も下がりました)</p>
+<p>以下手順で簡単にセットアップできます。(GPUがnvidiaの場合)</p>
+<p>１．GPU用にnvidiaのドライバを入れます。<br>
+さすがに標準で入ってくる「nouveau」ドライバでは動きません。<br>
+nvidiaのドライバを入れる必要があります。<br>
+これは全く難しくなく、「追加のドライバー」で出てくる最新のドライバーでOKです。</p>
+<p>２．Python類を入れ、stable-diffusion-webuiのソースをgithubから取ってくる</p>
+<pre tabindex="0"><code>$ sudo apt install google-perftools python3 python3-pip python3-venv
+$ git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+(必要に応じてTagを変更する。masterは安定版になっているようだ)
+</code></pre><p>３．stable-diffusion-webui/webui-user.shに書かれている以下の表記を、インストール先に変える</p>
+<pre tabindex="0"><code>#install_dir=&#34;/home/$(whoami)&#34;
+</code></pre><p>４．実行</p>
+<pre tabindex="0"><code>cd stable-diffusion-webui
+$ ./webui.sh --listen --port 7860 --allow-code --xformers --enable-insecure-extension-access --api
+</code></pre><p>これで http://0.0.0.0:7860 に接続すればWebUIの画面が出ます。<br>
+初回実行時にroot権限を要求されることすらないので、元のUbuntu環境を変更していないということも解ると思います。<br>
+かなり簡単ですね。</p>
+<hr>
 
 </div>
 
