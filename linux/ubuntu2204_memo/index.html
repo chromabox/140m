@@ -766,8 +766,7 @@ Snap版にしたときは権限設定を忘れずに(ほとんどONでいいと�
 (TeamviewerやWindowsリモートデスクトップのような完全なリモートデスクトップじゃなくて、gnome-remote-desktopは、操作アシスタント的な使い方を想定している…とのことのようです。)<br>
 これなんですが、一応の解決策として<code>extension-manager</code>を入れてから<code>Allow Locked Remote Desktop</code>を入れるという手が使えます。<br>
 これをすると、画面をロックしたりログアウトしてもリモートデスクトップ機能が切れずに受付はされるので活用したいヒトにはかなりの朗報です。</p>
-<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。
-これの説明はとても長くなるのでこちらへ…</p>
+<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。これの説明はとても長くなるのでこちらへ…</p>
 <p>あとは昔からあるXRDPを使うという方法もあります。<br>
 ただ、物理マシンを使うときにリモートがそのまま動いていると入れない（この逆もあり、物理マシンでログインしているとリモートからは同じユーザでログイン不可）とかいう場合が出てきたり、音声がうまく飛んでくれなかったりするのでケースバイケースですね</p>
 <p>2方式の違いをまとめると次のような感じです<br>
@@ -1257,8 +1256,7 @@ ESRGANというのは、元々SRGAN(Super-Resolution Generative Adversarial Netw
 <pre tabindex="0"><code>$ chmod +x realesrgan-ncnn-vulkan
 $ cp realesrgan-ncnn-vulkan /usr/local/bin/
 $ cp -r models /usr/local/bin/
-</code></pre><p>以上で使えます。
-こんな感じで使うと良いです<br>
+</code></pre><p>以上で使えます。こんな感じで使うと良いです<br>
 (例ではsrc.pngを2倍にしてdst.pngを生成します。モデルはアニメビデオに強いrealesr-animevideov3を指定)</p>
 <pre tabindex="0"><code>$ realesrgan-ncnn-vulkan -i src.png -o dest.png -s 2 -n realesr-animevideov3 -v
 MESA-INTEL: warning: Haswell Vulkan support is incomplete
