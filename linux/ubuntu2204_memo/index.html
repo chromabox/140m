@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.121.1">
+  <meta name="generator" content="Hugo 0.117.0">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -482,6 +482,38 @@ libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪�
 
 <div class="content-2-title">
   <h3>
+リカバリーモード(Recovery mode)への入り方
+</h3>
+</div>
+<p>Ubuntuはごくまれにですがグラフィックドライバの更新失敗などなどで、通常のGUIログイン画面が出てこなかったり、そうでなくてもディスクの故障などでこれもやはり通常のGUIで操作ができなくなり困る場面は出てくると思います。<br>
+あとは、Nvidia系のグラフィックボードを入れたのだけどnouvauドライバが対応しておらずGUIにすら入れない状態ですね…</p>
+<p>そういう場合はリカバリーモードで入って、rootシェルでなんとかして復旧させるということをします。<br>
+とりあえずリカバリーモードへの入り方とネットワークの活かし方は以下です。</p>
+<p>１．Grubの画面で「Advanced options for Ubuntu」を選択して、「起動するLinuxバージョン名の後ろに(recovery mode)」のものを選択<br>
+２．しばらくするとメニュー画面が出るので「root」を選択<br>
+３．Ctrl+Dを押すとなんとか…という画面が出るけど、ここでリターンを押してrootシェルに入る<br>
+４. そのままではネットワークが動いておらず何もできんので、とりあえずip linkコマンドでLANインターフェイスの名前を見る(例だとeth0がそれ)</p>
+<pre tabindex="0"><code># ip link
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+</code></pre><p>ここで「DOWN」になっているはずなので以下で復帰させます。<br>
+これでとりあえずネットワークとインターネットが使えるようになって、apt updateなどが使用可能になります<br>
+(これはDHCPがルータにある場合。ない場合はipコマンドでIPAddressを割り振ればOK)</p>
+<pre tabindex="0"><code># ip link set eth0 up
+# dhclient eth0
+# systemctl start systemd-resolved
+</code></pre><p>(余談：昔はrecovery modeでは読み取り専用マウントにされてしまうので、改めて読み書き可にするためのremountをしないといけなかったけど、いつの間にかそれをしなくても良くなったようです)</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
 handbrakeでNVENCが使えない
 </h3>
 </div>
@@ -766,7 +798,8 @@ Snap版にしたときは権限設定を忘れずに(ほとんどONでいいと�
 (TeamviewerやWindowsリモートデスクトップのような完全なリモートデスクトップじゃなくて、gnome-remote-desktopは、操作アシスタント的な使い方を想定している…とのことのようです。)<br>
 これなんですが、一応の解決策として<code>extension-manager</code>を入れてから<code>Allow Locked Remote Desktop</code>を入れるという手が使えます。<br>
 これをすると、画面をロックしたりログアウトしてもリモートデスクトップ機能が切れずに受付はされるので活用したいヒトにはかなりの朗報です。</p>
-<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。これの説明はとても長くなるのでこちらへ…</p>
+<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。
+これの説明はとても長くなるのでこちらへ…</p>
 <p>あとは昔からあるXRDPを使うという方法もあります。<br>
 ただ、物理マシンを使うときにリモートがそのまま動いていると入れない（この逆もあり、物理マシンでログインしているとリモートからは同じユーザでログイン不可）とかいう場合が出てきたり、音声がうまく飛んでくれなかったりするのでケースバイケースですね</p>
 <p>2方式の違いをまとめると次のような感じです<br>
@@ -1256,7 +1289,8 @@ ESRGANというのは、元々SRGAN(Super-Resolution Generative Adversarial Netw
 <pre tabindex="0"><code>$ chmod +x realesrgan-ncnn-vulkan
 $ cp realesrgan-ncnn-vulkan /usr/local/bin/
 $ cp -r models /usr/local/bin/
-</code></pre><p>以上で使えます。こんな感じで使うと良いです<br>
+</code></pre><p>以上で使えます。
+こんな感じで使うと良いです<br>
 (例ではsrc.pngを2倍にしてdst.pngを生成します。モデルはアニメビデオに強いrealesr-animevideov3を指定)</p>
 <pre tabindex="0"><code>$ realesrgan-ncnn-vulkan -i src.png -o dest.png -s 2 -n realesr-animevideov3 -v
 MESA-INTEL: warning: Haswell Vulkan support is incomplete
