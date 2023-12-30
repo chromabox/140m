@@ -1,0 +1,515 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.117.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="Ubuntu 22.04にCUDA開発環境の構築">
+<meta property="twitter:title"          content="Ubuntu 22.04にCUDA開発環境の構築">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/ubuntu2204_cuda/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="個人的にホストとしているUbuntuにCUDA環境を入れるのはあまり好きではなくて、Dockerから使うとかしたかったわけですが、Strea">
+<meta property="twitter:description"    content="個人的にホストとしているUbuntuにCUDA環境を入れるのはあまり好きではなくて、Dockerから使うとかしたかったわけですが、Strea">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>Ubuntu 22.04にCUDA開発環境の構築 | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://mstdn.jp/@chromarock">Mastodon(jp)</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2023-12-30">2023-12-30</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/ubuntu2204_cuda/">Ubuntu 22.04にCUDA開発環境の構築</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>個人的にホストとしているUbuntuにCUDA環境を入れるのはあまり好きではなくて、Dockerから使うとかしたかったわけですが、StreamDiffusionを実行するときにわざわざLD_LIBRARY_PATHするのも面倒だし、もう入れてしまおうと観念してしまい入れました。<br>
+あとはcudaを有効にして機械学習アリのOpenCVライブラリを使う場合にCUDA開発環境を入れておかないとCUDA有効なOpenCVのライブラリをリビルドできないというところですね。。。</p>
+<p>で、入れるのは昔に比べたら相当楽になったわけですが、若干のハマりポイントがあったので備忘録代わりに書いておきます</p>
+<p>関係ない話ですがStreamDiffusionはなかなか夢ありそうですね。<br>
+<a href="https://github.com/cumulo-autumn/StreamDiffusion">https://github.com/cumulo-autumn/StreamDiffusion</a></p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+最新のNvdiaグラフィックドライバのインストール
+</h3>
+</div>
+<p>何もNvidiaのドライバを入れていない状態で入れるのは楽なんですが、現在Ubuntu公式が用意してくれているNVidiaのドライバを使用するのではなく、NVidiaのレポジトリから入れ直す場合はちょっとハマるポイントがあるので次の手順で行います。</p>
+
+
+
+
+<div class="alert alert-warning" role="alert">注意：<br>
+新し目のNvidiaのGPU(RTX4080や4090など)はnouvauが真面目に動かずGUIログイン画面にすらならないので、recovery modeを併用して入れる必要があります。</div>
+<p>1．Nvidia謹製のレポジトリ追加</p>
+<pre tabindex="0"><code>$ wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+$ sudo dpkg -i cuda-keyring_1.1-1_all.deb
+$ sudo apt update
+</code></pre><p>2．「追加のドライバー」などで、nvidiaドライバーから一旦Nouvauドライバーに戻す<br>
+3．再起動<br>
+ここでnouvauモードでXWindowが起動してこない人は、一旦リセットして以下手順でubuntuのrecovery modeに入ります。</p>
+<p>3-1．電源投入後のgrubの画面で「Advanced options for Ubuntu」を選択して、「起動するLinuxバージョン名の後ろに(recovery mode)」のものを選択<br>
+3-2．しばらくするとメニュー画面が出るので「root」を選択<br>
+3-3．Ctrl+Dを押すとなんとか…という画面が出るけど、ここでリターンを押してrootシェルに入る<br>
+3-4. そのままではネットワークが動いておらず何もできんので、とりあえずip linkコマンドでLANインターフェイスの名前を見る(例だとeth0がそれ)</p>
+<pre tabindex="0"><code># ip link
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+</code></pre><p>おそらく「DOWN」になってるので、以下で復帰させる<br>
+これでとりあえずネットワークとインターネットが使えるようになる</p>
+<pre tabindex="0"><code># ip link set eth0 up
+# dhclient eth0
+# systemctl start systemd-resolved
+</code></pre><p>(これはDHCPがルータにある場合。ない場合はipコマンドでIPAddressを割り振ればOK)</p>
+<p>4．とりあえず<code>ubuntu-drivers devices</code>で入れるドライバを決める。<br>
+Recommendedと書いてあるものを入れると良いが2023/12現在は535ドライバが安定版、545ドライバが最新版という位置づけになっているので注意。</p>
+<pre tabindex="0"><code>$ ubuntu-drivers devices
+vendor   : NVIDIA Corporation
+driver   : nvidia-driver-545 - third-party non-free recommended
+driver   : nvidia-driver-525 - third-party non-free
+driver   : nvidia-driver-535-server - distro non-free
+driver   : nvidia-driver-530 - third-party non-free
+driver   : nvidia-driver-535 - third-party non-free
+driver   : nvidia-driver-535-open - distro non-free
+driver   : nvidia-driver-525-open - distro non-free
+driver   : nvidia-driver-535-server-open - distro non-free
+driver   : nvidia-driver-525-server - distro non-free
+driver   : xserver-xorg-video-nouveau - distro free builtin
+</code></pre><p>5．ここでnvidiaドライバを改めて入れる(例では545のドライバ)</p>
+<pre tabindex="0"><code># apt update
+# apt upgrade
+# apt install nvidia-driver-545
+</code></pre><p>6．再起動(<code>update-initramfs -u</code>はドライバインストール中にやっているはずなので要らない)</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+cuda-driverとcudnnのインストール
+</h3>
+</div>
+<p>cudaドライバをまずはインストールする</p>
+<pre tabindex="0"><code>$ sudo apt install cuda-drivers
+</code></pre><p>これをしたら念の為再起動(いらないかもしれない)</p>
+<p>その後</p>
+<pre tabindex="0"><code>$ sudo apt install cuda-toolkit
+</code></pre><p>をしてからcudnnをインストールする</p>
+<pre tabindex="0"><code>$ apt list libcudnn8 -a
+</code></pre><p>とするといろいろなバージョンが出てくる<br>
+何も考えずに</p>
+<pre tabindex="0"><code>$ sudo apt install libcudnn8 libcudnn8-dev libcudnn8-samples
+</code></pre><p>とすると最新が入るので、最新を入れたくない場合はlistの結果を参照してバージョン番号を降ると良い</p>
+<p>パスの設定やLD_LIBRARYの設定はやってくれないので<code>.bashrc</code>に以下追加</p>
+<pre tabindex="0"><code>export PATH=&#34;/usr/local/cuda/bin${PATH:+:${PATH}}&#34;
+export LD_LIBRARY_PATH=&#34;/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}&#34;
+export CUDA_PATH=/usr/local/cuda
+</code></pre><p>追加したらコマンドプロンプトをもう一枚立ち上げてnvcc（cudaコンパイラ）が動くか以下確認<br>
+こう出れば多分OK</p>
+<pre tabindex="0"><code>$ nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2023 NVIDIA Corporation
+Built on Fri_Nov__3_17:16:49_PDT_2023
+Cuda compilation tools, release 12.3, V12.3.103
+Build cuda_12.3.r12.3/compiler.33492891_0
+</code></pre><p>なお、これで入るcuda類は<code>/usr/local</code>以下に入ります<br>
+<code>/usr/local/cuda</code>は<code>/etc/alternatives/cuda/</code>にリンクされていて、バージョンを古いのにしたいとかだと例によって<code>update-alternatives</code>で変更が可能だと思われます</p>
+<pre tabindex="0"><code>sudo update-alternatives --config cuda
+</code></pre><p>なお、<code>sudo apt upgrade</code>をすると漏れなくアップデートされてしまうことになるので、バージョンを止めたい時は<code>/etc/apt/sources.list.d/cuda-ubuntu2204-x86_64.list</code>のエントリーを以下のようにコメントアウトすること。</p>
+<pre tabindex="0"><code># deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/ /
+</code></pre>
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fubuntu2204_cuda%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20Ubuntu%2022.04%e3%81%abCUDA%e9%96%8b%e7%99%ba%e7%92%b0%e5%a2%83%e3%81%ae%e6%a7%8b%e7%af%89" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/linux/ubuntu2204_cuda/" data-title="140文字以上: Ubuntu 22.04にCUDA開発環境の構築" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
