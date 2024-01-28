@@ -1329,7 +1329,7 @@ src.png -&gt; dest.png done
 
 <div class="content-2-title">
   <h3>
-Stable Diffusion Web UI（AUTOMATIC1111）を動かす  
+Stable Diffusion Web UI（AUTOMATIC1111,A1111）を動かす  
 </h3>
 </div>
 <p>画像生成AIのアレです。<br>
@@ -1349,11 +1349,85 @@ $ git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 </code></pre><p>３．stable-diffusion-webui/webui-user.shに書かれている以下の表記を、インストール先に変える</p>
 <pre tabindex="0"><code>#install_dir=&#34;/home/$(whoami)&#34;
 </code></pre><p>４．実行</p>
-<pre tabindex="0"><code>cd stable-diffusion-webui
+<pre tabindex="0"><code>$ cd stable-diffusion-webui
 $ ./webui.sh --listen --port 7860 --allow-code --xformers --enable-insecure-extension-access --api
 </code></pre><p>これで http://0.0.0.0:7860 に接続すればWebUIの画面が出ます。<br>
 初回実行時にroot権限を要求されることすらないので、元のUbuntu環境を変更していないということも解ると思います。<br>
 かなり簡単ですね。</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ComfyUIを動かす  
+</h3>
+</div>
+<p>画像生成AIのアレその２です。<br>
+ローカル画像生成AI界隈（？）で定番のアプリはおおよそAutomatic 1111 WebUIとComfyUIで二分しており、片割れのほうになります<br>
+Automatic 1111(以後A1111とします)がダイアログのようなページのような普通に考えそうなGUIに対して、ComfyUIは機能ごとに箱があってそれらに線をつなげて（ノード）実現していくというような、よくあるノードベースのGUIになっています。</p>
+<p>ノードベースということで、やや上級者向けになっています。<br>
+PythonでDiffuserを直接触って実行することを考えるとノードをGUIでつなげて色んな機能を実現できるわけで、生成が極まってくるとこちらのほうが良い…ということもあり、生成AIの仕組みの学習用途だとこちらのほうがいいのかもしれません。</p>
+<p>ノードをプログラミングでいう「関数」と例えると、実質Stablediffusion用のノーコードツールとして捉えることができるかなと思います。</p>
+<p>インストール手順はA1111より若干手数がかかります(以下はGPUがnvidiaの場合)</p>
+<p>１．GPU用にnvidiaのドライバを入れます。<br>
+この辺はA1111と同じなので略</p>
+<p>２．Python類を入れる、<br>
+この辺はA1111と同じなので略</p>
+<p>３．ComfyUIのソースをgithubから取ってくる</p>
+<pre tabindex="0"><code>$ git clone https://github.com/comfyanonymous/ComfyUI.git
+</code></pre><p>ComfyUIはA1111とは違い常に最新版を使うことが推奨されています<br>
+なにか問題があれば自分でgitを使って手戻りしないと行けないかもしれませんが、そのあたりはきっちり管理されてるようで基本そんなことは無いかなといった感じです</p>
+<p>４．venv環境の設定と依存パッケージをvenv環境に入れる<br>
+A1111はこの辺を自動でやてくれますが、ComfyUIは自分でする必要があります。
+以下のようにするとOK</p>
+<pre tabindex="0"><code>$ cd ComfyUI
+$ python3 -m venv ./venv 
+$ source venv/bin/activate
+$ pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+$ pip install -r requirements.txt
+$ deactivate
+</code></pre><p>まずvenvの環境をComfyUI/venvに作ってそこにComfyUIで使うためだけのPytorchなど色々入れています。<br>
+venvの環境で行うため、ホストUbuntuの環境を汚さなくてすみます。<br>
+UbuntuはPythonで他のアプリなんかにも使われていることが結構あるので、野良のものを入れる場合はできるだけvenv環境下でやったほうがいいでしょう。<br>
+venv環境から抜ける場合は<code>deactivate</code>で抜けます。</p>
+<p>５．実行<br>
+venv環境に入ってから実行です。A1111だとあちらが用意してくれているシェルスクリプトで一発で動きますが、ComfyUIはひと手間かける必要があります</p>
+<pre tabindex="0"><code>$ cd ComfyUI
+$ source venv/bin/activate
+$ python main.py --listen
+</code></pre><p>これで http://0.0.0.0:8188 に接続すればComfyUIの画面が出ます。</p>
+<p>・拡張機能マネージャ（ComfyUI-Manager）の入れ方</p>
+<p>ワークフロー(ノードのつなぎかたのレシピなど)は公開されているのですが、たいていの場合はなんらかの拡張機能が使われていてそのままでは使えないパターンが多いです。<br>
+人のワークフローから使用されている拡張機能を探してgit cloneで取ってきて…となるとかなり面倒な作業になるのでComfyUI用の拡張機能マネージャこと「ComfyUI-Manager
+」を入れることが推奨されています。</p>
+<p>以下手順で入れます</p>
+<pre tabindex="0"><code>$ cd ComfyUI/custom_nodes
+$ git clone https://github.com/ltdrdata/ComfyUI-Manager.git
+</code></pre><p>Cloneできたら、ComfyUIをCtrl+Cなんかで終了させて再起動します。<br>
+画面右端のバーに「Manager」の項目ができるのでそこから拡張機能をインストールしたり、足りない拡張機能をインストールすることができます。</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+メニューやランチャーに登録されていないアプリやコマンドを登録して使えるようにする
+</h3>
+</div>
+<p>自作のGUIアプリとか、githubから持ってきて自分でビルドしたGUIアプリなんかはコンソールから実行しないといけないのですが、Ubuntuの標準ではそういったアプリをランチャーに登録していく機能がないので頻繁に実用していく場合はちょっと面倒な場合があります</p>
+<p>一応対処法はあって、こういう場合は前まではdesktopエントリの設定ファイルを作ってエディタなどで編集する必要がありましたが、<code>alacarte</code>を入れると簡単にGUIで編集できるようになりました<br>
+しかしまあ標準機能では入ってないのが謎ですね</p>
+<pre tabindex="0"><code>$ sudo apt install alacarte
+</code></pre><p>あとはランチャーに「メイン・メニュー」というアプリが登録されるのでそれを実行して追加していけば良いかと思います<br>
+これ何気に必須級かもしれませんねぇ。。。<br>
+なおシェルスクリプトだけのものも登録していけるのでその点でも便利です</p>
 <hr>
 
 </div>
