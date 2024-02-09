@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.117.0">
+  <meta name="generator" content="Hugo 0.122.0">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -300,7 +300,7 @@ audio {
       <p>
         <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
         <a href="https://github.com/chromabox">github</a>,
-		    <a rel="me" href="https://mstdn.jp/@chromarock">Mastodon(jp)</a>,
+		    <a rel="me" href="https://bsky.app/profile/chromarock.bsky.social">bluesky</a>,
 		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
 		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
         <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
@@ -370,8 +370,7 @@ audio {
 * リポジトリは侵害されませんでした
 * リポジトリ自体ではなく、複製されたリポジトリに悪意のあるコードが投稿された
 * クローンは隔離され、GitHub またはメンテナー アカウントの明らかな侵害はありませんでした
-</code></pre><p>参考：
-<a href="https://twitter.com/GitHubSecurity/status/1554843443200806913">github securityの当時のツイート</a></p>
+</code></pre><p>参考：<a href="https://twitter.com/GitHubSecurity/status/1554843443200806913">github securityの当時のツイート</a></p>
 <p>これはgitを使っているとそのうち気がつくことですが、コミットユーザはgit configでのユーザ名とメールアドレスのみで<strong>コミットした人が真にその人だよという証明</strong>はしているわけではないんです。<br>
 つまり、簡単になりすましが出来てしまうんですよね。<br>
 しかしこれはgitの仕様といえば仕様です。</p>
@@ -399,8 +398,7 @@ gpgで署名用の鍵ペアを作る
 アルゴリズムはRSAやNIST P-XXXでもいいのですが、もうEd25519が通らないようなOSなりアーキテクチャはあまり無いと思いますので…</p>
 <p>gpgは鍵自身の「証明」用鍵をまず作ってから(＝主鍵)、用途ごとに副鍵を作るのが良いとされています。<br>
 今回はそのようにします。</p>
-<p>ということでまず主鍵の生成。
-ここでは「証明」以外の機能は持たせないので、「Certify」のみとするのがポイント<br>
+<p>ということでまず主鍵の生成。ここでは「証明」以外の機能は持たせないので、「Certify」のみとするのがポイント<br>
 あと、Ed25519は楕円曲線(ECC)系なので&ndash;expertをつけないと出てこない場合があります。<br>
 主鍵を作る途中で主鍵に設定するパスワードを聞かれます</p>
 <pre tabindex="0"><code>$ gpg --full-gen-key --expert

@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.117.0">
+  <meta name="generator" content="Hugo 0.122.0">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -300,7 +300,7 @@ audio {
       <p>
         <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
         <a href="https://github.com/chromabox">github</a>,
-		    <a rel="me" href="https://mstdn.jp/@chromarock">Mastodon(jp)</a>,
+		    <a rel="me" href="https://bsky.app/profile/chromarock.bsky.social">bluesky</a>,
 		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
 		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
         <a href="https://www.amazon.jp/hz/wishlist/ls/2IWGNZS26U41G?ref_=wl_share">ほしいものリスト</a>,
@@ -544,8 +544,7 @@ USB3接続になっていてこれをRaspberry PIのUSB3に接続するという
 
 
 <br>
-つまりこれはRaspberryの基板上にあるTP（テストポイント）からピン経由で電気を取っているということになります。
-本来TPは検査用に使うわけでその発想はなかった…しかしそれでええんか…みたいな感じなんですが、まぁ動いているのできっちりネジ止めしてズレなきゃ大丈夫だろうということです…
+つまりこれはRaspberryの基板上にあるTP（テストポイント）からピン経由で電気を取っているということになります。本来TPは検査用に使うわけでその発想はなかった…しかしそれでええんか…みたいな感じなんですが、まぁ動いているのできっちりネジ止めしてズレなきゃ大丈夫だろうということです…
 （出来れば直接X735とのワイヤー接続方法も残してほしかったけど）</p>
 <p>ということで、装着するとこうなってTPと接触して電源供給するという感じですね<br>
 
@@ -559,8 +558,7 @@ USB3接続になっていてこれをRaspberry PIのUSB3に接続するという
 
 
 </p>
-<p>一つ注意点として、X825はWifi2G帯と干渉してしまうようで、Wifi 2GHz帯でRaspberryPIを使いたい人には向いていないです。
-このようなことが書かれておりました
+<p>一つ注意点として、X825はWifi2G帯と干渉してしまうようで、Wifi 2GHz帯でRaspberryPIを使いたい人には向いていないです。このようなことが書かれておりました
 
 
 
@@ -582,8 +580,7 @@ xxx@xxxx:~$ lsusb -t
     |__ Port 2: Dev 2, If 0, Class=Mass Storage, Driver=uas, 5000M　←これ
 /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/1p, 480M
     |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/4p, 480M
-</code></pre><p>480Mじゃなくて5000M認識は一応しているので、この辺は問題ない感じですね。
-<code>uas</code>と出ているのでuasに対応しているのもわかるかと思います。(これが<code>usb-storage</code>だったら遅いらしい)</p>
+</code></pre><p>480Mじゃなくて5000M認識は一応しているので、この辺は問題ない感じですね。<code>uas</code>と出ているのでuasに対応しているのもわかるかと思います。(これが<code>usb-storage</code>だったら遅いらしい)</p>
 <p>一つ残念な部分としてはTrimに対応をしていないところですね<br>
 中についている<code>ASMedia 1153E</code>のfirmwareを新しくすれば良い…らしいのですが、肝心のファームがどこにあるかわからず、しかもファームを更新して文鎮化するかもしれないということで…気になるようであれば時々SSDを外してやって定期的にTrim対応している外付ケース、もしくは普通にPCのマザーに取り付けてTrimするしかないかな…と言った感じです</p>
 
@@ -704,8 +701,7 @@ ACアダプダーについて
 
 
 <br>
-ヒートシンクのありなしで5度変わってくるので、ヒートシンクはやっぱり付けておいたほうがよさそうです。
-ヒートシンクは200円ですからね</p>
+ヒートシンクのありなしで5度変わってくるので、ヒートシンクはやっぱり付けておいたほうがよさそうです。ヒートシンクは200円ですからね</p>
 <p>SSDに負荷を掛けても落ちたり変な挙動することはなく、極めて安定しています。<br>
 重い処理をさせても安定はしているので、このへんでコスト掛ける価値はあったなと。<br>
 SSDキットも正しく認識しており、PWMファンもちゃんと動作しており、スクリプトの組み方にもよりますが温度変化があれば回転数も追従出来て普段は静か（最高回転でもそんなに気になりませんが）非常に良いです。</p>
