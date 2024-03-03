@@ -1,0 +1,608 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.117.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="curlを簡単に使うC&#43;&#43;ライブラリ(libcurlxx)を作った">
+<meta property="twitter:title"          content="curlを簡単に使うC&#43;&#43;ライブラリ(libcurlxx)を作った">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/d/20240303/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="c&#43;&#43;でHttpの通信をしようと思うとなかなかにめんどくさくて、毎回CurlというHttp通信などに特化したライブラリを使うわけですが、Cu">
+<meta property="twitter:description"    content="c&#43;&#43;でHttpの通信をしようと思うとなかなかにめんどくさくて、毎回CurlというHttp通信などに特化したライブラリを使うわけですが、Cu">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>curlを簡単に使うC&#43;&#43;ライブラリ(libcurlxx)を作った | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://bsky.app/profile/chromarock.bsky.social">bluesky</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.co.jp/hz/wishlist/ls/23TQMSM3EB8EA">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2024-03-03">2024-03-03</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/d/20240303/">curlを簡単に使うC++ライブラリ(libcurlxx)を作った</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/diary">diary</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>c++でHttpの通信をしようと思うとなかなかにめんどくさくて、毎回CurlというHttp通信などに特化したライブラリを使うわけですが、CurlはC言語で書かれておりC++で使おうと思ったらなんからのクラスでラッピングしてやる必要があります。<br>
+さすがにCurlなんて超有名なライブラリはすでにC++のラッピングクラスの実装があったりするのですが、どうもなんかしっくり来なかったり、Modern C++じゃなかったりなのでこれを期に自分で作りました。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+使い方など
+</h3>
+</div>
+<p>Githubにすでにリポジトリは作っていまして、つまりここをみたほうが早いです<br>
+<a href="https://github.com/chromabox/libcurlcxx">https://github.com/chromabox/libcurlcxx</a></p>
+<p>httpのPostならこのように簡単に記述できます</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;memory&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_cdtor.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_mime.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_http_req.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_utility.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_error.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_cdtor</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_stringstream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_utility</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_exception</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_mime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_http_request</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_http_request_param</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用の際はこれの定義が必要
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_cdtor</span> <span class="n">_libcurl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 引数付きGETリクエストサンプル
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">string_view</span> <span class="n">url</span><span class="p">(</span><span class="s">&#34;https://httpbin.org/post&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">curl_http_request</span> <span class="n">req</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">curl_base_stringstream</span><span class="o">&gt;</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// POSTとして投げるデータを設定。
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// 文字列だけならcurl_http_request_paramを使ったほうが楽
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">curl_http_request_param</span> <span class="n">para</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">para</span><span class="p">[</span><span class="s">&#34;name&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;aaa&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">para</span><span class="p">[</span><span class="s">&#34;pass&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;psps&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">req</span><span class="p">.</span><span class="n">RequestSetupPost</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">para</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_base_exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// エラー内容表示
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;url: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_url</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">req</span><span class="p">.</span><span class="n">perform</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_base_exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// エラー内容表示
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// httpコード取得
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">get_responceCode</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;htto code error &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_responceCode</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_ContentString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Mastodonのタイムラインを読むとかだとこんな感じです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;memory&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_cdtor.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_http_req.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_utility.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;curlcxx_error.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_cdtor</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_stringstream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_utility</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_exception</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_mime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_http_request</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_http_request_param</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用の際はこれの定義が必要
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="n">libcurlcxx</span><span class="o">::</span><span class="n">curl_base_cdtor</span> <span class="n">_libcurl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// mastodonのPublicタイムライン取得用エンドポイント
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="k">constexpr</span> <span class="n">std</span><span class="o">::</span><span class="n">string_view</span> <span class="n">mastodon_fetch_public_endpoint</span><span class="p">(</span><span class="s">&#34;/api/v1/timelines/public&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 接続したいサーバをここに書く
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="k">constexpr</span> <span class="n">std</span><span class="o">::</span><span class="n">string_view</span> <span class="n">mastodon_server</span><span class="p">(</span><span class="s">&#34;https://mstdn.jp&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Mastdonのサーバからタイムライン取得
+</span></span></span><span class="line"><span class="cl"><span class="c1">// surl: 対象サーバ
+</span></span></span><span class="line"><span class="cl"><span class="c1">// local: ローカル限定かどうか。
+</span></span></span><span class="line"><span class="cl"><span class="c1">//    true  : ローカルタイムライン(LTL)取得
+</span></span></span><span class="line"><span class="cl"><span class="c1">//    false : 連合タイムライン(GTL)取得
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">mastodon_fetch_public</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span> <span class="n">surl</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">local</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">curl_http_request</span> <span class="n">req</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">curl_base_stringstream</span><span class="o">&gt;</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">url</span><span class="p">(</span><span class="n">surl</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">url</span> <span class="o">+=</span> <span class="n">mastodon_fetch_public_endpoint</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">curl_http_request_param</span> <span class="n">para</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">local</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">para</span><span class="p">[</span><span class="s">&#34;local&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;true&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">para</span><span class="p">[</span><span class="s">&#34;local&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;false&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//  para[&#34;limit&#34;] = &#34;2&#34;;				// limitをつけると取得数制限できる
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">	<span class="n">req</span><span class="p">.</span><span class="n">appendHeader</span><span class="p">(</span><span class="s">&#34;User-Agent: curl/7.81.0&#34;</span><span class="p">);</span>		<span class="c1">// UAを指定しないと403になる
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">req</span><span class="p">.</span><span class="n">RequestSetupGet</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">para</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;url: &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_url</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;contacting mastodon..... &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">req</span><span class="p">.</span><span class="n">perform</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">curl_base_exception</span> <span class="o">&amp;</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// 何らかのHTTPS的な失敗をした場合はここでエラー内容表示して終わり
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// httpコード取得
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">get_responceCode</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;http code error &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_responceCode</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;raw message:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_ContentString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="n">get_ContentType</span><span class="p">().</span><span class="n">find</span><span class="p">(</span><span class="s">&#34;application/json&#34;</span><span class="p">)</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// JSONではない。何らかのエラーである
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;mastodon request error : &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_ContentString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">req</span><span class="p">.</span><span class="n">get_ContentString</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">ret</span> <span class="o">=</span> <span class="n">mastodon_fetch_public</span><span class="p">(</span><span class="n">mastodon_server</span><span class="p">,</span> <span class="nb">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Json解析部分は省いています。全文はこちら<br>
+<a href="https://github.com/chromabox/libcurlcxx/blob/master/sample/mastodon_public_read.cpp">https://github.com/chromabox/libcurlcxx/blob/master/sample/mastodon_public_read.cpp</a></p>
+<p>blueskyでも似たような感じですが、流石に長くなるのでこちらを見てください。<br>
+blueskyは認証しないと読めないので、そのへんの処理がちょっとありますね<br>
+<a href="https://github.com/chromabox/libcurlcxx/blob/master/sample/bluesky_timeline_read.cpp">https://github.com/chromabox/libcurlcxx/blob/master/sample/bluesky_timeline_read.cpp</a></p>
+<p>外部のプロジェクトで使いたいとかのサンプルはこちらになります。<br>
+cmakeを導入していると簡単に導入できます。<br>
+<a href="https://github.com/chromabox/libcurlcxx_sample">https://github.com/chromabox/libcurlcxx_sample</a></p>
+<p>ビルドに関して言えば、cmakeがシステムに入っていれば簡単にできます。<br>
+一応現状はUbuntuのみ確認というか対応していまして、まだWindowsでの確認はしていませんが多分Mingwでビルドすればできるんじゃないかなと思います。<br>
+(Windows環境の場合、curl本体のビルドの段階でssl関連がどうなるかちょっとわかりませんが…おいおい手順を載せて対応しましたと言えたらよいなと…)</p>
+<p>Curlは結構色々対応しているライブラリでさすがにこれ全部ラッピングはしていません。<br>
+とりあえず自分が使いそうな機能をラッピングしています。<br>
+今後なにか自分が必要に迫られたら実装というかそんな感じですね<br>
+(websocketはまだ無いんですが、blueskyで使っているらしい？ので、そのうち実装すると思います)</p>
+<p>Modern C++と言っておきながら、C++は本当に難しくちょっと自信がない部分もあるんですがCurlのハンドル等をスマートポインタで管理したりなどして一応モダンにしたつもりです<br>
+普段あまりしないlinter(cpplint)も通して読みやすくはしています<br>
+殆ど自分用に作ったわけですが、もしよろしければ使ってくださいということで……</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+おしらせ
+</h3>
+</div>
+<p>明日3/4はボクの誕生日です<br>
+普段は他人様におねだりするのは良くないと思っているのですが、誕生日だけは古事記をしてもいいというルールがあるのでちょっとフライングですが、Amazonの欲しい物リスト貼っておきます</p>
+<p>最近はPythonにも興味があり、本を蒐集しております。皆様何卒よろしくおねがいします<br>
+<a href="https://www.amazon.co.jp/hz/wishlist/ls/23TQMSM3EB8EA">https://www.amazon.co.jp/hz/wishlist/ls/23TQMSM3EB8EA</a></p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fd%2f20240303%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20curl%e3%82%92%e7%b0%a1%e5%8d%98%e3%81%ab%e4%bd%bf%e3%81%86C%2b%2b%e3%83%a9%e3%82%a4%e3%83%96%e3%83%a9%e3%83%aa%28libcurlxx%29%e3%82%92%e4%bd%9c%e3%81%a3%e3%81%9f" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/d/20240303/" data-title="140文字以上: curlを簡単に使うC&#43;&#43;ライブラリ(libcurlxx)を作った" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
