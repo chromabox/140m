@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.117.0">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -292,7 +292,7 @@ audio {
   
   
   <div id="btitle" class="btitle">
-    <h3><a href="https://chromabox.github.io/140m/">140文字以上</a></h3>
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
   </div>
   <div id="bstitle" class="bstitle">
     <h4>
@@ -798,7 +798,8 @@ Snap版にしたときは権限設定を忘れずに(ほとんどONでいいと�
 (TeamviewerやWindowsリモートデスクトップのような完全なリモートデスクトップじゃなくて、gnome-remote-desktopは、操作アシスタント的な使い方を想定している…とのことのようです。)<br>
 これなんですが、一応の解決策として<code>extension-manager</code>を入れてから<code>Allow Locked Remote Desktop</code>を入れるという手が使えます。<br>
 これをすると、画面をロックしたりログアウトしてもリモートデスクトップ機能が切れずに受付はされるので活用したいヒトにはかなりの朗報です。</p>
-<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。これの説明はとても長くなるのでこちらへ…</p>
+<p>ただし、セキュリティには気をつけておかないといけないので、最低でもufwでポートを締めてsshと鍵認証でガッチリ固めておきましょう。
+これの説明はとても長くなるのでこちらへ…</p>
 <p>あとは昔からあるXRDPを使うという方法もあります。<br>
 ただ、物理マシンを使うときにリモートがそのまま動いていると入れない（この逆もあり、物理マシンでログインしているとリモートからは同じユーザでログイン不可）とかいう場合が出てきたり、音声がうまく飛んでくれなかったりするのでケースバイケースですね</p>
 <p>2方式の違いをまとめると次のような感じです<br>
@@ -1288,7 +1289,8 @@ ESRGANというのは、元々SRGAN(Super-Resolution Generative Adversarial Netw
 <pre tabindex="0"><code>$ chmod +x realesrgan-ncnn-vulkan
 $ cp realesrgan-ncnn-vulkan /usr/local/bin/
 $ cp -r models /usr/local/bin/
-</code></pre><p>以上で使えます。こんな感じで使うと良いです<br>
+</code></pre><p>以上で使えます。
+こんな感じで使うと良いです<br>
 (例ではsrc.pngを2倍にしてdst.pngを生成します。モデルはアニメビデオに強いrealesr-animevideov3を指定)</p>
 <pre tabindex="0"><code>$ realesrgan-ncnn-vulkan -i src.png -o dest.png -s 2 -n realesr-animevideov3 -v
 MESA-INTEL: warning: Haswell Vulkan support is incomplete
@@ -1380,7 +1382,8 @@ PythonでDiffuserを直接触って実行することを考えるとノードを
 </code></pre><p>ComfyUIはA1111とは違い常に最新版を使うことが推奨されています<br>
 なにか問題があれば自分でgitを使って手戻りしないと行けないかもしれませんが、そのあたりはきっちり管理されてるようで基本そんなことは無いかなといった感じです</p>
 <p>４．venv環境の設定と依存パッケージをvenv環境に入れる<br>
-A1111はこの辺を自動でやてくれますが、ComfyUIは自分でする必要があります。以下のようにするとOK</p>
+A1111はこの辺を自動でやてくれますが、ComfyUIは自分でする必要があります。
+以下のようにするとOK</p>
 <pre tabindex="0"><code>$ cd ComfyUI
 $ python3 -m venv ./venv 
 $ source venv/bin/activate

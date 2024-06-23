@@ -4,7 +4,7 @@
   <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="generator" content="Hugo 0.125.4">
+  <meta name="generator" content="Hugo 0.117.0">
   
   
 <meta property="og:site_name"           content="140文字以上">
@@ -292,7 +292,7 @@ audio {
   
   
   <div id="btitle" class="btitle">
-    <h3><a href="https://chromabox.github.io/140m/">140文字以上</a></h3>
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
   </div>
   <div id="bstitle" class="bstitle">
     <h4>
@@ -398,7 +398,8 @@ Windowsな人はここからImagerを落とすのが吉。<br>
   <h3>
 UbuntuのOSイメージコピー後、初回電源投入前にするべきこと
 </h3>
-</div><code>Raspberry Pi Imager</code>はどうやってユーザ設定をしているのかな？みたいなことを思うでしょうが、現在は<code>cloud-init</code>という仕組みを使って初回電源投入前の初期設定が行えます。<br>
+</div>
+<code>Raspberry Pi Imager</code>はどうやってユーザ設定をしているのかな？みたいなことを思うでしょうが、現在は<code>cloud-init</code>という仕組みを使って初回電源投入前の初期設定が行えます。<br>
 本当に良い時代になりました。(何度目だ)<br>
 <code>cloud-init</code>はその名の通り、最初の電源投入の後に一回だけ実行されるスクリプトのようなものです。よって再起動時に再び動くことはない…という感じです<br>
 （もともとは似たようなインスタンスを作りまくるクラウド環境で「毎回毎回手で初期設定するのも面倒だしこれなんとかならんか？」みたいな感じで作られていったそうです）</p>
@@ -408,7 +409,8 @@ UbuntuのOSイメージコピー後、初回電源投入前にするべきこと
 初回起動時にファイルシステムをうまい感じにリサイズするのもこいつが内部的に行っています(resize2fs)。<br>
 またDHCPで好きなIPアドレスを振るのが出来ない環境で、最初から固定IPを設定したいとかそういうことが出来たりします。</p>
 <p>ubuntuでのraspberry piはsystem-bootパーティションに<code>user-data</code>と<code>network-config</code>が入っています。</p>
-<p>このうち、<code>user-data</code>は設定したいユーザとパスワードなどの設定、sshdの設定、初期のロケール設定などなど…他色々細かいことが出来ます。<code>network-config</code>はLANやWifiの初期設定です。<br>
+<p>このうち、<code>user-data</code>は設定したいユーザとパスワードなどの設定、sshdの設定、初期のロケール設定などなど…他色々細かいことが出来ます。
+<code>network-config</code>はLANやWifiの初期設定です。<br>
 よって、パソコンでsystem-bootをマウントし、これらのファイルを編集していけばよく、同じようなUbuntu-Raspberryを複数台用意しなければならない場合はこの設定の「決定版」を作ってこれだけを保管しておけば展開も楽！ということになります。<br>
 なんかdockerの<code>Dockerfile</code>みたいですね。</p>
 <p>話を戻して、パスワード指定で入る場合の<code>user-data</code>はこうなっていると思います</p>
@@ -450,7 +452,8 @@ package_upgrade: true
 </code></pre><p><code>packages</code>エントリを使うと、インターネットからパッケージを入れてくれます。</p>
 <pre tabindex="0"><code>packages:
 - vim
-</code></pre><p>ボクはルータのDHCPでMACアドレスをみて固定IPを振るので変更していませんが、IPを固定させたい場合などは<code>network-config</code>を変更します。以下は固定IP例です</p>
+</code></pre><p>ボクはルータのDHCPでMACアドレスをみて固定IPを振るので変更していませんが、IPを固定させたい場合などは<code>network-config</code>を変更します。
+以下は固定IP例です</p>
 <pre tabindex="0"><code>(略)
 # Some additional examples are commented out below
 
@@ -600,7 +603,8 @@ $ sudo systemctl disable wpa_supplicant
 GeekwormのX735を持ってる人向けの各種設定
 </h3>
 </div>
-<p>X735にくっついてるファンはPWMファンで負荷に応じて風量調整ができます。これはRaspberryPIのGPIOで制御できるわけですが、ありがたいことにGeekworm公式がPythonスクリプトを作っています。</p>
+<p>X735にくっついてるファンはPWMファンで負荷に応じて風量調整ができます。
+これはRaspberryPIのGPIOで制御できるわけですが、ありがたいことにGeekworm公式がPythonスクリプトを作っています。</p>
 <p><a href="https://wiki.geekworm.com/X735_Software">X735 Software</a></p>
 <p>やり方は上記Wikiを見ればいいわけですが、Ubuntu 22.04だと上記方法では色々行儀悪いので自分で作りなおしました。<br>
 <a href="https://github.com/chromabox/x735-v2.5_ubuntu_fancon">x735-v2.5_ubuntu_fancon</a><br>
@@ -1085,7 +1089,8 @@ URLは同じRaspberry PIの中で見るだけならlocalhost:3000で構わない
 <pre tabindex="0"><code># Final accessible URL seen by a user.
 # url: https://example.tld/
 url: http://192.168.x.xxx:3000
-</code></pre><p>Misskeyのビルド気長に待ちます。。。（redisやポスグレのイメージがない場合は30〜40分くらいかかりました@raspi4B 8GB）</p>
+</code></pre><p>Misskeyのビルド
+気長に待ちます。。。（redisやポスグレのイメージがない場合は30〜40分くらいかかりました@raspi4B 8GB）</p>
 <pre tabindex="0"><code>$ cd [Misskeyのソースツリー]
 $ docker compose build
 $ docker compose run --rm web pnpm run init

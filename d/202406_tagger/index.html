@@ -1,0 +1,777 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.117.0">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="wd-taggerをC&#43;&#43;から使う方法(onnxruntime事始め)">
+<meta property="twitter:title"          content="wd-taggerをC&#43;&#43;から使う方法(onnxruntime事始め)">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/d/202406_tagger/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="久しぶりのプログラムの話です。 いまやもはや猫も杓子も生成AIということで、我々プログラマも生成AIをプログラムでどう使っていくか…というのを">
+<meta property="twitter:description"    content="久しぶりのプログラムの話です。 いまやもはや猫も杓子も生成AIということで、我々プログラマも生成AIをプログラムでどう使っていくか…というのを">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>wd-taggerをC&#43;&#43;から使う方法(onnxruntime事始め) | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://bsky.app/profile/chromarock.bsky.social">bluesky</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.co.jp/hz/wishlist/ls/23TQMSM3EB8EA">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2024-06-23">2024-06-23</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/d/202406_tagger/">wd-taggerをC++から使う方法(onnxruntime事始め)</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/diary">diary</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/pc">pc</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>久しぶりのプログラムの話です。<br>
+いまやもはや猫も杓子も生成AIということで、我々プログラマも生成AIをプログラムでどう使っていくか…というのを知っておかないといけない時代になってきました。<br>
+あのInterface誌でも2024年8月号は「プログラミングで体験 生成AI」という特集が大々的に組まれており、プログラミングの面からAIに対してどうやって行くべきかなどの特集が組まれたりする昨今です。</p>
+<p>AIといっても色々ありますが、今回は比較的とっつきやすく面白く非常にわかりやすい題材として、<code>wd-tagger</code>でいろんな画像を判定してみようという話を進めてみます。</p>
+<p>実はwd-taggerのサンプルなどはpythonでは既にそこら中に実装があるのでpythonを使ったほうが<strong>はるかに圧倒的に楽</strong>ではあるのですが、コードを読んだ所そんなに難しいことはしていないので、今回は敢えてC++で書くとどうなるか…といった感じで、C++でのサンプルと簡単な解説をここで載せてみます。</p>
+<p>なお、今回ボクが作ったコードサンプルは以下です<br>
+<a href="https://github.com/chromabox/wd-tagger-cpp-sample/">https://github.com/chromabox/wd-tagger-cpp-sample/</a></p>
+<p>今回はあくまでサンプルということでGUI系ライブラリは使わずで、ターミナル(コマンドプロンプト)から動くものを作りました<br>
+環境としてはUbuntu 22.04なのですが、さほど特殊なことはしていないので、CMakeなどの設定をちょっと変更すればWindowsでもビルドできるかなと思います。</p>
+<p>使い方としては…</p>
+<pre tabindex="0"><code>$ ./wdtagger 画像ファイル名
+</code></pre><p>という感じです。
+例として、ボクがGithubで使っている<a href="https://avatars.githubusercontent.com/u/846461?v=4">アバターの絵</a> を読ませると次のような結果になります</p>
+<pre tabindex="0"><code>$ ./wdtagger 846461.png 
+read label file...
+read label ok.
+loading wd-tagger model... 
+load wd-tagger model success
+Running predict...
+predict success.
+result -----  
+ratings: 
+   general: 0.0733535
+   sensitive: 0.920688
+   questionable: 0.00349146
+   explicit: 0.000387698
+tags: 
+   1girl: 0.991317
+   solo: 0.98317
+   instrument: 0.866745
+   guitar: 0.774588
+   brown_hair: 0.746188
+   purple_eyes: 0.68452
+   animal_ears: 0.629489
+   short_hair: 0.615854
+   bow: 0.60101
+   chibi: 0.375334
+charas: 
+   ushiromiya_maria: 0.667614
+   ryuuguu_rena: 0.0163996
+   chen: 0.00753877
+   hirasawa_yui: 0.00524783
+   yakumo_ran: 0.00188139
+   houjou_satoko: 0.00141031
+   misty_(pokemon): 0.00120723
+   souryuu_asuka_langley: 0.0010246
+   may_(pokemon): 0.00101718
+   alice_margatroid: 0.000895023
+</code></pre><p>画像を読ませるとなにやら文字列と数値が出てきました。<br>
+次からはもうちょっとこのあたりについて詳しく解説します</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+wd-taggerとは
+</h3>
+</div>
+<p>そもそもwd-tagger とはなんぞや？ということですが、wd-taggerとは waifudiffusion tagger の略称で、主に二次元のイラストを入れるとそのイラストを構成する要素を単語(タグ)で答えをつらつらと返してくれるというものです。<br>
+先程の例もつらつら英単語が出てきましたが、あれは画像を構成する要素はおおよそこれだろうという答えを出してくれているということになります。</p>
+<p>wd-tagger を作った作者（SmilingWolf氏）が用意してくれているウェブ上から動くサンプルは以下になります<br>
+<a href="https://huggingface.co/spaces/SmilingWolf/wd-tagger">https://huggingface.co/spaces/SmilingWolf/wd-tagger</a><br>
+(全くの余談ですが、海外オタクの用語で「二次元の俺の嫁」は「wife」ではなく「waifu」というらしいですはい&hellip;ということでwaifu diffusionなわけですね)</p>
+<p>たとえば、このずんだもんの画像(元ネタ <a href="https://zunko.jp/sozai/zundamon/zunmon026.png">https://zunko.jp/sozai/zundamon/zunmon026.png</a>)<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/zunmon026.jpg"><img src="data/zunmon026.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+を突っ込むと以下のような結果を返します。(SmilingWolf/wd-v1-4-vit-tagger-v2の場合)</p>
+<pre tabindex="0"><code>1girl, solo, green hair, hair ornament, japanese clothes, flower, hair flower, short hair, kimono, full body, sandals, yellow eyes, white background, short kimono, personification, looking at viewer, simple background, standing, sash, leaf, obi, blush, wide sleeves
+</code></pre><p>一人の女の子、ソロ、緑の髪、髪飾り、日本の衣装、花、髪の毛に花、ショートヘア、着物…ということでこのずんだもんの絵の要素を認識していることがわかります。</p>
+<p>これの何処にAIを使っているのかといえば、ずばり画像の要素判定に使っています。<br>
+wd-taggerのモデルは、予めいろんな画像で「こういう画像がきたらこの単語を返す」というような学習をされているのでこのようなことが出来る訳です。<br>
+当然のことながらこれはAIモデルであるので、学習していない画像がやってきても適切な単語を返します。<br>
+つまり柔軟性も多少はあるよということです。</p>
+<p>wd-taggerにもいろいろなモデルがありますが、<code>wd-v1-4-vit-tagger-v2</code>の仕組みを示した模式図はこのようになっています。<br>
+(煩雑すぎるためNN間の線は省略していますが全部つながってると思ってください)<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/wdtagger_model.jpg"><img src="data/wdtagger_model.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>入力層が縦横Pixel(448x448)と、RGB値の3に対応しています。で、真ん中に学習済みのニューラルネットモデルがあって、出力層が9083個あります。<br>
+出力層の配列に入っている値は、その要素がどれだけ含まれているかの強さが０〜１までの浮動小数点で入っています。</p>
+<p>なおこの9083の層はそのままモデルと一緒に配布されている、このcsvファイルの行数+1と対応しています<br>
+<a href="https://huggingface.co/SmilingWolf/wd-v1-4-vit-tagger-v2/raw/main/selected_tags.csv">https://huggingface.co/SmilingWolf/wd-v1-4-vit-tagger-v2/raw/main/selected_tags.csv</a></p>
+<p>csvファイルを抜粋するとこんな感じになっています</p>
+<pre tabindex="0"><code>tag_id,name,category,count
+9999999,general,9,807858
+9999998,sensitive,9,3771700
+9999997,questionable,9,769899
+9999996,explicit,9,560281
+470575,1girl,0,4225150
+212816,solo,0,3515897
+13197,long_hair,0,2982517
+8601,breasts,0,2323580
+469576,looking_at_viewer,0,2089971
+3389,blush,0,2040471
+(略)
+</code></pre><p>つまり出力層[4]は<code>1girl</code>の強さを表している…ということになります。<br>
+出力層[6]だと<code>long_hair</code>…つまり「長い髪の毛が絵に含まれているかどうか」を示します。<br>
+出力層[6]値が0だと絵に髪の毛の要素は無いかも知れない、この値が0.9999とかだと絵に含まれている髪の毛は長い…ということになります</p>
+<p>この仕組みはよく見ると、機械学習の典型的な例題でよく出てくるMNIST(0〜9の手書き文字をAIに判定させ、0〜9か答えを得る)と似ています。<br>
+というわけで、処理の流れは以下になります。</p>
+<p>１．機械学習モデルをロードする<br>
+２．CSVを読み込む<br>
+３．画像を縦横448x448、チャンネルはRGBに直す<br>
+４．ロードしたモデルに変換した画像をwd-taggerモデルへ流す<br>
+５．結果をCSVと照らし合わせる</p>
+<p>こんな感じで、一見すると小難しそうなAIで画像判定もそんなに難しくはないことがわかるかと思います。</p>
+<p>なお、ボクがC++で作ったサンプルは以下になります。<br>
+<a href="https://github.com/chromabox/wd-tagger-cpp-sample">https://github.com/chromabox/wd-tagger-cpp-sample</a><br>
+このコードを見ながら、以下読み進めていただくとわかりやすいかと思います。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+onnxruntimeでのモデルロードなど
+</h3>
+</div>
+<p>wd-taggerはOnnx形式のモデルであるため、onnxruntimeを使う必要があります。 <br>
+onnxruntimeはpythonの他にC/C++でも利用可能なライブラリも提供されているのでこれを使用します。<br>
+ライブラリはここのRelaeseページからダウンロードができます。<br>
+<a href="https://github.com/microsoft/onnxruntime/releases">https://github.com/microsoft/onnxruntime/releases</a><br>
+Windows環境だとDLLなどですが、Linux(ubuntu)だと共有ライブラリ(.so)とincludeファイルが同封されています。</p>
+<p>これをビルド時にリンクすればいいわけですが、CMakeだと以下の記述になるかなと思います。</p>
+<pre tabindex="0"><code>set(INC_DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}/onnxlib/onnxruntime-linux-x64-1.18.0/include
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${INC_DIRS})
+
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/onnxlib/onnxruntime-linux-x64-1.18.0/lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE onnxruntime)
+</code></pre><p>サンプルの完全なCMakeのCMakeLists.txtは以下になります<br>
+<a href="https://github.com/chromabox/wd-tagger-cpp-sample/blob/master/CMakeLists.txt">https://github.com/chromabox/wd-tagger-cpp-sample/blob/master/CMakeLists.txt</a></p>
+<p>リンクをせずに、プラグインみたいな形で動的にonnxruntimeそのものをロードすることも出来ますが、少しややこしいのでここでは触れません。<br>
+ただプラグインみたいな形式でロードできると、onnxruntimeはCUDA向けとか他のGPU向けとかあるのでそのあたりで選択肢が増やせるのかなと思います。</p>
+<p>モデルのロードは簡単で、以下のようになります</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#define WD_MODEL_ONNX	&#34;../models/wd-vit-tagger-v2/model.onnx&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="p">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">Ort</span><span class="o">::</span><span class="n">Session</span> <span class="n">ortsession</span><span class="p">{</span><span class="k">nullptr</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Ort</span><span class="o">::</span><span class="n">SessionOptions</span> <span class="n">sessionOptions</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Ort</span><span class="o">::</span><span class="n">Env</span> <span class="n">ortenv</span><span class="p">(</span><span class="n">ORT_LOGGING_LEVEL_WARNING</span><span class="p">,</span><span class="s">&#34;wdtagger&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Onnxモデルのロード
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;loading wd-tagger model... &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">try</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">ortsession</span> <span class="o">=</span> <span class="n">Ort</span><span class="o">::</span><span class="n">Session</span><span class="p">(</span><span class="n">ortenv</span><span class="p">,</span> <span class="n">WD_MODEL_ONNX</span><span class="p">,</span> <span class="n">sessionOptions</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="n">Ort</span><span class="o">::</span><span class="n">Exception</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ort::session Error:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;load wd-tagger model success&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span></code></pre></div><p>Ort::Sessionがモデルをロードしたセッションで、これに対して画像を入力して推論をさせたりします。<br>
+オプションや環境(Ort::Env)は特に指定なしです。</p>
+<p>モデルへ渡したり受け取ったりするデータ形状はテンソルにする必要があります<br>
+モデルをロードするとそのモデルが必要としているテンソル形状などがわかるためそれを取得して、テンソルを作り、その中にデータを入れる必要があります<br>
+テンソルと配列の違いについては以下がわかりやすいです<br>
+<a href="https://ml-wiki.sys.affrc.go.jp/ai-workshop/_media/%E3%83%86%E3%83%B3%E3%82%BD%E3%83%AB.pdf">https://ml-wiki.sys.affrc.go.jp/ai-workshop/_media/%E3%83%86%E3%83%B3%E3%82%BD%E3%83%AB.pdf</a><br>
+表現の上では多次元配列とそんなに変わりませんが、数学的意味合いが違うということのようです(ボクもこの辺はあまりよく理解していません&hellip;)</p>
+<p>ということで、必要なテンソル形状を取得するには以下のようにします。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">	<span class="c1">// モデルが要求する形状などをとってくる
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span> <span class="n">input_shapes</span> <span class="o">=</span> <span class="n">ortsession</span><span class="p">.</span><span class="n">GetInputTypeInfo</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">GetTensorTypeAndShapeInfo</span><span class="p">().</span><span class="n">GetShape</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span> <span class="n">output_shapes</span> <span class="o">=</span> <span class="n">ortsession</span><span class="p">.</span><span class="n">GetOutputTypeInfo</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">GetTensorTypeAndShapeInfo</span><span class="p">().</span><span class="n">GetShape</span><span class="p">();</span>
+</span></span></code></pre></div><p>onnxモデルは複数の入出力形状を取ることが出来るため、本来はGetInputTypeInfo(0)と決め打ちをせずにまずは入力形状がいくつ存在するかを見る必要がありますが、今回は題材がわかっているので0を決め打ちしています。<br>
+帰ってくるvectorには配列要素数が入ってきます。<br>
+wd-vit-tagger-v2のモデルの場合、input_shapesには「1,448,448,3」が入っています。<br>
+これは「バッチ数,横画像サイズ,縦画像サイズ,色チャンネル数」ということで、448x448x3の配列を用意すれば良いということになります。</p>
+<p>output_shapesには「1,9083」ということで、そのまま9083の要素をもった配列を用意すればOKです。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+csvファイルを読み込む
+</h3>
+</div>
+<p>モデルに付随しているcsvファイルを読み込む必要があります。<br>
+出力層の各配列が何の画像要素を示しているのかということを表しています。</p>
+<p>この辺りの処理はPythonだとリストやcsv用外部モジュール類などを用いて楽に出来ますが、C++の場合は自力で行う必要がある作業です。<br>
+具体的なコードは<a href="https://github.com/chromabox/wd-tagger-cpp-sample/blob/master/src/wdtagger.cpp#L76">loadlabel</a>あたりを見てもらうということにして、csvファイルの中身は次のような感じで区切られています。</p>
+<pre tabindex="0"><code>タグID,要素名,カテゴリ,出現カウント
+</code></pre><p>このうち、「要素名」と「カテゴリ」が必要になるのでこれを取得して記憶しておきます。<br>
+カテゴリはこのタグ要素が一般のタグなのか、レーティングを示したタグなのか、キャラ名を示したタグなのかが番号で記されています。<br>
+よって「カテゴリ」内で各種ソート処理をする必要があるのなら、カテゴリごとに分類もしておくこともあるでしょう。</p>
+<p>実装方法は色々あると思いますが、ボクはこのようなクラスを作ってマスターのVectorにとりあえず全部記憶させておき、カテゴリごとに分けてクラスのポインタだけを記録するVectorをカテゴリごとに作っています。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TaggerLabel</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">string</span>		<span class="n">name</span><span class="p">;</span>				<span class="c1">// ラベル名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">int</span>				<span class="n">category</span><span class="p">;</span>			<span class="c1">// カテゴリ
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="kt">float</span>			<span class="n">score</span><span class="p">;</span>				<span class="c1">// 推論した結果を入れるためのスコア
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">TaggerLabel</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">sname</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">scategory_str</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">name</span> <span class="o">=</span> <span class="n">sname</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">category</span> <span class="o">=</span> <span class="o">::</span><span class="n">atoi</span><span class="p">(</span><span class="n">scategory_str</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaggerLabel</span><span class="o">&gt;</span>		<span class="n">TaggerLabelVec</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">TaggerLabel</span><span class="o">*&gt;</span>		<span class="n">TaggerLabelPtrVec</span><span class="p">;</span>
+</span></span></code></pre></div>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+画像を縦横448x448、チャンネルはRGBに直す
+</h3>
+</div>
+<p>次は入力された画像をモデルが読める形に変換する必要があるのですが、画像ファイルをロードして…とかこれを純粋C++で作るのはなかなかしんどい作業になるので、ここは流石に<code>OpenCV</code>を使って楽します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">	<span class="c1">// イメージをファイルから読む
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">src_image</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">src_image</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">src_image</span><span class="p">.</span><span class="n">data</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;cv::imread Error: can not read image&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// TODO: チャンネルが3以外は今回パス
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span> <span class="p">(</span><span class="n">src_image</span><span class="p">.</span><span class="n">channels</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;sorry this program color channel 3 image only...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">Size</span> <span class="n">model_insize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">model_insize</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">input_shapes</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>		<span class="c1">// batch,width,height,channelの順番
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">model_insize</span><span class="p">.</span><span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">input_shapes</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">...</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">tgt_image</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">cv</span><span class="o">::</span><span class="n">resize</span><span class="p">(</span><span class="n">src_image</span><span class="p">,</span><span class="n">tgt_image</span><span class="p">,</span> <span class="n">model_insize</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">INTER_CUBIC</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="o">!</span> <span class="n">tgt_image</span><span class="p">.</span><span class="n">isContinuous</span><span class="p">()){</span>		<span class="c1">// 念の為
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Error : cv::mat is not memory continuous...&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span></code></pre></div><p>本来の実装では無理やりResizeをするのではなく元画像の縦横比率を維持してリサイズ後、余白は白で埋めるという作業が必要ですが簡略化のためこうしています。<br>
+チャンネルをRGBのみにしてAは抜く必要がありますが、今回は例なのでチャンネル数3以外は見ないということで。。。</p>
+<p>これで、モデルが必要とする448x448x3の画像を用意できましたが、最終的に浮動小数点のテンソルにしないといけないため以下のようにします。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">	<span class="c1">// モデルへの入力データの確保
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">model_input_data</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">model_insize</span><span class="p">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">model_insize</span><span class="p">.</span><span class="n">height</span> <span class="o">*</span><span class="mi">3</span><span class="p">);</span>    
+</span></span><span class="line"><span class="cl">	<span class="c1">// 浮動小数点型へ直す
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">isrc</span> <span class="o">=</span> <span class="n">tgt_image</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="n">model_input_data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">model_input_data</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="o">++</span><span class="n">it</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">			<span class="o">*</span><span class="n">it</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">isrc</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">			<span class="n">isrc</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span></code></pre></div><p>OpenCVの<code>Mat</code>は内部的にはBGRの並びで画素を記憶しており、wd-taggerのモデルもBGRの並びで画像を学習しているので、上のようなベタなコピーでも許されます。<br>
+しかし、OpenCV以外のライブラリを使って実現する場合は浮動小数点側の配列がBGRになるように、並び順に注意してコピーしなければなりません。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+モデルに変換した画像を流し、推論を実行する
+</h3>
+</div>
+<p>これで推論に必要なものは揃ったので、いよいよ推論…ですが、前にも「モデルにはテンソル形式で渡さないといけない」と述べた通り、C++のVector型はそのままでは受けてもらえません。<br>
+入出力用のテンソルを作成する必要があります。<br>
+onnxruntimeでは、<code>Ort::Value</code>型でやり取りする必要があり以下のようにします。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">	<span class="kt">int</span>	<span class="n">model_outsize</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">output_shapes</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>		<span class="c1">// batch,出力サイズの順番
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// モデルへの出力データの確保
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">model_output_data</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">model_outsize</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">//入出力用のテンソルを作成する
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">Ort</span><span class="o">::</span><span class="n">MemoryInfo</span> <span class="n">ortmem</span><span class="p">(</span><span class="n">Ort</span><span class="o">::</span><span class="n">MemoryInfo</span><span class="o">::</span><span class="n">CreateCpu</span><span class="p">(</span><span class="n">OrtAllocatorType</span><span class="o">::</span><span class="n">OrtDeviceAllocator</span><span class="p">,</span> <span class="n">OrtMemType</span><span class="o">::</span><span class="n">OrtMemTypeCPU</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Ort</span><span class="o">::</span><span class="n">Value</span> <span class="n">input_tensor</span> <span class="o">=</span> <span class="n">Ort</span><span class="o">::</span><span class="n">Value</span><span class="o">::</span><span class="n">CreateTensor</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ortmem</span><span class="p">,</span> <span class="n">model_input_data</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">model_input_data</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">input_shapes</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">input_shapes</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Ort</span><span class="o">::</span><span class="n">Value</span> <span class="n">output_tensor</span> <span class="o">=</span> <span class="n">Ort</span><span class="o">::</span><span class="n">Value</span><span class="o">::</span><span class="n">CreateTensor</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">ortmem</span><span class="p">,</span> <span class="n">model_output_data</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">model_output_data</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">output_shapes</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">output_shapes</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+</span></span></code></pre></div><p>これを行って、それぞれのfloat型のVectorにそれぞれOrt::Valueを結びつけたあとで以下で推論実行します。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl">	<span class="k">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span> <span class="k">const</span> <span class="o">*&gt;</span> <span class="n">input_node_names</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">char</span> <span class="k">const</span> <span class="o">*&gt;</span> <span class="n">output_node_names</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">istr</span> <span class="o">=</span> <span class="n">ortsession</span><span class="p">.</span><span class="n">GetInputNameAllocated</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ortallocator</span><span class="p">).</span><span class="n">get</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">ostr</span> <span class="o">=</span> <span class="n">ortsession</span><span class="p">.</span><span class="n">GetOutputNameAllocated</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ortallocator</span><span class="p">).</span><span class="n">get</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">		<span class="n">input_node_names</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">istr</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">		<span class="n">output_node_names</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">ostr</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">		
+</span></span><span class="line"><span class="cl">		<span class="n">ortsession</span><span class="p">.</span><span class="n">Run</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">			<span class="n">Ort</span><span class="o">::</span><span class="n">RunOptions</span><span class="p">{</span><span class="k">nullptr</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">			<span class="n">input_node_names</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">			<span class="o">&amp;</span><span class="n">input_tensor</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="n">output_node_names</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">			<span class="o">&amp;</span><span class="n">output_tensor</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">			<span class="mi">1</span>
+</span></span><span class="line"><span class="cl">		<span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="n">Ort</span><span class="o">::</span><span class="n">Exception</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ort::session::Run Error:&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">e</span><span class="p">.</span><span class="n">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span><span class="k">catch</span><span class="p">(...){</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;ort::session::Run : unknown Error&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span></code></pre></div><p>Ort::SessionのRunには入力するテンソルの名前を設定する必要があるわけですが、名前はGetInputNameAllocatedで取得しています。<br>
+予め固定の名前がわかっているのであればこれをする必要があまりないのですが、一応こうしています。<br>
+出力名についても同じです。<br>
+また、なんらかの推論エラーが発生すると例外を返してくるのでtry-catchで例外をキャッチするのを忘れないようにしたほうが良いでしょう。</p>
+<p>例外を出されず無事に帰ってきた場合は、何らかの推論が成功したということになります。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+結果を確認する
+</h3>
+</div>
+<p>モデルから出力されたデータは<code>output_tensor</code>に結びつけた</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">model_output_data</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">model_outsize</span><span class="p">);</span>
+</span></span></code></pre></div><p>に入っているので、<code>model_output_data</code>の要素数とCSVの行数+1の対応をそれぞれ照らし合わせます。<br>
+<code>model_output_data</code>の各要素に含まれている値は、値0〜1までの浮動小数点値になっており、1に近いほどその要素が強いということになります。<br>
+一般タグだと、0.3辺りから有効ということらしいです。</p>
+<p>サンプルでは単純にソートをしています。この辺は色々実装者で工夫出来るかなと思います。</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+終わりに
+</h3>
+</div>
+<p>ということで、AIをC++でというとなかなかに大層な感じで尻込みしてしまいがちですが、実はこと推論に関しては「AIモデルがわかるデータへ前処理→AIモデルに投げる→出力を人間がわかるように直す」というだけです。<br>
+そこまで大げさな処理でもなく、簡単な画像の判定くらいなら300行くらいで収まる範囲内で出来る話というのがわかると思います。</p>
+<p>画像生成AIであるStableDiffusionや文章生成のLLMはこのような単純な構造ではありません。<br>
+これらは今回のように単一のAIモデルの結果のみを取得…というわけには行かずいろんなAIモデルが複雑に組み合わさって一つの機能を実現しています。</p>
+<p>という感じで今回のように一筋縄では行かないですが…結局やってることは<strong>入力データへ変換→AIモデルに投げる→出力データを加工</strong>というのが複数あるということで、とりあえず今回で基礎は理解出来たのかなと…</p>
+<p>あと、onnxruntimeの他にC++で使用可能なAI系ライブラリとしては、<code>ggml</code>(よくLLama.cppで使われています)などありますが、pythonでは非常に有名な<code>Pytorch</code>も実はC++で使用可能なライブラリがあるそうなのでそれでもやってみるとか色々ありそうです。</p>
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2fd%2f202406_tagger%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20wd-tagger%e3%82%92C%2b%2b%e3%81%8b%e3%82%89%e4%bd%bf%e3%81%86%e6%96%b9%e6%b3%95%28onnxruntime%e4%ba%8b%e5%a7%8b%e3%82%81%29" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/d/202406_tagger/" data-title="140文字以上: wd-taggerをC&#43;&#43;から使う方法(onnxruntime事始め)" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
