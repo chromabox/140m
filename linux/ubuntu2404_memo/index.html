@@ -1,0 +1,1633 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.133.1">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="ubuntu 24.04.1 設定メモ">
+<meta property="twitter:title"          content="ubuntu 24.04.1 設定メモ">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/ubuntu2404_memo/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="2年に一度のUbuntu LTSリリースがやってまいりました。 Ubnutu 24.04 LTSは4月にリリースされたのですが、JapanRemixは結局なし、CUD">
+<meta property="twitter:description"    content="2年に一度のUbuntu LTSリリースがやってまいりました。 Ubnutu 24.04 LTSは4月にリリースされたのですが、JapanRemixは結局なし、CUD">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>ubuntu 24.04.1 設定メモ | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m/">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://bsky.app/profile/chromarock.bsky.social">bluesky</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.co.jp/hz/wishlist/ls/23TQMSM3EB8EA">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2024-09-01">2024-09-01</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/ubuntu2404_memo/">ubuntu 24.04.1 設定メモ</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>2年に一度のUbuntu LTSリリースがやってまいりました。<br>
+Ubnutu 24.04 LTSは4月にリリースされたのですが、JapanRemixは結局なし、CUDAがまだ対応していない、24.04の最初はどうもおかしいということで、24.04.1が出るまでちょっと保留しておりました<br>
+そしてこのほど 24.04.1がアップデートされたため、ようやく24.04.1を新規で入れることにしました。</p>
+<p>ちなみに、自分が確認した環境は以下です。</p>
+<pre tabindex="0"><code>$ screenfetch
+                          ./+o+-       xxxxx@xxxxxxx
+                  yyyyy- -yyyyyy+      OS: Ubuntu 24.04 noble
+               ://+//////-yyyyyyo      Kernel: x86_64 Linux 6.8.0-41-generic
+           .++ .:/++++++/-.+sss/`      Uptime: 1h 26m
+         .:++o:  /++++++++/:--:/-      Packages: 2139
+        o:+o+:++.`..```.-/oo+++++/     Shell: bash
+       .:+o:+o/.          `+sssoo+/    Resolution: 6800x1440
+  .++/+:+oo+o:`             /sssooo.   DE: GNOME 46.0.1
+ /+++//+:`oo+o               /::--:.   WM: Mutter
+ \+/+o+++`o++o               ++////.   WM Theme: Adwaita
+  .++.o+++oo+:`             /dddhhh.   GTK Theme: Yaru-magenta-dark [GTK2/3]
+       .+.o+oo:.          `oddhhhh+    Icon Theme: Yaru-magenta
+        \+.++o+o``-````.:ohdhhhhh+     Font: Ubuntu Sans 11
+         `:o+++ `ohhhhhhhhyo++os:      Disk: 3.0T / 14T (23%)
+           .o:`.syhhhhhhh/.oo++o`      CPU: 13th Gen Intel Core i7-13700 @ 24x 5.1GHz [32.0°C]
+               /osyyyyyyo++ooo+++/     GPU: NVIDIA GeForce RTX 4080
+                   ````` +oo+++o\:     RAM: 4660MiB / 64056MiB
+                          `oo++.  
+</code></pre>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+USB版のインストールイメージを作る
+</h3>
+</div>
+<p>既にUbuntu22.04の人はインストールイメージは「ユーティリティ」-「ディスク」から簡単に作れます。
+Windowsな人はrufusを使うのが良いかなと思います。</p>
+<br>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+小ネタ：FreeDOSをUSBから起動する方法
+</h3>
+</div>
+<p>古いマシンを復活させようとしてBIOSをアップデートしないといけなかったりする場合があったりするとWindowsからかDOSから起動しないといけないことって多々ありますよね。<br>
+そういう場合はFreeDOSを使えばUbuntuでもDOSの起動USBメモリを生成できます。</p>
+<p>FreeDOSはここ<br>
+<a href="http://freedos.org/download/">http://freedos.org/download/</a>
+から[FreeDOS 1.3 LiteUSB]をダウンロードすればOK。</p>
+<p>そしてそれを適切な書き込みツール(ディスクとかRufusなど)で書けば動きます。楽ですね。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+WindowsとUbuntuのデュアルブートで気をつけること
+</h3>
+</div>
+<p>Windowsの「高速スタートアップ」は無効化しておきます。<br>
+合わせてBIOS(UEFI)設定で「Fast Boot」も無効化しておきます。<br>
+「SecureBoot」は有効で問題ありません。(Ubuntu 24.04は流石に対応しています)</p>
+<p>WindowsとUbuntuのデュアルブートをする場合は、できるだけ別の物理ディスク(ストレージ)に入れておいたほうが無難です <br>
+一枚のM.2 SSDにWindows、もう一枚のM.2 SSDにUbuntuという感じです。<br>
+こうしておく利点は色々あるのですがWindowsUpdateがあった場合や今回のように22.04から24.04.1への更新するときなどに誤って別のOSを消してしまうとかの不測の事態を防ぐことができます。バックアップをとるのも物理ディスクの交換ですむたねかんたんですしね</p>
+<p>あと、デュアルブートをしたい場合はインストール中にどのディスクにインストールするかどうかを選ぶ画面が出ますが、必ず手動でパーティションを設定する(一番下の選択肢)を選んで自力でやる必要があります。<br>
+なお、インストール中にブートローダの選択がありますが、ブートローダだけはは必ずWindows側ディスクのほうへ入れます(windowsが入っているディスクが/dev/nvme0なら、/dev/nvme0n1p1です。ここはUbuntu側からは/boot/efiとしてマウントされます)</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストールするときはインターネットが繋がるところで行う
+</h3>
+</div>
+<p>インターネットの接続がないところでもインストール作業はできるのですが、インターネット接続がない場合、インストール後は英語設定になってしまうため特別な理由がなければインストール時にインターネット接続ができておくに越したことはないです<br>
+英語設定になっていたとしても「言語サポート」で設定のし直しはできます(ただしそこでインターネット接続が必要になります)</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストールするPCに固定IPを設定する場合に気をつけること
+</h3>
+</div>
+<p>ルータのDHCPを起動させて、出来る限り接続しているPCにIPを割り振るようにしてください。<br>
+IPアドレスをどうしても変更したくない場合は、PCのネットワークデバイスのMACアドレスを調べて、ルータのDHCPに固定IPを割り振るように設定すればOKです。</p>
+<p>一応インストール時に固定IPを設定出来るのですが、24.04ではネットワーク関連の管理が変わったのかNetplanとNetworkManagerの連携がうまくできていないようで、インストール後の最初の再起動の段階でネットワーク設定にあるはずのデバイス設定が出てこない＆ネットワーク不通となって詰みます。。。</p>
+<p>詰んでしまった場合でも対策はあって、<code>/etc/netplan</code>以下にある<code>90-NM-なんとか.yaml</code>という90なんとかとついているyamlファイルを全部削除してから再起動すると、再びネットワーク設定にネットワークデバイスが復活してきます。<br>
+しかし、ここで固定IPを設定してしまうとそのときは通信できるわけですが、その状態で安心して再起動とかしてしまうとまたネットが不通となってしまうので、ルータから出来る限りDHCPで割り振ってもらったほうが無難ということです</p>
+<p>(※：自分は未検証ですが、もうNetworkManagerは使わずにUbuntuSeverでよく使われているNetplanのみでなんとか設定する方法も一応あるらしいです。。<br>
+というより24.04で管理方法が変わったのは、UbuntuServerではNetplanを以前から使っているのにUbuntuDesktopではNetplanを使わずNetworkManagerだけなのはおかしいということでこのようになったそうです。。。が今回のようにNetworkManagerとNetplanの連携がうまく行かないパターンもあるということです)</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Hyper-V環境にインストールする場合
+</h3>
+</div>
+インストール時にセキュアブートを有効にして仮想マシンを起動すると、デフォルトだと証明書的なエラーがでてしまいます。  
+ここは仮想マシンの設定で、[セキュアブート]-[テンプレート]を[Microsoft UEFI 証明機関]に変更するとうまく行きます。  
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+起動時にgrubを常に表示
+</h3>
+</div>
+<p>grubが表示されずにいきなりログイン画面に行ってほしくない場合は<code>/etc/default/grub</code>を編集する必要があります<br>
+grubは出来る限り表示させておいたほうが良くて、突然OSが起動しなくなったなどの場合のトラブルシューティングに役立ちます</p>
+<p><code>/etc/default/grub</code>を以下のようにすればOK</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1">#GRUB_TIMEOUT_STYLE=hidden</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#GRUB_TIMEOUT=0</span>
+</span></span><span class="line"><span class="cl"><span class="nv">GRUB_TIMEOUT</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="nv">GRUB_TIMEOUT_STYLE</span><span class="o">=</span>menu
+</span></span><span class="line"><span class="cl"><span class="nv">GRUB_HIDDEN_TIMEOUT_QUIET</span><span class="o">=</span><span class="nb">false</span>
+</span></span></code></pre></div><p>編集したら</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo update-grub
+</span></span></code></pre></div><p>でgrubの編集を反映させます</p>
+<p>なお、Windowsとのデュアルブート環境のときはすでにGrubの設定が上記のように配慮されています</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+インストール後の基本セット
+</h3>
+</div>
+<p>自分はインストール後にまずこれをしてとりあえず必要なものをインストールしています</p>
+<pre tabindex="0"><code>$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install build-essential cmake git gitk ssh gufw samba vim filezilla minicom mcomix gtkterm shutter vlc ffmpeg geany flatpak flex bison screenfetch htop apt-transport-https gnupg2 gnome-shell-extension-manager
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+【注意】リポジトリ情報を設定するsources.listの変更について
+</h3>
+</div>
+<p>Ubuntu 22.04はaptコマンドで使うリポジトリ情報の参照元が/etc/apt/sources.listだったのですが、24.04からは/etc/apt/sources.list.d/ubuntu.sourcesに変わっているのでその辺り気をつける必要があります。</p>
+<p>とは言ってもたいていの場合はここを直接書き換えることは無くて、/etc/apt/sources.list.d以下にファイルを置くとかはしていると思います。<br>
+もしUbuntu 22.04ベースの解説で/etc/apt/sources.listを直接書き換えるとかになっている場合は、/etc/apt/sources.list.d/ubuntu.sourcesに書かないといけない、もしくは、/etc/apt/sources.list.d以下にファイルを作るなど変更するなど、気をつけましょう</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+IMEをfcitx-5に変更する
+</h3>
+</div>
+デフォルトではIMEにiBusが入ってくるのですが環境によってはgnomeテキストエディターなどで日本語入力に支障が出ているので、もうfcitx-5に切り替えしたほうがいいです。  
+iBusだと変換窓が出てくる際に単語解説も出てこないですが、fcitx-5だとちゃんと出てきますし、アプリによってIMEのON/OFF状態も記憶しているのでもはや変えない理由がないという感じです  
+<p>というわけで切り替え方は以下</p>
+<pre tabindex="0"><code>$ sudo apt install fcitx5-mozc
+$ sudo im-config -n fcitx5
+</code></pre><p>これをしたあと、「言語サポート」でfcitxに切り替えて、再起動でOKです。デフォルトではIME切り替えはCtrl+Spaceにもマッピングされているので、ボクのキーボードのような全角半角キーがついていない環境にも優しいですね</p>
+<p>あと、突然IMEが起動してこなくなった場合はfcitx5がおなくなりになっている場合があるので、「Fcitx5設定」を起動させると「Fcitxが起動していません」みたいなメッセージが出るので「起動」を押してあげると復活します</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Codecをまとめてインストール
+</h3>
+</div>
+<p>動画のコーデック関連の話。Ubuntu18でもありましたね。<br>
+Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンスがオープンじゃなかったり)怪しいものは除外される運命だけど、これをすることによってインストール出来るというアレ。</p>
+<p>但し、libavcodecが消えてしまう(その代り権利怪しいアレなバージョンが入る)</p>
+<pre tabindex="0"><code>$ sudo apt install ubuntu-restricted-extras
+</code></pre><p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。どう違うか？は以下の通り。</p>
+<p>libavcodec　－　権利がしっかりしたもの<br>
+libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪しいもの</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+リカバリーモード(Recovery mode)への入り方
+</h3>
+</div>
+<p>Ubuntuはごくまれにですがグラフィックドライバの更新失敗などなどで、通常のGUIログイン画面が出てこなかったり、そうでなくてもディスクの故障などでこれもやはり通常のGUIで操作ができなくなり困る場面は出てくると思います。<br>
+あとは、Nvidia系のグラフィックボードを入れたのだけどnouvauドライバが対応しておらずGUIにすら入れない状態ですね…</p>
+<p>そういう場合はリカバリーモードで入って、rootシェルでなんとかして復旧させるということをします。<br>
+とりあえずリカバリーモードへの入り方とネットワークの活かし方は以下です。</p>
+<p>１．Grubの画面で「Advanced options for Ubuntu」を選択して、「起動するLinuxバージョン名の後ろに(recovery mode)」のものを選択<br>
+２．しばらくするとメニュー画面が出るので「root」を選択<br>
+３．Ctrl+Dを押すとなんとか…という画面が出るけど、ここでリターンを押してrootシェルに入る<br>
+４. そのままではネットワークが動いておらず何もできんので、とりあえずip linkコマンドでLANインターフェイスの名前を見る(例だとeth0がそれ)</p>
+<pre tabindex="0"><code># ip link
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether xx:xx:xx:xx:xx:xx brd ff:ff:ff:ff:ff:ff
+</code></pre><p>ここで「DOWN」になっているはずなので以下で復帰させます。<br>
+これでとりあえずネットワークとインターネットが使えるようになって、apt updateなどが使用可能になります<br>
+(これはDHCPがルータにある場合。ない場合はipコマンドでIPAddressを割り振ればOK)</p>
+<pre tabindex="0"><code># ip link set eth0 up
+# dhclient eth0
+# systemctl start systemd-resolved
+</code></pre><p>(余談：昔はrecovery modeでは読み取り専用マウントにされてしまうので、改めて読み書き可にするためのremountをしないといけなかったけど、いつの間にかそれをしなくても良くなったようです)</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Flatpakのインストール
+</h3>
+</div>
+<p>ubuntuはリリースバージョンでアプリのバージョンが固定されてしまうので、新しいアプリを使いたい人はなるべくflatpakかsnapでリリースされているものを使うのが良いとのこと</p>
+<pre tabindex="0"><code>$ sudo apt install flatpak
+$ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+$ sudo apt install gnome-software-plugin-flatpak
+</code></pre><p>これをしたあとで、gimpのページの<br>
+<a href="https://www.gimp.org/downloads/">https://www.gimp.org/downloads/</a>
+にある[install flatpak GIMP]をクリックしてflatpakrefを開くとflatpak版gimpがインストールできる</p>
+<p>もしくは「ソフトウェア」から検索できるアプリでflathub版を入れてもOK</p>
+<p>なお、flatpakのアップデートは</p>
+<pre tabindex="0"><code>$ flatpak update
+</code></pre><p>でOK</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+flatpak系アプリの権限設定を変えたい
+</h3>
+</div>
+<p>flatpakは便利なのですが権限設定がやりにくいというのがあります<br>
+どうにも動作が怪しい場合は権限関連を見直してみると良いです<br>
+（権限関連でうまく動かなかったりするとかあります）</p>
+<p>権限設定するにはflatsealをflatpakから入れますもしくはコマンドから以下</p>
+<pre tabindex="0"><code>$ flatpak install flatseal
+</code></pre><p>その後、flatsealを起動するとアプリごとの権限設定ができます</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+最新のNvdiaグラフィックドライバのインストール
+</h3>
+</div>
+<p>ubuntu 24.04.1では気の利いている事に、nvidiaのグラフィックボードを載せている場合はインストール時にnvidiaなどのサードパーティドライバをインストールするかどうかの選択が出てくるので、最初からNvidiaのドライバが適用された状態で起動します(インストールイメージにパッケージが入っているようで、ネットワークに接続しない状態でもインストールができました)</p>
+<p>24.04.1を入れた状態でのドライバのバージョンは<code>535.183.01</code>で、Ubuntu公式には最新とのことなのですが、最新の安定版は<code>550.107.02</code>です。<br>
+例えばこんな感じで<code>ubuntu-drivers devices</code>で現在Ubuntuが認識しているNvidiaドライバの最新を問い合わせると以下のようになります。</p>
+<pre tabindex="0"><code>$ ubuntu-drivers devices
+== /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
+modalias : pci:v000010DEd00002704sv00001462sd00005111bc03sc00i00
+vendor   : NVIDIA Corporation
+model    : AD103 [GeForce RTX 4080]
+driver   : nvidia-driver-535 - distro non-free recommended
+driver   : nvidia-driver-535-open - distro non-free
+driver   : nvidia-driver-535-server - distro non-free
+driver   : nvidia-driver-535-server-open - distro non-free
+driver   : xserver-xorg-video-nouveau - distro free builtin
+</code></pre><p>いつものようにここから<code>sudo apt install nvidia-driver-バージョン</code>とすれば入れられますし、デフォルトの535でも問題ないといえばないのですが、何かしらの問題が出てしまった場合や、CUDAの開発用として新しい目のドライバを入れないと行けない場合、nvidiaから提供されている550をを入れたい場合や、新機能ブランチ版(560)を入れたい場合はNvidia謹製のレポジトリ追加を追加する必要があります。</p>
+<p>以下のようにするとNvidia謹製のレポジトリ追加ができます。</p>
+<pre tabindex="0"><code>$ wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+$ sudo dpkg -i cuda-keyring_1.1-1_all.deb
+$ sudo apt update
+$ sudo apt upgrade
+</code></pre><p>なお、システムにCUDAドライバなどを入れたい場合はこの操作は必須になります。</p>
+<p>これを一度行った後で、再び<code>ubuntu-drivers devices</code>を行って最新のドライバを問い合わせると以下のようになります</p>
+<pre tabindex="0"><code>$ ubuntu-drivers devices
+== /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
+modalias : pci:v000010DEd00002704sv00001462sd00005111bc03sc00i00
+vendor   : NVIDIA Corporation
+model    : AD103 [GeForce RTX 4080]
+driver   : nvidia-driver-555 - third-party non-free
+driver   : nvidia-driver-560-open - third-party non-free
+driver   : nvidia-driver-535-server-open - distro non-free
+driver   : nvidia-driver-560 - third-party non-free recommended
+driver   : nvidia-driver-535-open - distro non-free
+driver   : nvidia-driver-555-open - third-party non-free
+driver   : nvidia-driver-535-server - distro non-free
+driver   : nvidia-driver-550-open - third-party non-free
+driver   : nvidia-driver-550 - third-party non-free
+driver   : nvidia-driver-535 - distro non-free
+driver   : xserver-xorg-video-nouveau - distro free builtin
+</code></pre><p>あとはいつものようにインストールするドライバを選んで入れます。<br>
+ここで、<code>nvidia-driver-560</code>系にrecommend(おすすめ)とされていますが、<code>nvidia-driver-560</code>系と<code>nvidia-driver-555</code>は新機能ブランチ版となるので、いわゆる新機能実験版で安定版ではないです。<br>
+(そんなに致命的な問題がでることはあまりないのですが、新機能版で割と頻繁にVerupもあるためソフトによっては時々NVENCが使えなくなったりします)</p>
+<p>というわけで無難に安定版がほしいのであれば<code>nvidia-driver-550</code>系となります。</p>
+<p><code>-open</code>はオープンソース版です。なお、nvidiaはLinux版ドライバに関しては今後オープンソース版のみにするという話もあります。　<br>
+パフォーマンス的なClose版との違いはないようで、違いとしてはサスペンドと休止状態が対応していない(正確にはVRAMのデータがサスペンドと休止状態で消えるらしい？)っぽいので、それが気になる人はOpenと書かれていないバージョンを入れると良いと思います。<br>
+Close版との比較など、ベンチマーク結果→<a href="https://www.phoronix.com/review/nvidia-r550-open">NVIDIA R550 Linux Driver&rsquo;s Open Kernel Modules Performing Well On GeForce GPUs https://www.phoronix.com/review/nvidia-r550-open</a></p>
+<pre tabindex="0"><code># apt update
+# apt upgrade
+# apt install nvidia-driver-550-open
+</code></pre><p>セキュアブートが有効な場合はUbuntuが認証していないドライバが入るので、新しいMOK(Machine Owner KEY)を作ってUEFIに登録する必要があります。。。ということでこんな画面が出てきます<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/mok_01.jpg"><img src="data/mok_01.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+「了解」を押すと、パスワードを入力画面が出ます。8文字以上12文字以内のようなので適当に決めます。（なお、Ubuntuのログインパスワードではない）<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/mok_02.jpg"><img src="data/mok_02.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+このパスワードはシステムを再起動した後に再度聞いてくるのでとりあえず覚えておきます</p>
+<p>無事インストールできたら再起動します。<br>
+以前は再起動の前に<code>update-initramfs -u</code>をする必要があったのですが最近ではしなくてもドライバインストール中に勝手にやってくれます。</p>
+<p>で、セキュアブートで新しいMOKを登録した場合は再起動するときに以下のような青い画面が出てきます<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/mok_03.jpg"><img src="data/mok_03.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+<br>
+ここで<code>Enroll MOK</code>を選びます。ここで<code>Continue boot</code>を選んでしまうとドライバインストール前のUbunutが起動するか、そもそもUbuntu起動に失敗してしまうので注意</p>
+<p>次にContinueを選択<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/mok_04.jpg"><img src="data/mok_04.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>Enrollするかを聞いてくるのでYesを選択<br>
+
+
+
+
+<figure class="figure">
+  <a href="data/mok_05.jpg"><img src="data/mok_05.jpg" class="figure-img img-fluid"></a>
+  
+</figure>
+
+
+</p>
+<p>あとはパスワード入力画面となるので、ドライバインストール時に設定したパスワードを入れるとOKです。</p>
+<p>なお、flatpakを入れている人は、Updateしたあとは</p>
+<pre tabindex="0"><code>$ sudo flatpak update
+</code></pre><p>も忘れずに行ってください。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+handbrakeでNVENCが使えない
+</h3>
+</div>
+<p>古いPCにUbuntuを入れる活用法はあるあるだけど、nvencを使ってhanbbrakeでH.264やH.265のエンコードしたい場合はドライバのバージョンが390系だったりするとだめ。<br>
+ドライバのバージョンが5xx系だと使用可能。</p>
+<p>ここを見て自分が使っているビデオボードがエンコードをサポートしているGPUかまず確認しよう。<br>
+<a href="https://developer.nvidia.com/video-encode-and-decode-gpu-support-matrix-new">https://developer.nvidia.com/video-encode-and-decode-gpu-support-matrix-new</a></p>
+<p>これはOBSでnvencを使ってハードウェアエンコードしながら配信したい場合も同じなので注意。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gnome-shell拡張の導入 (gnome-extension-manager)
+</h3>
+</div>
+<p>Ubuntuのデフォルトではデスクトップの細かいカスタマイズができません<br>
+gnome-shell拡張はこれを拡張してくれるやつで、入れておくと使い勝手が格段に向上するので入れておいたほうが吉です。</p>
+<pre tabindex="0"><code>$ sudo apt install gnome-shell-extension-manager
+</code></pre><p>これをしてから、<code>extension-manager</code>で探して起動するとGUIが出てくると思います。<br>
+この中からオススメは以下です</p>
+<pre tabindex="0"><code>Allow Locked Remote Desktop   
+ Ubunutの標準のデスクトップ共有を使うと、画面をロックしたりログアウトするとリモートデスクトップが完全停止してしまい
+ 再び許可しないと受付してくれないのでそれをどうにかする拡張。
+ したがって、標準のまま共有を使うにはほぼ必須級だがセキュリティは弱くなるので考えてから導入  
+Apps Menu  
+ アクティビティの横にアプリケーションメニューできて、そこからアプリを選べる
+Vitals
+ 通知バーにCPU温度とかシステムの状況を細かく表示できる
+</code></pre><p>NVIDIA GPU State Toolについてはバージョンが古いので対応していないっぽい<br>
+しかし対応する用意はあるとのことなので待ってたらそのうち出てくる可能性はあります<br>
+参照：→<br>
+<a href="https://github.com/ethanwharris/gnome-nvidia-extension/issues/212">https://github.com/ethanwharris/gnome-nvidia-extension/issues/212</a></p>
+<p>が、なんと今回は<code>Vitals</code>のバージョンが上がって実は<code>Vitals</code>からもGPUの各種データ(温度や使用率や使用VRAMやらGPUコアの動作周波数)も非常に事細かく取ることができます。もう<code>Vitals</code>だけでええかな。。。という勢いですね</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+google-chromeのインストール
+</h3>
+</div>
+<p>以下のコマンドを打てばOK</p>
+<pre tabindex="0"><code>$ sudo apt install apt-transport-https gnupg2
+$ wget -O- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg
+$ echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
+$ sudo apt update
+$ sudo apt install google-chrome-stable
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+vscodeのインストール
+</h3>
+</div>
+<p>以下のコマンドを打てばOK</p>
+<pre tabindex="0"><code>$ sudo apt install apt-transport-https gnupg2
+$ wget -O- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor | sudo tee /usr/share/keyrings/vscode.gpg
+$ echo deb [arch=amd64 signed-by=/usr/share/keyrings/vscode.gpg] https://packages.microsoft.com/repos/vscode stable main | sudo tee /etc/apt/sources.list.d/vscode.list
+$ sudo apt update
+$ sudo apt install code
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+sshとsshd
+</h3>
+</div>
+<p>sshが無いと色々めんどくさいので早めにやっておく。<br>
+この辺はUbuntu22.04と同じ。</p>
+<pre tabindex="0"><code>ub2404: $ sudo apt install ssh
+</code></pre><p>もしもホスト側の<code>.ssh/config</code>が公開鍵オンリーになっていたら以下のようにホスト側のエントリーを書かないといけない</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host ub2404
+</span></span><span class="line"><span class="cl">	User XXX
+</span></span><span class="line"><span class="cl">	HostName YYY
+</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
+</span></span><span class="line"><span class="cl">	IdentitiesOnly no
+</span></span><span class="line"><span class="cl">	PreferredAuthentications password
+</span></span></code></pre></div><p>これで一応PasswdでログインOK<br>
+インストール直後は.sshが作られていないのでsshで入ったあとで自分で自分のサーバに入る</p>
+<pre tabindex="0"><code>host: $ ssh ub2404
+(Pass聞いてくる)
+ub2404:$ ssh localhost
+(FingerPrint合ってるかどうか聞いてくるのでYと答える)
+(Pass聞いてくる)
+ub2404:$ exit
+</code></pre><p>ホスト側(もしあれば)で、ed25519な鍵生成</p>
+<pre tabindex="0"><code>host: $ ssh-keygen -t ed25519
+</code></pre><p>何処に出力するか聞いてくるので、設定して鍵ファイルを作る</p>
+<p>インストール先に公開鍵を転送</p>
+<pre tabindex="0"><code>host: $ scp (作った秘密鍵).pub (転送先サーバ名):/home/xxx/
+</code></pre><p>転送先で鍵設定</p>
+<pre tabindex="0"><code>ub2404:$ cp (作った秘密鍵).pub .ssh/authorized_keys
+ub2404:$ chmod 600 .ssh/authorized_keys
+</code></pre><p>セキュリティを高めるために、転送先のsshd_configを触って鍵オンリーにしてパスワードログインは禁止。<br>
+<code>/etc/ssh/sshd_config</code>を以下のように変更</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PubkeyAuthentication yes
+</span></span><span class="line"><span class="cl">PasswordAuthentication no
+</span></span></code></pre></div><p>最後に、sshdリスタート</p>
+<pre tabindex="0"><code>ub2404:$ systemctl restart ssh
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Samba設定
+</h3>
+</div>
+<p>まず、Sambaをインストール</p>
+<pre tabindex="0"><code>$ sudo apt install samba
+</code></pre><p>次に<code>/etc/samba/smb.conf</code>に追記</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>ユーザ名<span class="o">]</span>
+</span></span><span class="line"><span class="cl">        <span class="nv">path</span> <span class="o">=</span> /home/ユーザ名
+</span></span><span class="line"><span class="cl">        <span class="nv">writeable</span> <span class="o">=</span> yes
+</span></span><span class="line"><span class="cl">        <span class="nv">browseable</span> <span class="o">=</span> no
+</span></span><span class="line"><span class="cl">        valid <span class="nv">users</span> <span class="o">=</span> ユーザ名
+</span></span></code></pre></div><p>browseableは必要に応じて変える</p>
+<p>sambaのパスワードをセットする</p>
+<pre tabindex="0"><code>$ sudo smbpasswd -a ユーザ名
+</code></pre><p>(-a を入れないとエラーになる)</p>
+<p>最後にsmbdリスタート</p>
+<pre tabindex="0"><code>$ sudo systemctl restart smbd
+</code></pre><BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+メニューやランチャーに登録されていないアプリやコマンドを登録して使えるようにする
+</h3>
+</div>
+<p>自作のGUIアプリとか、githubから持ってきて自分でビルドしたGUIアプリなんかはコンソールから実行しないといけないのですが、Ubuntuの標準ではそういったアプリをランチャーに登録していく機能がないので頻繁に実用していく場合はちょっと面倒な場合があります</p>
+<p>一応対処法はあって、こういう場合は前まではdesktopエントリの設定ファイルを作ってエディタなどで編集する必要がありましたが、<code>alacarte</code>を入れると簡単にGUIで編集できるようになりました<br>
+しかしまあ標準機能では入ってないのが謎ですね</p>
+<pre tabindex="0"><code>$ sudo apt install alacarte
+</code></pre><p>あとはランチャーに「メイン・メニュー」というアプリが登録されるのでそれを実行して追加していけば良いかと思います<br>
+これ何気に必須級かもしれませんねぇ。。。<br>
+なおシェルスクリプトだけのものも登録していけるのでその点でも便利です</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+minicomなどで使用するターミナルの権限変更等
+</h3>
+</div>
+<p><code>/dev/ttyS</code>なんとかのグループがdialoutになっているのでそれを利用する</p>
+<pre tabindex="0"><code>$ sudo gpasswd -a ユーザ名 dialout
+$ sudo chown root:dialout /etc/minicom
+$ sudo chmod 775 /etc/minicom
+</code></pre><p>詳細<br>
+<a href="https://qiita.com/chromabox/items/306386a886bee4fb7810">https://qiita.com/chromabox/items/306386a886bee4fb7810</a></p>
+<p>なお、デフォルトではFT23X系のチップを使用したUSBシリアル変換を接続すると、しばらく間をおいて途中で勝手に切られてしまう&hellip;.<br>
+このときのdmesgはこんな感じ</p>
+<pre tabindex="0"><code>[ 6114.316364] usb 1-3.4: New USB device found, idVendor=0403, idProduct=6001, bcdDevice= 6.00
+[ 6114.316374] usb 1-3.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[ 6114.316378] usb 1-3.4: Product: FT232R USB UART
+[ 6114.316380] usb 1-3.4: Manufacturer: FTDI
+[ 6114.316383] usb 1-3.4: SerialNumber: XXXXXXXX
+[ 6114.319137] ftdi_sio 1-3.4:1.0: FTDI USB Serial Device converter detected
+[ 6114.319181] usb 1-3.4: Detected FT232RL
+[ 6114.320031] usb 1-3.4: FTDI USB Serial Device converter now attached to ttyUSB0
+[ 6131.973998] usb 1-3.4: usbfs: interface 0 claimed by ftdi_sio while &#39;brltty&#39; sets config #1
+[ 6131.975270] ftdi_sio ttyUSB0: FTDI USB Serial Device converter now disconnected from ttyUSB0
+[ 6131.975311] ftdi_sio 1-3.4:1.0: device disconnected
+[ 6572.726767] usb 1-3.4: USB disconnect, device number 9
+</code></pre><p>調べるとどうやら「brltty」という点字関連のアクセシビリティのものが悪さをしているので、以下を実行してbrlttyをアンインストールするとよい</p>
+<pre tabindex="0"><code>$ sudo apt remove brltty
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+gdm3でWaylandを無効にする
+</h3>
+</div>
+<p>Ubuntu24.04もデフォルトではWaylandを使おうとする(が、Nvidiaのドライバが入っているとデフォルトでX.orgでした)。<br>
+しかし、barrierやteamviewer等色々とwaylandに対応していないアプリはまだあるので、これらを動かすときはOFFにしておいたほうが無難。</p>
+<p><code>/etc/gdm3/custom.conf</code>を以下のように、WaylandEnable=falseにする。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="o">[</span>daemon<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Uncoment the line below to force the login screen to use Xorg</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WaylandEnable</span><span class="o">=</span><span class="nb">false</span>
+</span></span></code></pre></div><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+RDPやリモートログインなどについて
+</h3>
+</div>
+<p>Ubuntu24.04のリモートログイン設定は <code>Desktop Shareing</code> と <code>リモートログイン</code> の2種類あるのですが、触ってみたところ以下のような感じです</p>
+<p><b>・Desktop Shareing</b><br>
+Ubuntu 22.04であったような現在のセッションの共有<br>
+画面をロックしたり接続を切断するとデスクトップ共有が切れてしまい、共有元から再度許可をしないと接続できない<br>
+これを防ぐには<code>extension-manager</code>を入れてから<code>Allow Locked Remote Desktop</code>を入れるとOK<br>
+既にxorgで入っている場合はxorgになっているようです。</p>
+<p><b>・リモートログイン</b><br>
+従来のxrdpのような使い方をする<br>
+但し、既に物理マシンでログインされている場合はリモートからのログインは不可で、一度ログアウトしてもらわないといけない（つまり画面共有は不可）</p>
+<p>あと、この「リモートログイン」の場合はどうも強制的にwaylandになるようで、既に物理マシンにてXorgで入っている場合はうまく切れなかったりします。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Golangのインストール
+</h3>
+</div>
+<p>以下でOK</p>
+<pre tabindex="0"><code>$ sudo apt install golang-go
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ubuntu 24.04のPython環境について
+</h3>
+</div>
+<p>ubuntu 24.04はPython環境が3.12.3になってしまっていて、つまりこれはvenvも3.12.3環境ということです。<br>
+3.12.3環境だとStablediffusion系で色々と支障がでてしまい、A1111-webuiもまともに動きません…<br>
+(A1111-webuiは今もなお3.10.6推奨です。(3.11.xでも動くらしい)。理由はA1111が主に使用しているPyTorchのバージョンに関連しています)</p>
+<p>ということでA1111-WebUIが動く3.10環境をインストールしないといけないのですが、Ubuntu24.04の通常では3.12環境しか入らないのでそう簡単にはいかないというのがあります。。。</p>
+<p>このような場合はpyenvを入れてpythonのバージョン切り替えを行うとシステムで使用するpythonと他のpythonのバージョンを切り替えて使用できトラブルなく共存が可能です。</p>
+<p>・pyenvのインストール方法</p>
+<p>pyenvは各バージョンのPythonインストール時にPythonのビルドもするっぽいのでビルド用のライブラリなどなどが必要です</p>
+<pre tabindex="0"><code>$ sudo apt install git build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+</code></pre><p>pyenvとその周辺をgithubから取って着ます</p>
+<pre tabindex="0"><code>$ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+$ git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+$ git clone https://github.com/pyenv/pyenv-update.git ~/.pyenv/plugins/pyenv-update
+</code></pre><p>これで、ユーザのホームディレクトリの<code>.pyenv</code>に必要なものが入ります<br>
+その後githubのpyenvの説明通りに<code>.bashrc</code>に追記します <br>
+以下のコマンドでも追記できます</p>
+<pre tabindex="0"><code>echo &#39;export PYENV_ROOT=&#34;$HOME/.pyenv&#34;&#39; &gt;&gt; ~/.bashrc
+echo &#39;command -v pyenv &gt;/dev/null || export PATH=&#34;$PYENV_ROOT/bin:$PATH&#34;&#39; &gt;&gt; ~/.bashrc
+echo &#39;eval &#34;$(pyenv init -)&#34;&#39; &gt;&gt; ~/.bashrc
+</code></pre><p>(環境によっては.profileにも書く必要はあるかもしれません。)</p>
+<p>ちなみにこれを行った後の.bashrcは次のようになります(最終行の3行が↑のコマンドで追記した追加部分です)</p>
+<pre tabindex="0"><code>...
+# enable programmable completion features (you don&#39;t need to enable
+# this, if it&#39;s already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+export PYENV_ROOT=&#34;$HOME/.pyenv&#34;
+command -v pyenv &gt;/dev/null || export PATH=&#34;$PYENV_ROOT/bin:$PATH&#34;
+eval &#34;$(pyenv init -)&#34;
+</code></pre><p>これをした後で一旦ログアウトするかもしくは</p>
+<pre tabindex="0"><code>$ source ~/.bashrc
+</code></pre><p>として今行った環境変数設定をシェルに反映させまます</p>
+<p>・pyenvに別のpythonバージョンをインストール</p>
+<p>例題としてUbuntu 22.04は3.10.12なので、ubuntu 22.04のPython環境を再現したい場合は3.10.12を入れる手順は以下です</p>
+<pre tabindex="0"><code>$ pyenv install 3.10.12
+</code></pre><p>指定バージョンがビルドされて<code>~/.pyenv</code>以下にインストールされます。<br>
+なお、この状態ではまだシステムは変わっていません。単にビルドしただけです。</p>
+<pre tabindex="0"><code>$ python3 --version
+Python 3.12.3
+$ python --version
+pyenv: python: command not found
+
+The `python&#39; command exists in these Python versions:
+  3.10.12
+
+Note: See &#39;pyenv help global&#39; for tips on allowing both
+      python2 and python3 to be found.
+</code></pre><p>なお、特定バージョンのPythonをアンインストールする場合は以下でOKです。</p>
+<pre tabindex="0"><code>$ pyenv uninstall 3.10.12
+</code></pre><p>・使用するPythonのバージョンを切り替えする</p>
+<p>現在開いているシェルセッションだけに適用する場合は次のようにします</p>
+<pre tabindex="0"><code>$ pyenv shell 3.10.12
+</code></pre><p>ユーザ全体設定として切り替える場合は以下</p>
+<pre tabindex="0"><code>$ pyenv global 3.10.12
+</code></pre><p>なお、システムのpythonに戻したい場合はバージョン番号の部分を<code>system</code>にすればOKです。</p>
+<p>例:</p>
+<pre tabindex="0"><code>$ pyenv shell 3.10.12
+$ python --version
+Python 3.10.12
+$ python3 --version
+Python 3.10.12
+$ pyenv version
+3.10.12 (set by PYENV_VERSION environment variable)
+
+$ pyenv shell system
+$ python --version
+pyenv: python: command not found
+
+The `python&#39; command exists in these Python versions:
+  3.10.12
+
+Note: See &#39;pyenv help global&#39; for tips on allowing both
+      python2 and python3 to be found.
+$ python3 --version
+Python 3.12.3
+$ pyenv version
+system (set by PYENV_VERSION environment variable)
+</code></pre><p>UbuntuではPythonがシステムで以外なところで使用されていたりするので <code>pyenv global</code> は出来るだけせずにpythonを使うときは逐一<code>pyenv shell</code>をしたほうがいいかもしれません。</p>
+<p>・venv環境を用意する場合<br>
+pyenvを使って特定のPythonバージョンのvenvを使う場合は次のようにします。</p>
+<pre tabindex="0"><code>$ mkdir pytest
+$ cd pytest
+$ pyenv shell 3.10.12
+$ python --version
+Python 3.10.12
+$ python -m venv venv
+$ source venv/bin/activate
+(venv) $
+(venv) $ python --version
+Python 3.10.12
+</code></pre><p>なお、一度venv環境を建ててしまえば他の<code>pyenv shell</code>を実行していないターミナル(またはシェル)で<code>venv/bin/activate</code>を実行してもpythonのバージョンはシステムのものとはならずvenvをactivateしたバージョン…つまりpyenvで切り替えたものとなります。<br>
+つまりこうなってシンボリックリンクが張られているから大丈夫というわけです。</p>
+<pre tabindex="0"><code>~/ptest/venv/bin$ ll
+合計 44
+drwxrwxr-x 2 XXX XXX 4096  5月 17 15:21 ./
+drwxrwxr-x 5 XXX XXX 4096  5月 17 15:21 ../
+-rw-r--r-- 1 XXX XXX 9033  5月 17 15:21 Activate.ps1
+-rw-r--r-- 1 XXX XXX 1987  5月 17 15:21 activate
+-rw-r--r-- 1 XXX XXX  913  5月 17 15:21 activate.csh
+-rw-r--r-- 1 XXX XXX 2193  5月 17 15:21 activate.fish
+-rwxrwxr-x 1 XXX XXX  236  5月 17 15:21 pip*
+-rwxrwxr-x 1 XXX XXX  236  5月 17 15:21 pip3*
+-rwxrwxr-x 1 XXX XXX  236  5月 17 15:21 pip3.10*
+lrwxrwxrwx 1 XXX XXX   44  5月 17 15:21 python -&gt; /home/xxx/.pyenv/versions/3.10.12/bin/python*
+lrwxrwxrwx 1 XXX XXX    6  5月 17 15:21 python3 -&gt; python*
+lrwxrwxrwx 1 XXX XXX    6  5月 17 15:21 python3.10 -&gt; python*
+</code></pre><p>ただまあ心配性なヒトは <code>pyenv shell</code> を実行してからまたactivateしたほうがいいかもしれませんね。</p>
+<p>あと、<code>pyenv shell</code>コマンドはシェルスクリプト内部では使えないのでシェルスクリプト内で使う場合は次のようにします</p>
+<pre tabindex="0"><code>#!/bin/bash
+
+# PYENV_VERSIONを環境変数に設定することでpyenv shell 3.10.6を実行したのと同じことになる
+export PYENV_VERSION=3.10.6
+python --version
+unset PYENV_VERSION
+# PYENV_VERSIONを空にしたので、これはエラーになる
+python --version
+</code></pre><p>つまり、<code>export PYENV_VERSION=バージョン</code>が<code>pyenv shell</code>と同じ意味合いになるということです</p>
+<p>参考：<br>
+Ubuntu 24.04 LTS なので Ubuntu Budgie を使う<br>
+<a href="https://qiita.com/tetutaro/items/594629004f73c182b6ff">https://qiita.com/tetutaro/items/594629004f73c182b6ff</a></p>
+<p>Ubuntuにpyenvをインストールする<br>
+<a href="https://qiita.com/middle_aged_rookie_programmer/items/0eb574e92a52c923e7ec">https://qiita.com/middle_aged_rookie_programmer/items/0eb574e92a52c923e7ec</a></p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+scrcpyのインストール
+</h3>
+</div>
+<p>Android端末の画面をそのままコピーしてUbuntu上で操作できるようにするツール。かなり便利。<br>
+snap版のほうが新しいので、例によってsnap版のをインストールすると良い（権限設定は忘れずに）</p>
+<p>また、Android端末側はUSBデバッグを有効にするのと、初回接続時はこのPCからの接続を許可するか？の問答があるので設定をすること。</p>
+<pre tabindex="0"><code>$ sudo snap install scrcpy
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+OBSのインストール
+</h3>
+</div>
+<p>例によってflatpak版をインストール</p>
+<p>１．公式からFlatpakをダウンロード<br>
+２．ファイルマネージャー等で開く<br>
+３．プラグインも全部入れる<br>
+４．普通に起動</p>
+<p>Webカメラが動作できて録画できることまでは確認。ただし配信は未確認（TwichかTwitterでの配信で問題ある環境があるとか？）<br>
+v4l2関連でエラーが出るかもしれないらしい（自分の環境では出ず）</p>
+<p>その時はこれをすると良いとのこと</p>
+<pre tabindex="0"><code>$ apt install v4l-utils libv4l-dev
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+barrierについて
+</h3>
+</div>
+<p>wayland環境は未対応なので注意すること。よって、gdm3のwaylandは外しておくこと。<br>
+xorg環境でないと動きません。</p>
+<p>Ubuntuに入っている2.4系でいけました</p>
+<pre tabindex="0"><code>$ sudo apt install barrier
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+barriercの自動実行について
+</h3>
+</div>
+<p>電源投入時にBarriercも自動実行させたいときはgdm3の設定が必要になる。<br>
+lightdmのときと違い、gdm3の設定はなかなかに面倒<br>
+なお、各種設定をする前に一度普通にbarrierを起動して最初の環境設定はしておかないといけないようですさらに以下設定例は<code>--disable-crypto</code>をつけて暗号化無効にしているので、暗号化有効の場合はコマンドが異なるので注意</p>
+<p>参考：<br>
+<a href="http://masaoo.blogspot.com/2021/07/ubuntu-2004-gdm-synergyc.html">http://masaoo.blogspot.com/2021/07/ubuntu-2004-gdm-synergyc.html</a></p>
+<p><code>/usr/share/gdm/greeter/autostart/barrierc.desktop</code>を新規作成</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="o">[</span>Desktop Entry<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>Application
+</span></span><span class="line"><span class="cl"><span class="nv">Name</span><span class="o">=</span>barrierc
+</span></span><span class="line"><span class="cl"><span class="nv">Exec</span><span class="o">=</span>/usr/bin/barrierc -f --no-tray --debug INFO --name サーバ名 --disable-crypto <span class="o">[</span>サーバIP<span class="o">]</span>:ポート番号
+</span></span><span class="line"><span class="cl"><span class="nv">NoDisplay</span><span class="o">=</span><span class="nb">true</span>
+</span></span><span class="line"><span class="cl">X-GNOME-AutoRestart<span class="o">=</span><span class="nb">true</span>
+</span></span></code></pre></div><pre tabindex="0"><code>$ cd /etc/gdm3/PostLogin
+$ sudo cp Default.sample Default
+</code></pre><p><code>/etc/gdm3/PostLogin/Default</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Note: this is a sample and will not be run as is.  Change the name of this</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># file to &lt;gdmconfdir&gt;/PostLogin/Default for this script to be run.  This</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># script will be run before any setup is run on behalf of the user and is</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># useful if you for example need to do some setup to create a home directory</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for the user or something like that.  $HOME, $LOGIN and such will all be</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># set appropriately and this script is run as root.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">killall barrierc
+</span></span></code></pre></div><p><code>/etc/gdm3/PostSession/Default</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">/usr/bin/killall barrierc
+</span></span><span class="line"><span class="cl"><span class="k">while</span><span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">xauthfile</span><span class="o">=</span><span class="k">$(</span>ps aux <span class="p">|</span>grep Xauth <span class="p">|</span> grep <span class="s1">&#39;^root&#39;</span> <span class="p">|</span> grep -oP <span class="s1">&#39;\-auth \K[\w/]+&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span>:0
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">XAUTHORITY</span><span class="o">=</span><span class="si">${</span><span class="nv">xauthfile</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/usr/bin/barrierc -f --no-tray --debug INFO --name サーバ名 --disable-crypto <span class="o">[</span>サーバIP<span class="o">]</span>:ポート番号
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span> <span class="m">0</span>
+</span></span></code></pre></div><p>ログイン後に自動起動させたいので以下のようにする</p>
+<pre tabindex="0"><code>$ cd ~/
+$ mkdir bin
+$ cd bin
+$ touch start-barrierc.sh
+$ chmod 775 start-barrierc.sh
+</code></pre><p><code>start-barrierc.sh</code>を編集</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-.sh" data-lang=".sh"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>/usr/bin/killall barrierc
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">[</span> <span class="k">$(</span>pgrep -x barrierc<span class="k">)</span> <span class="o">]</span><span class="p">;</span> <span class="k">do</span> sleep 0.1<span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">/usr/bin/barrierc -f --no-tray --debug INFO --name サーバ名 --disable-crypto <span class="o">[</span>サーバIP<span class="o">]</span>:ポート番号
+</span></span></code></pre></div><p>あとは、この<code>start-barrierc.sh</code>をUbuntuの「Startup Applications」（システムツールの<code>自動起動するアプリケーション</code>、または<code>Startup Applications</code>）で指定してあげればOK</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+hugoのインストール
+</h3>
+</div>
+<p>最新が0.133.1なので最新をインストールする。<br>
+※前提条件：Golangを入れておくこと</p>
+<p>0.すでにHugoを入れてしまっている場合はアンインストール</p>
+<pre tabindex="0"><code>$ sudo apt remove hugo
+</code></pre><p>１．ここから最新のdebを落とす(extend付きが良い)<br>
+<a href="https://github.com/gohugoio/hugo/releases/">https://github.com/gohugoio/hugo/releases/</a></p>
+<p>２．以下コマンドでインストール。/usr/localにインストールされる</p>
+<pre tabindex="0"><code>$ sudo dpkg -i ./hugo_extended_0.133.1_linux-amd64.deb
+</code></pre><p>３．確認</p>
+<pre tabindex="0"><code>$ hugo version
+hugo v0.133.1-47d00202e7e61769ce4d14691e43b27852c9cce4+extended linux/amd64 BuildDate=2024-08-26T13:58:46Z VendorInfo=gohugoio
+$ which hugo
+/usr/local/bin/hugo
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ファイル単位での完全消去
+</h3>
+</div>
+<p>消す前に3度ランダムデータを書いてから消すあれ<br>
+rmの変わりにshredを使うのもいいが事故ると困るので「File Shredder」を使うと良い。<br>
+Flatpakでのみ存在しているのでflatpakをセットアップの後、アプリセンターから「Shredder」を検索してインストール。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ディスクの完全消去
+</h3>
+</div>
+<p>Ubuntuに限らずLinuxにはcoreutilsにshredというコマンドがある。<br>
+NSA方式(3度ランダムデータ書く)でディスクを完全消去ができる</p>
+<pre tabindex="0"><code>$ sudo shred -uvz &lt;ファイルシステム名&gt;
+</code></pre><p>全領域に対して3回ランダムデータを書くのでかなり時間がかかる。<br>
+実施の際は色々確認した上で、UbuntuのLiveUSBにも入っているのでLiveUSBからやったほうがいいかもしれない。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+UEFIが有効になっているようなPCでBIOS画面に入りたい
+</h3>
+</div>
+<p>UEFIなPCにUbuntuを入れて電源を入れるとUEFI BIOSの設定によっては間髪入れずOS起動の画面になり、grubを出さないように設定している場合はgrubからUEFI画面に入ることもできないため、一体どうやってBIOS設定画面に入るんだこれみたいな感じになり途方に暮れますがそんなときはこれをすると良いそうな</p>
+<pre tabindex="0"><code>$ sudo systemctl reboot --firmware-setup
+</code></pre><p>これを実行すると再起動して、すぐさまUEFIなBIOSに入れます。(最近のWindowsで言うところの[システム]→[回復]からの[トラブルシューティング]のあれみたいなもんですな)<br>
+めでたしめでたし。<br>
+(なお、poweroffコマンドもrebootコマンドも実体はsystemctlだったりします)</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Stable Diffusion Web UI（AUTOMATIC1111,A1111）を動かす  
+</h3>
+</div>
+<p>画像生成AIのアレです。<br>
+最近何かと騒がしているStable Diffusionですが、素の実装ではコマンドラインだけだったり簡単には動かしにくいものになっています。<br>
+ということでフロントエンドをかぶせて、ブラウザ上から実行できあたかもGUIアプリとして利用できるようにしたのが、Stable Diffusion Web UI（AUTOMATIC1111）となります。<br>
+ubuntu 24.04ではA1111が使用しているPythonのバージョンが古いものが必要なため、ここが鬼門になります。<br>
+以下、順を追って説明します</p>
+<br>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+GPU用にnvidiaのドライバをインストール(RTX30xxや40xxの場合)
+</h3>
+</div>
+<p>Ubuntuのインストール時にNvidiaなどのサードパーティ用ドライバをインストールするを選択していれば、特に何もすることはなくNvidiaのドライバが当たるのでそのままで問題ないです。<br>
+もし入っていなければ「追加のドライバー」で出てくる最新のドライバーでOKです。<br>
+「nouveau」ドライバでは流石に動かないので気をつけましょう</p>
+<br>  
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+必要なパッケージをインストール
+</h3>
+</div>
+<p>以下コマンドで必要なものをインストールします。<code>git</code>は言わずもがなですが、<code>google-perftools</code>はメモリリーク避けです</p>
+<pre tabindex="0"><code>$ sudo apt install git google-perftools 
+</code></pre><br>  
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+A1111-WebUIをGithubから取得
+</h3>
+</div>
+<p>以下コマンドでCloneします</p>
+<pre tabindex="0"><code>$ git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+pyenv類のインストールをしてPython 3.10.6の環境を用意する
+</h3>
+</div>
+<p>Ubuntu 22.04のときはvenvがあれば特に何もしなくても動かすことができたのですが、Ubuntu 24.04になってからUbuntuで使用しているPythonのバージョンが3.12系列になってしまいました。<br>
+A1111-WebUIの<a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Troubleshooting">トラブルシューティングのページ</a>には、無慈悲にもこんなことが書かれています<br>
+<b>The program is tested to work on Python 3.10.6. Don&rsquo;t use other versions unless you are looking for trouble.</b><br>
+はい、<b>太文字</b>です。3.10.6以外はサポートしないぞという強い気持ちが感じ取られたかと思います</p>
+<p>というわけで、何が何でも3.10.6で動かさないといけないようです。(ubuntu22.04は3.10.12でサブマイナーが違うけど一応動いていた)<br>
+すでに「ubuntu 24.04のPython環境について」にUbuntu 24.04にPython3.10.6をシステムに影響を与えることなく共存させる方法を書いていますが、検索でここだけを見ている人のために、改めて手順をイチから書きたいと思います。<br>
+あと無理やりPythonの3.10.6を入れるのは<b>絶対にだめ</b>です。PythonはUbuntuのシステムでも大いに利用しており、勝手にシステムが使用しているPythonを消したり、バージョンを変えると色んな所に影響が出てしまい最悪Ubuntuの再インストール行きになります。。。</p>
+<p>これには複数のPythonバージョンを共存出来る<code>pyenv</code>というツールを入れます。<br>
+以下コマンドを入れてpyenvに必要なパッケージをインストールします</p>
+<pre tabindex="0"><code>$ sudo apt install build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+</code></pre><p>pyenvとその周辺をgithubから取って着ます</p>
+<pre tabindex="0"><code>$ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+$ git clone https://github.com/pyenv/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+$ git clone https://github.com/pyenv/pyenv-update.git ~/.pyenv/plugins/pyenv-update
+</code></pre><p>これで、ユーザのホームディレクトリの<code>.pyenv</code>に必要なものが入ります<br>
+その後githubのpyenvの説明通りに<code>.bashrc</code>に追記します <br>
+以下のコマンドをそのまま入力しても<code>.bashrc</code>に追記できます</p>
+<pre tabindex="0"><code>echo &#39;export PYENV_ROOT=&#34;$HOME/.pyenv&#34;&#39; &gt;&gt; ~/.bashrc
+echo &#39;command -v pyenv &gt;/dev/null || export PATH=&#34;$PYENV_ROOT/bin:$PATH&#34;&#39; &gt;&gt; ~/.bashrc
+echo &#39;eval &#34;$(pyenv init -)&#34;&#39; &gt;&gt; ~/.bashrc
+</code></pre><p>(環境によっては.profileにも書く必要はあるかもしれません。)</p>
+<p>ちなみにこれを行った後の.bashrcは次のようになります(最終行の3行が↑のコマンドで追記した追加部分です)</p>
+<pre tabindex="0"><code>...
+# enable programmable completion features (you don&#39;t need to enable
+# this, if it&#39;s already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+export PYENV_ROOT=&#34;$HOME/.pyenv&#34;
+command -v pyenv &gt;/dev/null || export PATH=&#34;$PYENV_ROOT/bin:$PATH&#34;
+eval &#34;$(pyenv init -)&#34;
+</code></pre><p>これをした後で一旦ログアウトするか再起動してください。その後、以下コマンドで<code>Pythonの3.10.6</code>をインストール</p>
+<pre tabindex="0"><code>$ pyenv install 3.10.6
+</code></pre><p>指定バージョンがビルドされて<code>~/.pyenv</code>以下にインストールされます。<br>
+なお、この状態ではまだ使えず単にビルドしただけなので次のように言われてしまいます</p>
+<pre tabindex="0"><code>$ python --version
+pyenv: python: command not found
+
+The `python&#39; command exists in these Python versions:
+  3.10.6
+
+Note: See &#39;pyenv help global&#39; for tips on allowing both
+      python2 and python3 to be found.
+$
+</code></pre><p>なので、次の<code>pyenv shell</code>コマンドで使えるかどうか確認します</p>
+<pre tabindex="0"><code>$ pyenv shell 3.10.6
+$ python --version
+Python 3.10.6
+</code></pre><p>無事にPython 3.10.6が動くようになりました。なお、<code>pyenv shell</code>はこのシェル(コマンドウィンドウ)だけで動作させることができるpythonを指定することができます。<br>
+(<code>pyenv global</code>でそのユーザだけを変えることもできるのですが、UbuntuではPythonがシステムで以外なところで使用されていたりするので<code>pyenv global</code>は出来るだけせずに古いpythonを使うときは逐一<code>pyenv shell</code>をしたほうが無難です)<br>
+ですが、今回はあくまで動作確認用です。</p>
+<p><code>pyenv shell</code>は使わず、webui-user.shを編集する方法を使います。</p>
+<p>
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+A1111-webUIのwebui-user.shを編集
+</h3>
+</div>
+stable-diffusion-webuiにある<code>webui-user.sh</code>の頭に以下を追記します</p>
+<pre tabindex="0"><code># pyenv version (= pyenv shell 3.10.6)
+export PYENV_VERSION=3.10.6
+</code></pre><p>これは内容的に<code>pyenv shell 3.10.6</code>とやってることは同じです。<br>
+つまり、毎回シェルを開いてA1111 webuiを起動するときに<code>pyenv shell 3.10.6</code>と打たなくても済むようになります。</p>
+<p>参考→<a href="https://github.com/pyenv/pyenv/issues/492#issuecomment-160488045">Is there a preferred way to use pyenv in a shell script? #492</a></p>
+
+
+
+
+
+
+<div class="content-3-title">
+  <h3>
+webuiを実行
+</h3>
+</div>
+<p>ここまでできたら</p>
+<pre tabindex="0"><code>$ cd stable-diffusion-webui
+$ ./webui.sh --listen --port 7860 --allow-code --xformers --enable-insecure-extension-access --api
+</code></pre><p>これでpytorchなど必要なものがインストールされ、 http://0.0.0.0:7860 に接続すればWebUIの画面が出ます。</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ComfyUIを動かす  
+</h3>
+</div>
+<p>画像生成AIのアレその２です。<br>
+ローカル画像生成AI界隈（？）で定番のアプリはおおよそAutomatic 1111 WebUIとComfyUIで二分しており、片割れのほうになります<br>
+Automatic 1111(以後A1111とします)がダイアログのようなページのような普通に考えそうなGUIに対して、ComfyUIは機能ごとに箱があってそれらに線をつなげて（ノード）実現していくというような、よくあるノードベースのGUIになっています。</p>
+<p>ノードベースということで、やや上級者向けになっています。<br>
+PythonでDiffuserを直接触って実行することを考えるとノードをGUIでつなげて色んな機能を実現できるわけで、生成が極まってくるとこちらのほうが良い…ということもあり、生成AIの仕組みの学習用途だとこちらのほうがいいのかもしれません。</p>
+<p>ノードをプログラミングでいう「関数」と例えると、実質Stablediffusion用のノーコードツールとして捉えることができるかなと思います。</p>
+<p>インストール手順は以下のとおりです(以下はGPUがnvidiaの場合)<br>
+ubuntu 24.04の標準であるPython 3.12の環境でも動いているので、A1111のようなPython 3.10環境を入れる複雑な手段を使わなくても良いです<br>
+ただ、venvの環境は最低でも作っておいたほうが無難です</p>
+<p>１．GPU用にnvidiaのドライバを入れます。<br>
+この辺はA1111と同じなので略</p>
+<p>２．Python類を入れる</p>
+<p>最低でもvenvは必要なので入れておきます</p>
+<pre tabindex="0"><code>$ sudo apt install python3-pip python3-venv
+</code></pre><p>３．ComfyUIのソースをgithubから取ってくる</p>
+<pre tabindex="0"><code>$ git clone https://github.com/comfyanonymous/ComfyUI.git
+</code></pre><p>ComfyUIはA1111とは違い常に最新版を使うことが推奨されています<br>
+なにか問題があれば自分でgitを使って手戻りしないと行けないかもしれませんが、そのあたりはきっちり管理されてるようで基本そんなことは無いかなといった感じです</p>
+<p>４．venv環境の設定と依存パッケージをvenv環境に入れる<br>
+A1111はこの辺を自動でやってくれますが、ComfyUIは自分でする必要があります。以下のようにするとOK</p>
+<pre tabindex="0"><code>$ cd ComfyUI
+$ python3 -m venv ./venv 
+$ source venv/bin/activate
+$ pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+$ pip install -r requirements.txt
+$ deactivate
+</code></pre><p>まずvenvの環境をComfyUI/venvに作ってそこにComfyUIで使うためだけのPytorchなど色々入れています。<br>
+venvの環境で行うため、ホストUbuntuの環境を汚さなくてすみます。<br>
+UbuntuはPythonで他のアプリなんかにも使われていることが結構あるので、野良のものを入れる場合はできるだけvenv環境下でやったほうがいいでしょう。<br>
+venv環境から抜ける場合は<code>deactivate</code>で抜けます。</p>
+<p>５．実行<br>
+venv環境に入ってから実行です。A1111だとあちらが用意してくれているシェルスクリプトで一発で動きますが、ComfyUIはひと手間かける必要があります</p>
+<pre tabindex="0"><code>$ cd ComfyUI
+$ source venv/bin/activate
+$ python main.py --listen
+</code></pre><p>これで http://0.0.0.0:8188 に接続すればComfyUIの画面が出ます。<br>
+入れている拡張機能によってはもしかしたらPython 3.12ではその拡張機能だけは動かないかもしれません。その場合は<code>pyenv</code>を使う方法で3.10に落とす必要があるかもしれませんね</p>
+<p>・拡張機能マネージャ（ComfyUI-Manager）の入れ方</p>
+<p>ワークフロー(ノードのつなぎかたのレシピなど)は公開されているのですが、たいていの場合はなんらかの拡張機能が使われていてそのままでは使えないパターンが多いです。<br>
+人のワークフローから使用されている拡張機能を探してgit cloneで取ってきて…となるとかなり面倒な作業になるのでComfyUI用の拡張機能マネージャこと「ComfyUI-Manager」を入れることが推奨されています。</p>
+<p>以下手順で入れます</p>
+<pre tabindex="0"><code>$ cd ComfyUI/custom_nodes
+$ git clone https://github.com/ltdrdata/ComfyUI-Manager.git
+</code></pre><p>Cloneできたら、ComfyUIをCtrl+Cなんかで終了させて再起動します。<br>
+画面右端のバーに「Manager」の項目ができるのでそこから拡張機能をインストールしたり、足りない拡張機能をインストールすることができます。</p>
+<br>  
+---
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fubuntu2404_memo%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20ubuntu%2024.04.1%20%e8%a8%ad%e5%ae%9a%e3%83%a1%e3%83%a2" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/linux/ubuntu2404_memo/" data-title="140文字以上: ubuntu 24.04.1 設定メモ" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
