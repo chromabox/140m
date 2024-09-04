@@ -487,6 +487,47 @@ grubは出来る限り表示させておいたほうが良くて、突然OSが�
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo update-grub
 </span></span></code></pre></div><p>でgrubの編集を反映させます</p>
 <p>なお、Windowsとのデュアルブート環境のときはすでにGrubの設定が上記のように配慮されています</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Ubuntu 24.04.1 Serverの場合の固定IP設定
+</h3>
+</div>
+<p>GUIが必要ないUbuntu 24.04.1 Serverの場合は仮想マシンで動かしたいときにどうしても固定IPを設定したいことがあるかと思います。<br>
+Ubuntu 24.04.1 Serverの場合はNetplanのみ動作しているので以下のようにします。</p>
+<ol>
+<li><code>/etc/netplan/50-cloud-init.yaml</code>を<code>50-cloud-init.yaml.org</code>とリネームして<code>50-cloud-init.yaml.org</code>をコピペ</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ <span class="nb">cd</span> /etc/netplan
+</span></span><span class="line"><span class="cl">$ sudo mv 50-cloud-init.yaml 50-cloud-init.yaml.org
+</span></span><span class="line"><span class="cl">$ sudo cp 50-cloud-init.yaml.org 01-netcfg.yaml
+</span></span></code></pre></div><ol start="2">
+<li>コピペした<code>01-netcfg.yaml</code>を編集。例では192.168.1.5を固定IPとして割り振るとします</li>
+</ol>
+<pre tabindex="0"><code>network:
+    ethernets:
+        eth0:
+            dhcp4: false
+            addresses: [192.168.1.5/24]
+            routes:
+              - to: default
+                via: 192.168.1.1
+            nameservers:
+              addresses: [192.168.1.1]
+            dhcp6: false
+    version: 2
+</code></pre><p>IPアドレスは、<code>address</code>ではなく<code>addresses</code>ですのでご注意…</p>
+<ol start="3">
+<li>再度有効化</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo chmod 01-netcfg.yaml
+</span></span><span class="line"><span class="cl">$ sudo netplan apply
+</span></span></code></pre></div><p>何か文法的間違いがあればapplyの段階でエラーが出るので直せばOK</p>
 <br>
 
 
@@ -556,7 +597,9 @@ Ubuntuのデフォルトでは権利関係が微妙な(微妙にライセンス�
 </code></pre><p>あれとか言ってるけど、動作的には問題ないので心配しないでほしい。どう違うか？は以下の通り。</p>
 <p>libavcodec　－　権利がしっかりしたもの<br>
 libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪しいもの</p>
-<br>
+<p>あと、コーデックがAV1の動画ファイルなどをTotem(付属のビデオプレーヤー)で再生したい場合は更に以下が必要です</p>
+<pre tabindex="0"><code>$ sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-plugins-bad-apps
+</code></pre><br>
 
 
 
@@ -854,36 +897,48 @@ sshとsshd
 <p>sshが無いと色々めんどくさいので早めにやっておく。<br>
 この辺はUbuntu22.04と同じ。</p>
 <pre tabindex="0"><code>ub2404: $ sudo apt install ssh
-</code></pre><p>もしもホスト側の<code>.ssh/config</code>が公開鍵オンリーになっていたら以下のようにホスト側のエントリーを書かないといけない</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">Host ub2404
-</span></span><span class="line"><span class="cl">	User XXX
-</span></span><span class="line"><span class="cl">	HostName YYY
-</span></span><span class="line"><span class="cl">	port <span class="m">22</span>
-</span></span><span class="line"><span class="cl">	IdentitiesOnly no
-</span></span><span class="line"><span class="cl">	PreferredAuthentications password
-</span></span></code></pre></div><p>これで一応PasswdでログインOK<br>
-インストール直後は.sshが作られていないのでsshで入ったあとで自分で自分のサーバに入る</p>
-<pre tabindex="0"><code>host: $ ssh ub2404
-(Pass聞いてくる)
-ub2404:$ ssh localhost
-(FingerPrint合ってるかどうか聞いてくるのでYと答える)
-(Pass聞いてくる)
-ub2404:$ exit
-</code></pre><p>ホスト側(もしあれば)で、ed25519な鍵生成</p>
-<pre tabindex="0"><code>host: $ ssh-keygen -t ed25519
-</code></pre><p>何処に出力するか聞いてくるので、設定して鍵ファイルを作る</p>
+</code></pre><p>まずはクライアント側(接続側)の<code>/home/xxx/.ssh/config</code>は以下のようにしておく</p>
+<pre tabindex="0"><code>Host *
+        PreferredAuthentications password
+        TCPKeepAlive yes
+
+Match host * exec &#34;gpg-connect-agent UPDATESTARTUPTTY /bye&#34;
+</code></pre><p>これはデフォルトのAnyなサーバでsshで入るときは「パスワード認証」を使いますよという意味です。</p>
+<p>インストール直後は.sshが作られていない場合があるので、sshで入ったあとで自分で自分のサーバに入ります</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">client:$ ssh 192.168.x.xxx
+</span></span><span class="line"><span class="cl"><span class="o">(</span>Pass聞いてくる<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ub2404:$ ssh localhost
+</span></span><span class="line"><span class="cl"><span class="o">(</span>FingerPrint合ってるかどうか聞いてくるのでYと答える<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>Pass聞いてくる<span class="o">)</span>
+</span></span><span class="line"><span class="cl">ub2404:$ <span class="nb">exit</span>
+</span></span></code></pre></div><p>クライアント側(もしあれば)で、ed25519な鍵生成</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">client:$ ssh-keygen -t ed25519
+</span></span></code></pre></div><p>何処に出力するか聞いてくるので、設定して鍵ファイルを作る</p>
 <p>インストール先に公開鍵を転送</p>
-<pre tabindex="0"><code>host: $ scp (作った秘密鍵).pub (転送先サーバ名):/home/xxx/
-</code></pre><p>転送先で鍵設定</p>
-<pre tabindex="0"><code>ub2404:$ cp (作った秘密鍵).pub .ssh/authorized_keys
-ub2404:$ chmod 600 .ssh/authorized_keys
-</code></pre><p>セキュリティを高めるために、転送先のsshd_configを触って鍵オンリーにしてパスワードログインは禁止。<br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">client:$ scp <span class="o">(</span>作った秘密鍵<span class="o">)</span>.pub <span class="o">(</span>転送先サーバIP<span class="o">)</span>:/home/xxx/.ssh/authorized_keys
+</span></span></code></pre></div><p>転送先で鍵設定</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ub2404:$ chmod <span class="m">600</span> .ssh/authorized_keys
+</span></span></code></pre></div><p>セキュリティを高めるために、転送先のsshd_configを触って鍵オンリーにしてパスワードログインは禁止。<br>
 <code>/etc/ssh/sshd_config</code>を以下のように変更</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PubkeyAuthentication yes
 </span></span><span class="line"><span class="cl">PasswordAuthentication no
+</span></span></code></pre></div><p>ここがubuntu24.04 serverの沼ポイントですが、ubuntu24.04 serverの場合は<code>/etc/ssh/sshd_config.d/50-cloud-init.conf</code>にも<code>PasswordAuthentication</code>の設定があって、せっかく無効にしていたパスワード認証を有効にしてしまいます…<br>
+もしこれがある場合は忘れず以下のように頭に＃をつけてコメントアウトします</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1">#PasswordAuthentication yes</span>
 </span></span></code></pre></div><p>最後に、sshdリスタート</p>
-<pre tabindex="0"><code>ub2404:$ systemctl restart ssh
-</code></pre><br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ub2404:$ systemctl restart ssh
+</span></span></code></pre></div><p>最後にsshコマンドで毎回鍵やらを指定するのはめんどくさいので、<code>/home/xxx/.ssh/config</code>を編集します。</p>
+<pre tabindex="0"><code>Host ubuntuserver
+        User xxx
+        Hostname 192.168.x.xxx
+        Port 22
+        Identityfile ~/.ssh/作った秘密鍵を指定
+        IdentitiesOnly yes
+        PreferredAuthentications publickey
+</code></pre><p>こうしておくと、次にsshで入りたいときに</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">client:$ ssh ubuntuserver
+</span></span></code></pre></div><p>とだけで入れるので楽です<br>
+<br>
 
 
 
@@ -894,7 +949,7 @@ ub2404:$ chmod 600 .ssh/authorized_keys
   <h3>
 Samba設定
 </h3>
-</div>
+</div></p>
 <p>まず、Sambaをインストール</p>
 <pre tabindex="0"><code>$ sudo apt install samba
 </code></pre><p>次に<code>/etc/samba/smb.conf</code>に追記</p>
@@ -1526,17 +1581,27 @@ PythonでDiffuserを直接触って実行することを考えるとノードを
 <p>インストール手順は以下のとおりです(以下はGPUがnvidiaの場合)<br>
 ubuntu 24.04の標準であるPython 3.12の環境でも動いているので、A1111のようなPython 3.10環境を入れる複雑な手段を使わなくても良いです<br>
 ただ、venvの環境は最低でも作っておいたほうが無難です</p>
-<p>１．GPU用にnvidiaのドライバを入れます。<br>
+<ol>
+<li>
+<p>GPU用にnvidiaのドライバを入れます。<br>
 この辺はA1111と同じなので略</p>
-<p>２．Python類を入れる</p>
+</li>
+<li>
+<p>Python類を入れる</p>
+</li>
+</ol>
 <p>最低でもvenvは必要なので入れておきます</p>
 <pre tabindex="0"><code>$ sudo apt install python3-pip python3-venv
-</code></pre><p>３．ComfyUIのソースをgithubから取ってくる</p>
+</code></pre><ol start="3">
+<li>ComfyUIのソースをgithubから取ってくる</li>
+</ol>
 <pre tabindex="0"><code>$ git clone https://github.com/comfyanonymous/ComfyUI.git
 </code></pre><p>ComfyUIはA1111とは違い常に最新版を使うことが推奨されています<br>
 なにか問題があれば自分でgitを使って手戻りしないと行けないかもしれませんが、そのあたりはきっちり管理されてるようで基本そんなことは無いかなといった感じです</p>
-<p>４．venv環境の設定と依存パッケージをvenv環境に入れる<br>
-A1111はこの辺を自動でやってくれますが、ComfyUIは自分でする必要があります。以下のようにするとOK</p>
+<ol start="4">
+<li>venv環境の設定と依存パッケージをvenv環境に入れる<br>
+A1111はこの辺を自動でやってくれますが、ComfyUIは自分でする必要があります。以下のようにするとOK</li>
+</ol>
 <pre tabindex="0"><code>$ cd ComfyUI
 $ python3 -m venv ./venv 
 $ source venv/bin/activate
@@ -1547,8 +1612,10 @@ $ deactivate
 venvの環境で行うため、ホストUbuntuの環境を汚さなくてすみます。<br>
 UbuntuはPythonで他のアプリなんかにも使われていることが結構あるので、野良のものを入れる場合はできるだけvenv環境下でやったほうがいいでしょう。<br>
 venv環境から抜ける場合は<code>deactivate</code>で抜けます。</p>
-<p>５．実行<br>
-venv環境に入ってから実行です。A1111だとあちらが用意してくれているシェルスクリプトで一発で動きますが、ComfyUIはひと手間かける必要があります</p>
+<ol start="5">
+<li>実行<br>
+venv環境に入ってから実行です。A1111だとあちらが用意してくれているシェルスクリプトで一発で動きますが、ComfyUIはひと手間かける必要があります</li>
+</ol>
 <pre tabindex="0"><code>$ cd ComfyUI
 $ source venv/bin/activate
 $ python main.py --listen
@@ -1563,7 +1630,6 @@ $ git clone https://github.com/ltdrdata/ComfyUI-Manager.git
 </code></pre><p>Cloneできたら、ComfyUIをCtrl+Cなんかで終了させて再起動します。<br>
 画面右端のバーに「Manager」の項目ができるのでそこから拡張機能をインストールしたり、足りない拡張機能をインストールすることができます。</p>
 <br>  
----
 
 </div>
 
