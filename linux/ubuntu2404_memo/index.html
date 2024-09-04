@@ -640,6 +640,35 @@ libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪�
 
 <div class="content-2-title">
   <h3>
+ディスク(HDDやSSD)のクローンやディスクイメージを取りたい、どうにかディスクを復旧させたい場合
+</h3>
+</div>
+<p>Linuxでのディスククローンの定番は<code>dd</code>コマンドですが、<code>dd</code>の欠点を直した<code>ddrescue</code>を使うのが良いです<br>
+以下でインストールできます</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo apt install gddrescue
+</span></span></code></pre></div><p><b>・コピー元にエラーがない場合</b><br>
+単にコピー元にディスクエラーがなくクローンする場合はコピー元が<code>/dev/sda</code>、コピー先が<code>/dev/sdb</code>の場合は、次のようにします<br>
+下手したら取り返しがつかないため、「コピー元」、「コピー先」の指定順を実行前に<b>必ず再確認</b>しましょう</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo ddrescue -f -v /dev/sda /dev/sdb
+</span></span></code></pre></div><p><b>・コピー元にエラーがあってどうにか救出しつつクローンをしたい場合</b><br>
+コピー元の<code>/dev/sda</code>になんらかのエラーが発生しており、どうにか<code>/dev/sdb</code>に移したい場合は次のようにします<br>
+下手したら取り返しがつかないため、「コピー元」、「コピー先」の指定順を実行前に<b>必ず再確認</b>しましょう</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo ddrescue -f -n -v /dev/sda /dev/sdb ddlog.log
+</span></span></code></pre></div><p>これでエラーが報告されなければめでたしめでたしですが、エラーが報告されてしまったときは続けて以下のようにコマンドを入力してください</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo ddrescue -f -d -r1 -v /dev/sda /dev/sdb ddlog.log
+</span></span></code></pre></div><p><code>-r</code>オプションは続く回数分だけエラーが発生したら読み直しをしてくれます。が、それだけHDDやSSDに負担がかかってしまい「最後の一撃」になりかねないのでよく考えて実施しましょう。<br>
+(ddrescueのマニュアルにはI/Oエラーが発生しているディスクにはおすすめしませんと書かれています)<br>
+<code>-d</code>はディスクの読み取り時にキャッシュを使わずに必ずディスクへダイレクトアクセスをします。ダイレクトアクセスということで遅くなりますがエラーが出ているようなディスクの場合、キャッシュ経由で読むのは信頼性が無いためわりと重要です<br>
+<code>ddlog.log</code>はログファイルで、これを作っておくと二回目の<code>ddrescue</code>コマンドのときに考慮してくれて、エラーが出ている箇所だけコピーを実施しようとします。</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
 Flatpakのインストール
 </h3>
 </div>
