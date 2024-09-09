@@ -669,6 +669,30 @@ libavcodec-extra　－　ubuntu-restricted-extrasで勝手に入る。権利怪�
 
 <div class="content-2-title">
   <h3>
+Windowsとのデュアルブート時にUbuntuを起動して終わらせたあと、Windowsを起動すると時間がズレる
+</h3>
+</div>
+<p>これはWindowsとのデュアルブートをするときに出てくるFAQみたいなものです</p>
+<p>Ubuntu(Linux)とWindowsではRTC(ハードウェアが覚えている時刻)の解釈が異なるために発生します。<br>
+Windowsの場合はRTCにかかれている時刻はローカルタイムであると（日本の場合ははRTC+9）として解釈します。<br>
+なので、自動時間同期が発動した瞬間にネットワークから取ってきたRTCに+9した値をハードウェアに書き込みます</p>
+<p>他方、LinuxはハードウェアのRTCが覚えている値をそのまま解釈するため、自動時刻同期が動いた瞬間にネットワークから取ってきた時刻をそのままRTCに書き込みます。</p>
+<p>というわけで、RTCの解釈方法がOSによって違うためこの現象は発生する…ということになります<br>
+この現象の補正方法は二種類あって、Windows側の解釈を変えるか、Linux側の解釈を変えるかの２つです</p>
+<p>Windows側を変えるのは結構面倒なので、Ubuntu側のRTCの解釈を以下コマンドで変えます</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo timedatectl set-local-rtc <span class="m">1</span>
+</span></span></code></pre></div><p><code>set-local-rtc 1</code>とすると、Linux側はRTCの解釈をローカルタイムと認識します（つまりこれはRTC+9の値なんだなと認識する）<br>
+これを<code>set-local-rtc 0</code>とするとLinux側はRTCの解釈を補正なしの値と認識します（RTCそのまま）</p>
+<p>これを実行したあと、Windows側を起動して手動で時刻の同期をさせれば治ります</p>
+<BR>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
 Flatpakのインストール
 </h3>
 </div>
