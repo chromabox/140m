@@ -1,0 +1,621 @@
+<!doctype html>
+
+<html lang="ja">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="generator" content="Hugo 0.133.1">
+  
+  
+<meta property="og:site_name"           content="140文字以上">
+<meta property="og:title"               content="ollamaをUbuntu 24.04 にインストールしてDeepSeek(の量子化モデル)に触れてみる">
+<meta property="twitter:title"          content="ollamaをUbuntu 24.04 にインストールしてDeepSeek(の量子化モデル)に触れてみる">
+<meta property="og:url"                 content="https://chromabox.github.io/140m/linux/ubuntu2404_ollama/">
+<meta property="og:type"                content="article">
+<meta property="og:description"         content="chatGPTなどの高性能AIに比類し、しかもそれのモデルが公開されており「ローカルPCでもChatGPTのような高性能LLM動かせるじゃな">
+<meta property="twitter:description"    content="chatGPTなどの高性能AIに比類し、しかもそれのモデルが公開されており「ローカルPCでもChatGPTのような高性能LLM動かせるじゃな">
+
+    <meta property="og:image"       content="https://chromabox.github.io/140m/cards/default_card.jpg">
+    <meta property="og:image:url"   content="https://chromabox.github.io/140m/cards/default_card.jpg">
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/solid.min.css" integrity="sha512-bdTSJB23zykBjGDvyuZUrLhHD0Rfre0jxTd0/jpTbV7sZL8DCth/88aHX0bq2RV8HK3zx5Qj6r2rRU/Otsjk+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/brands.min.css" integrity="sha512-L+sMmtHht2t5phORf0xXFdTC0rSlML1XcraLTrABli/0MMMylsJi3XA23ReVQkZ7jLkOEIMicWGItyK4CAt2Xw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/fontawesome.min.css" integrity="sha512-cHxvm20nkjOUySu7jdwiUxgGy11vuVPE9YeK89geLMLMMEOcKFyS2i+8wo0FOwyQO/bL8Bvq1KMsqK4bbOsPnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=M+PLUS+1p:300,400,500,700&amp;subset=japanese">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://chromabox.github.io/140m/css/syntax-highlight.css">
+
+  
+  
+  <title>ollamaをUbuntu 24.04 にインストールしてDeepSeek(の量子化モデル)に触れてみる | 140文字以上</title>
+  <style>
+.container {
+  max-width: 1200px;
+}
+
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #303030; 
+	background: rgb(245,250,254);  
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(178,216,239,1) 100%);  
+  line-height: 1.7;
+}
+
+a {
+	color: #337a33;
+	text-decoration: underline;
+  word-wrap:break-word;
+}
+
+#btitle-border {
+  border-bottom: 1px solid #ccc;
+}
+
+#btitle {
+  padding: 2rem 0 1rem 0;
+}
+#btitle a {
+	font-weight: 400;
+  font-size: 26px;
+  color: #303030;
+  text-decoration: none;
+}
+
+#bstitle {
+  padding: 0 0 0 0;
+}
+#bstitle p {
+  padding: 0 0 0 0;
+  margin: 0 0 0.1rem 0;
+}
+#bstitle h4 {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+#main {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#footer .my-container {
+  padding: 1em 0;
+}
+#footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.blog-post, .blog-pagination {
+  margin-bottom: 1rem;
+}
+
+.page-item.disabled .page-link {
+  background-color: inherit;
+}
+
+.page-link {
+  background-color: inherit;
+}
+
+.blog-post-date {
+	font-weight: 300;
+  font-size: 12px;
+}
+
+.blog-post-title {
+  margin: 0;
+  padding: 0 0 0 0;
+  font-weight: 500;
+  font-size: 26px;
+}
+
+
+.my-container {
+  max-width: 1200px;
+}
+
+.header-box {
+	border: 1px solid #808080;
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.main-box {
+  border: 1px solid #808080;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 1.8rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1.8rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.font-125 {
+  font-size: 125%;
+}
+.tag-btn {
+  margin-bottom: 0.3em;
+}
+
+.content-2-title {
+	margin-top: 2rem;
+	margin-bottom: 0.5rem;
+	margin-left: -0.5rem;
+  border-bottom: 1px solid #808080;
+  border-left: 4px solid #808080;
+  padding-left: 0.5rem;
+}
+.content-2-title h3 {
+	font-weight: 500;
+  font-size: 20px;
+}
+
+.content-3-title {
+	margin-top: 15px;
+	margin-bottom: 10px;
+  border-bottom: 1px solid #808080;
+  border-left: 1px solid #808080;
+  padding-left: 5px;
+}
+
+.content-3-title h3 {
+	font-weight: 500;
+  font-size: 18px;
+}
+
+ul, ol {
+  padding-left:30px;
+}
+
+@media screen and (max-width: 479px) {
+
+  .my-container {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .header-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .main-box {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .content-2-title {
+    margin-left: -0.3rem;
+  }
+
+}
+  
+
+
+.figure-img {
+  margin-bottom: 0.1rem;
+  line-height: 1;
+}
+.figure-caption {
+  font-size: 90%;
+  color: inherit;
+}
+
+.smallbox {
+  font-size: 70%;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  color: inherit;
+}
+
+pre {
+  border: 1px solid #ccc;
+	background: rgb(70,70,70);
+	color: rgb(255,255,255);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+pre code {
+	font-family: inherit;
+  font-size: inherit;
+  color: inherit; 
+  background-color: transparent;
+  border-radius: 0;
+}
+code {
+  padding: 2px 4px;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 5px;
+}
+.code-name {
+  display: inline-block;
+  padding: 2px 4px;
+	background: #9090A0;
+	color: rgb(255,255,255);
+  font-size: inherit;
+  border-radius: 0.5rem;
+}
+
+pre code span {
+	font-family: inherit;
+}
+
+hr {
+  background-color: #808080;
+}
+
+
+
+img,
+iframe,
+embed,
+video,
+audio {
+  max-width: 100%;
+}
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: initial;
+}
+
+* {
+	font-family: 'M PLUS 1p', sans-serif;
+	font-weight: 400;
+  word-wrap:break-word;
+}
+
+</style>
+</head>
+  <body class="d-flex flex-column">
+    <div id="btitle-border" class="container-fluid my-container">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="btitle" class="btitle">
+    <h3><a href="https://chromabox.github.io/140m/">140文字以上</a></h3>
+  </div>
+  <div id="bstitle" class="bstitle">
+    <h4>
+      <p>140文字では伝わらないことを書いています。禁無断転載</p>
+      <p>
+        <a href="https://twitter.com/chromarock">twitter(@chromarock)</a>,
+        <a href="https://github.com/chromabox">github</a>,
+		    <a rel="me" href="https://bsky.app/profile/chromarock.bsky.social">bluesky</a>,
+		    <a rel="me" href="https://mastodon-japan.net/@chromarock">Mastodon(japanet)</a>,
+		    <a rel="me" href="https://misskey.io/@chromarock">misskey</a>,
+        <a href="https://www.amazon.co.jp/hz/wishlist/ls/23TQMSM3EB8EA">ほしいものリスト</a>,
+        <a href="https://chromabox.github.io/140m/proof/">本人証明</a>,
+        <a href="https://chromabox.github.io/140m/about/">その他プロフィール</a>
+      </p>
+  </h4>
+  </div>
+</div>
+
+    <div class="container-fluid my-container">
+      <main id="main">
+        
+<header class="header-box">
+    
+
+
+<div class="blog-post-date text-secondary">
+    
+    <i class="fa fa-clock"></i><time datetime="2025-02-02">2025-02-02</time>
+    
+</div>
+
+    <h2 class="blog-post-title">
+    <a class="text-dark text-decoration-none" href="https://chromabox.github.io/140m/linux/ubuntu2404_ollama/">ollamaをUbuntu 24.04 にインストールしてDeepSeek(の量子化モデル)に触れてみる</a>
+</h2>
+
+    
+<div class="blog-post-tags text-secondary">
+    <strong>tags:</strong>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ubuntu">ubuntu</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/linux">linux</a>
+    
+        <a class="btn btn-sm btn-outline-dark tag-btn" href="/tags/ai">ai</a>
+    
+</div>
+
+
+    
+
+</header>
+<div class="main-box">
+<p>chatGPTなどの高性能AIに比類し、しかもそれのモデルが公開されており「ローカルPCでもChatGPTのような高性能LLM動かせるじゃないか！」とLLM界隈が盛り上がり、釣られて一般人にも盛り上がり…というわけで最近巷を色々騒がせている「Deepseek」ですが、実は「蒸留モデル」という、元のモデルを教師として学習し直した軽量なモデルであれば、ビックテックが持ってるような<strong>H100やH200</strong>などの<strong>超超超…強力な</strong>GPUが無くてもつおいLLMが動かせると聞きつけて家のRTX4080＋Ubuntuでも動かせるかどうか試しました。</p>
+<p>「DeepSeekガー中国ガー」って短絡的に言う困った人たちも見かけますが、ローカルで重み(学習済みモデル)を動かすだけなら比較的安全です<br>
+（比較的という枕詞をつけているのは、出力された内容を鵜呑みにしないとかそういう<em>当たり前</em>のことです。これはChatGPTや数多のLLMでも同じことなんですけどね…）</p>
+<p>前置き長くなりましたが、LLMはモデル（重み）だけあってもそれだけでは動きません。<br>
+そのモデルをGPUにロードしたり、プロンプトを送って推論を回したり、回答を得たりする「実行環境」が必要になります。<br>
+このLLMの実行環境は巨大なサーバでのみ動くものとか、家のPCで動くものとか、ラズパイでも動くものとか…本当にいろんなものがあります。</p>
+<p>今回は「普通のPCで動く」という目標なので、ローカルPC実行環境が必要です。</p>
+<p>その中でもgo言語で作られているらしい「ollama（オラマと言うらしい）」を使うのが他パッケージとの依存関係もあまりなくて「非常に導入が楽」というのを聞いたので、これ経由でDeepseekの蒸留モデルをUbuntuで動かしてみます。</p>
+<p>ちなみにOllama公式はこちら<br>
+<a href="https://ollama.com/">https://ollama.com/</a><br>
+<a href="https://github.com/ollama/ollama/tree/main">https://github.com/ollama/ollama/tree/main</a></p>
+<p>なんかアイコンがアルパカみたいですね。(<em><strong>Alpaca</strong></em>という言語モデルとかollama用のフロントエンドもあるらしい…名前空間…)</p>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+ollamaのセットアップ
+</h3>
+</div>
+<p>ollamaのUbuntuへのインストールは、公式のこれを実行すればあっという間に導入できます<br>
+<a href="https://ollama.com/download">https://ollama.com/download</a></p>
+<p>が、、、しかしこのスクリプトは勝手にollamaのサービスを登録したり、勝手にドライバ入れたりと「Ubuntuチョットデキル勢」のボクから見たらちょっと（というかかなり）行儀が悪いので、自分は以下のようにして手動セットアップをしました。</p>
+<ol>
+<li>
+<p>ollama用のディレクトリを適当に作る<br>
+<code>/home/user/ollama</code>など、どこでもいいです。<br>
+なお、<code>install.sh</code>を実行すると<code>/usr/local/</code>にollama関連のファイルが勝手にダウンロードされて勝手に<code>/usr/local/bin</code>と<code>/usr/local/lib</code>に置かれ、勝手にollamaサービスが登録されます…半分罠やんけ</p>
+</li>
+<li>
+<p>ollamaのバイナリをダウンロード<br>
+厳密にやりたければソースからビルドしたほうがいいのですが、流石にソースからのビルドは色々大変で面倒なので公式が用意してくれているバイナリをとってくるのが良いです。<br>
+１で作ったディレクトリ内で以下実行</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget https://ollama.com/download/ollama-linux-amd64.tgz
+</span></span></code></pre></div><ol start="3">
+<li>tgzをそのまま展開</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar zxvf ollama-linux-amd64.tgz
+</span></span></code></pre></div><p>展開するとbinとlibディレクトリができます。<br>
+binにollama本体、libに各GPUを使う依存ライブラリやサーバなど(cublasとかrocmとか)が入っています。<br>
+(特殊なライセンスなのかもしれないけど、cudartとかこれ再配布ええんや…みたいな感じです)</p>
+<ol start="4">
+<li>
+<p>モデルを保存するためのディレクトリを用意<br>
+モデルはデフォルトでは<code>/usr/share/ollama</code>以下に作られてしまいます。<br>
+モデルは数GBもしくは数十GBにもなるので、心配なら別のディスクにするなどしたほうが良さげ<br>
+これは環境変数<code>OLLAMA_MODELS</code>で変更が可能とのことで、適切に用意します</p>
+</li>
+<li>
+<p>以下のような実行用のシェルスクリプト(<code>ollama_exec_server.sh</code>)を作る<br>
+ollamaはサーバが動いてその中でLLMが動いて、クライアントがollamaサーバのAPIを叩いて解答を得るみたいな感じになっています<br>
+なので、<code>install.sh</code>などでサービスを登録しないで使う場合は自力でollamaのサーバを建てる必要があります。<br>
+いちいち打つのは面倒なので、シェルスクリプトを作って動かしたいときはシェルスクリプトを叩くという運用が良いと思います。</p>
+</li>
+</ol>
+<p>以下のシェルスクリプトの<code>MODELDIR</code>はモデルを保存するディレクトリ名です。自分の場合はそのままこのスクリプトが置かれているディレクトリにmodelsディレクトリを作ってそこにおいています。<br>
+<code>OLLAMA_HOST</code>は、デフォルトでは<code>127.0.0.1</code>になっており、外部LANからもアクセスできないようになっているのでこうしています。<br>
+このへんは各々セキュリティを考慮して適時変更してください<br>
+<code>OLLAMA_ORIGINS</code>も同じ意味合いです。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">CUR</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">cd</span> <span class="s2">&#34;</span><span class="k">$(</span>dirname <span class="s2">&#34;</span><span class="nv">$BASH_SOURCE</span><span class="s2">&#34;</span><span class="k">)</span><span class="s2">&#34;</span><span class="p">;</span> <span class="nb">pwd</span><span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">MODELDIR</span><span class="o">=</span><span class="nv">$CUR</span>/models
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OLLAMA_MODELS</span><span class="o">=</span><span class="nv">$MODELDIR</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OLLAMA_HOST</span><span class="o">=</span>0.0.0.0
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OLLAMA_ORIGINS</span><span class="o">=</span>192.168.*,172.*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">./bin/ollama serve
+</span></span></code></pre></div><ol start="6">
+<li><code>ollama_exec_server.sh</code>に実行権限を与えて動かす<br>
+こんな感じで動いたらとりあえず準備完了。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">2025/02/02 15:35:13 routes.go:1187: INFO server config <span class="nv">env</span><span class="o">=</span><span class="s2">&#34;map[CUDA_VISIBLE_DEVICES: GPU_DEVICE_ORDINAL: HIP_VISIBLE_DEVICES: HSA_OVERRIDE_GFX_VERSION: HTTPS_PROXY: HTTP_PROXY: NO_PROXY: OLLAMA_DEBUG:false OLLAMA_FLASH_ATTENTION:false OLLAMA_GPU_OVERHEAD:0 OLLAMA_HOST:http://0.0.0.0:11434 OLLAMA_INTEL_GPU:false OLLAMA_KEEP_ALIVE:5m0s OLLAMA_KV_CACHE_TYPE: OLLAMA_LLM_LIBRARY: OLLAMA_LOAD_TIMEOUT:5m0s OLLAMA_MAX_LOADED_MODELS:0 OLLAMA_MAX_QUEUE:512 OLLAMA_MODELS:/home/user/llm/ollama/models OLLAMA_MULTIUSER_CACHE:false OLLAMA_NOHISTORY:false OLLAMA_NOPRUNE:false OLLAMA_NUM_PARALLEL:0 OLLAMA_ORIGINS:[192.168.* 172.* http://localhost https://localhost http://localhost:* https://localhost:* http://127.0.0.1 https://127.0.0.1 http://127.0.0.1:* https://127.0.0.1:* http://0.0.0.0 https://0.0.0.0 http://0.0.0.0:* https://0.0.0.0:* app://* file://* tauri://* vscode-webview://*] OLLAMA_SCHED_SPREAD:false ROCR_VISIBLE_DEVICES: http_proxy: https_proxy: no_proxy:]&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">time</span><span class="o">=</span>2025-02-02T15:35:13.847+09:00 <span class="nv">level</span><span class="o">=</span>INFO <span class="nv">source</span><span class="o">=</span>images.go:432 <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;total blobs: 0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">time</span><span class="o">=</span>2025-02-02T15:35:13.847+09:00 <span class="nv">level</span><span class="o">=</span>INFO <span class="nv">source</span><span class="o">=</span>images.go:439 <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;total unused blobs removed: 0&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> <span class="o">[</span>WARNING<span class="o">]</span> Creating an Engine instance with the Logger and Recovery middleware already attached.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> <span class="o">[</span>WARNING<span class="o">]</span> Running in <span class="s2">&#34;debug&#34;</span> mode. Switch to <span class="s2">&#34;release&#34;</span> mode in production.
+</span></span><span class="line"><span class="cl"> - using env:	<span class="nb">export</span> <span class="nv">GIN_MODE</span><span class="o">=</span>release
+</span></span><span class="line"><span class="cl"> - using code:	gin.SetMode<span class="o">(</span>gin.ReleaseMode<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/pull                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.PullHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/generate             --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.GenerateHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/chat                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ChatHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/embed                --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.EmbedHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/embeddings           --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.EmbeddingsHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/create               --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.CreateHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/push                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.PushHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/copy                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.CopyHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> DELETE /api/delete               --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.DeleteHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/show                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ShowHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /api/blobs/:digest        --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.CreateBlobHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> HEAD   /api/blobs/:digest        --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.HeadBlobHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> GET    /api/ps                   --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.PsHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /v1/chat/completions      --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ChatHandler-fm <span class="o">(</span><span class="m">6</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /v1/completions           --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.GenerateHandler-fm <span class="o">(</span><span class="m">6</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> POST   /v1/embeddings            --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.EmbedHandler-fm <span class="o">(</span><span class="m">6</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> GET    /v1/models                --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ListHandler-fm <span class="o">(</span><span class="m">6</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> GET    /v1/models/:model         --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ShowHandler-fm <span class="o">(</span><span class="m">6</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> GET    /                         --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.GenerateRoutes.func1 <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> GET    /api/tags                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ListHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> GET    /api/version              --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.GenerateRoutes.func2 <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> HEAD   /                         --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.GenerateRoutes.func1 <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> HEAD   /api/tags                 --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.ListHandler-fm <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>GIN-debug<span class="o">]</span> HEAD   /api/version              --&gt; github.com/ollama/ollama/server.<span class="o">(</span>*Server<span class="o">)</span>.GenerateRoutes.func2 <span class="o">(</span><span class="m">5</span> handlers<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nv">time</span><span class="o">=</span>2025-02-02T15:35:13.848+09:00 <span class="nv">level</span><span class="o">=</span>INFO <span class="nv">source</span><span class="o">=</span>routes.go:1238 <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Listening on [::]:11434 (version 0.5.7)&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">time</span><span class="o">=</span>2025-02-02T15:35:13.849+09:00 <span class="nv">level</span><span class="o">=</span>INFO <span class="nv">source</span><span class="o">=</span>routes.go:1267 <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Dynamic LLM libraries&#34;</span> <span class="nv">runners</span><span class="o">=</span><span class="s2">&#34;[cuda_v12_avx rocm_avx cpu cpu_avx cpu_avx2 cuda_v11_avx]&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">time</span><span class="o">=</span>2025-02-02T15:35:13.849+09:00 <span class="nv">level</span><span class="o">=</span>INFO <span class="nv">source</span><span class="o">=</span>gpu.go:226 <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;looking for compatible GPUs&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">time</span><span class="o">=</span>2025-02-02T15:35:14.076+09:00 <span class="nv">level</span><span class="o">=</span>INFO <span class="nv">source</span><span class="o">=</span>types.go:131 <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;inference compute&#34;</span> <span class="nv">id</span><span class="o">=</span>GPU-c0069ee1-1e34-b529-d0ac-747bab711016 <span class="nv">library</span><span class="o">=</span>cuda <span class="nv">variant</span><span class="o">=</span>v12 <span class="nv">compute</span><span class="o">=</span>8.9 <span class="nv">driver</span><span class="o">=</span>12.8 <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;NVIDIA GeForce RTX 4080&#34;</span> <span class="nv">total</span><span class="o">=</span><span class="s2">&#34;15.6 GiB&#34;</span> <span class="nv">available</span><span class="o">=</span><span class="s2">&#34;14.6 GiB&#34;</span>
+</span></span></code></pre></div><p>なんかエラーが出たときは&hellip;<br>
+<a href="https://github.com/ollama/ollama/blob/main/scripts/install.sh">https://github.com/ollama/ollama/blob/main/scripts/install.sh</a><br>
+を見て、足りないパッケージなどをインストールしましょう。<br>
+とくにNvidiaのGPUを使っている場合は、Nvidiaの普通のグラフィックドライバを入れれば問題ないはずです。<br>
+(入れ方はubuntu 24.04.1 設定メモを見てください)</p>
+<p>という感じで適当なディレクトリに入れても問題なく動きました
+ollamaは<code>/usr/share</code>など決め打ちで見ていなくて、相対ディレクトリで判断してくれているのは非常に好感がもてますね。<br></p>
+<p>
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+Deepseekを動かしてみる
+</h3>
+</div>
+ollamaの準備ができたらいよいよDeepseekをローカルPCで動かしてみます</p>
+<p>現在(2025/01)DeepseekにはV3とR1があります。<br>
+どちらもchatGPTなどに高性能モデルですが話題になっているのがR1とのこと。</p>
+<p>これらは次のような違いがあるとのことでした<br>
+V3 — 日常的な幅広いタスクが得意<br>
+R1 — 専門的で複雑な問題解決が得意</p>
+<p>本来のモデルはこれです<br>
+<a href="https://github.com/deepseek-ai/DeepSeek-R1">https://github.com/deepseek-ai/DeepSeek-R1</a><br>
+<a href="https://huggingface.co/deepseek-ai/DeepSeek-R1">https://huggingface.co/deepseek-ai/DeepSeek-R1</a></p>
+<p>全部合わせると数百GBもあって、これはとてもじゃないけど家のGPUでは動かせそうにはありません…<br>
+なので手持ちのVRAMになんとか載るような蒸留モデルを使うことになります。</p>
+<p>当たり前ですが、モデルの規模が小さいと回答精度も悪くなります<br>
+ということで、ollama公式に蒸留モデルを使うコマンドが用意されているので、ここからVRAMに乗っかりそうなモデルを探します。</p>
+<p><a href="https://ollama.com/library/deepseek-r1">https://ollama.com/library/deepseek-r1</a></p>
+<p>14bを選ぶと9.0GでこれならボクのGPUのVRAMにも載りそうなので、ollamaサーバをollama_exec_server.shで動かして、別のターミナルから以下実行します。<br>
+最初はモデルのダウンロードがあるので時間がかかります</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./ollama run deepseek-r1:14b
+</span></span></code></pre></div><p>最初はモデルのダウンロードがあるので時間がかかります<br>
+こんな感じで動いてくれれば成功</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./ollama run deepseek-r1:14b
+</span></span><span class="line"><span class="cl">pulling manifest 
+</span></span><span class="line"><span class="cl">pulling 6e9f90f02bb3... 100% ▕████████████████████████████████████▏ 9.0 GB                         
+</span></span><span class="line"><span class="cl">pulling 369ca498f347... 100% ▕████████████████████████████████████▏  <span class="m">387</span> B                         
+</span></span><span class="line"><span class="cl">pulling 6e4c38e1172f... 100% ▕████████████████████████████████████▏ 1.1 KB                         
+</span></span><span class="line"><span class="cl">pulling f4d24e9138dd... 100% ▕████████████████████████████████████▏  <span class="m">148</span> B                         
+</span></span><span class="line"><span class="cl">pulling 3c24b0c80794... 100% ▕████████████████████████████████████▏  <span class="m">488</span> B                         
+</span></span><span class="line"><span class="cl">verifying sha256 digest 
+</span></span><span class="line"><span class="cl">writing manifest 
+</span></span><span class="line"><span class="cl">success 
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; hello!
+</span></span><span class="line"><span class="cl">&lt;think&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;/think&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Hello! How can I assist you today? 😊
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; こんにちは。今日は寒いです
+</span></span><span class="line"><span class="cl">&lt;think&gt;
+</span></span><span class="line"><span class="cl">Alright, the user said <span class="s2">&#34;こんちにちは。今日は寒いです&#34;</span> which means <span class="s2">&#34;Hello. It&#39;s cold today.&#34;</span> in 
+</span></span><span class="line"><span class="cl">Japanese.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">I need to respond in a friendly way. Maybe acknowledge the cold and ask <span class="k">if</span> they<span class="err">&#39;</span>re prepared.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">I should keep it simple and conversational.
+</span></span><span class="line"><span class="cl">&lt;/think&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">こんにちは！今日も寒いですね。防寒対策は万全ですか？
+</span></span></code></pre></div><p>こんな感じで動くことが確認できました。<br>
+回答もすぐに返って来て早く、なんか回答するまでの思考が見えるんですね。ローカルLLM初体験なんですがこれは面白い。<br>
+電気代さえあれば使いたい放題のローカルLLMはめっちゃ良いですね</p>
+<p>なお、私の環境ではRAMは62MBくらい、VRAMは10GBほど消費しておりました</p>
+<p>終わりたいときは<code>/bye</code>と入れると抜けられます。<br>
+サーバ側は<code>Ctrl＋C</code>を押すと終わることができます。</p>
+<br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+おわりに
+</h3>
+</div>
+<p>LLMの環境構築って正直面倒そうという感じがあったのですが、ollamaのおかげで蓋を開けるととんでもなく楽で、画像生成AIよりも環境構築が楽なのには驚きました。<br>
+これはもうローカルLLMは人類に必要不可欠なものになってきている…ということでしょうかね</p>
+<p>あと、Deepseekなのですが今回試した感じでは一応日本語が通りましたが、ときたま中国語を返したりしてしまうようです。</p>
+<p>この辺はサイバーエージェントさんが日本語に追加学習(ファインチューン？)したDeepSeek-R1モデルを公開していて、これを使うと日本語で思考してくれて日本語で返してくれるらしいので、今度はこれをollamaで動かしてみたいなと思いました<br>
+モデルはここにあるそうです。
+(ollamaじゃなくてもTransformer直接使っても良いかも)</p>
+<p><a href="https://huggingface.co/cyberagent/DeepSeek-R1-Distill-Qwen-32B-Japanese">https://huggingface.co/cyberagent/DeepSeek-R1-Distill-Qwen-32B-Japanese</a><br>
+<a href="https://huggingface.co/cyberagent/DeepSeek-R1-Distill-Qwen-14B-Japanese">https://huggingface.co/cyberagent/DeepSeek-R1-Distill-Qwen-14B-Japanese</a></p>
+<br>  
+
+</div>
+
+      </main>
+    </div>
+    
+    <div class="container-fluid my-container">
+    <div>
+        
+        <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fchromabox.github.io%2f140m%2flinux%2fubuntu2404_ollama%2f&text=140%e6%96%87%e5%ad%97%e4%bb%a5%e4%b8%8a%3a%20ollama%e3%82%92Ubuntu%2024.04%20%e3%81%ab%e3%82%a4%e3%83%b3%e3%82%b9%e3%83%88%e3%83%bc%e3%83%ab%e3%81%97%e3%81%a6DeepSeek%28%e3%81%ae%e9%87%8f%e5%ad%90%e5%8c%96%e3%83%a2%e3%83%87%e3%83%ab%29%e3%81%ab%e8%a7%a6%e3%82%8c%e3%81%a6%e3%81%bf%e3%82%8b" target="_blank" title="Tweet"><i class="btn btn-outline-dark fab fa-twitter"> 共有する</i></a>
+        <i id="copy_share" class="btn btn-outline-dark fa fa-clipboard" title="クリップボードにリンクとタイトルをコピー" data-url="https://chromabox.github.io/140m/linux/ubuntu2404_ollama/" data-title="140文字以上: ollamaをUbuntu 24.04 にインストールしてDeepSeek(の量子化モデル)に触れてみる" > 共有用にコピー</i>
+    </div>
+</div>
+
+    
+    
+<footer id="footer" class="mt-auto text-center text-muted">
+  <div class="container-fluid my-container">
+    Made with <a href="https://gohugo.io/">Hugo</a> &amp; base theme <a href="https://github.com/zwbetz-gh/vanilla-bootstrap-hugo-theme">Vanilla</a>
+</div>
+</footer>
+
+    <script src="https://chromabox.github.io/140m/js/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+<script src="https://chromabox.github.io/140m/js/code-title.js"></script>
+
+
+<script src="https://chromabox.github.io/140m/js/jquery-3.6.4.slim.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/bootstrap.bundle.min.js"></script>
+<script src="https://chromabox.github.io/140m/js/share-clip.js"></script>
+
+
+    
+
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq"
+  crossorigin="anonymous"
+/>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+  crossorigin="anonymous"
+></script>
+
+
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI"
+  crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"
+></script>
+
+
+    
+  
+
+  </body>
+</html>
