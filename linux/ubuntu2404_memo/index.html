@@ -1017,7 +1017,36 @@ Samba設定
 </code></pre><p>(-a を入れないとエラーになる)</p>
 <p>最後にsmbdリスタート</p>
 <pre tabindex="0"><code>$ sudo systemctl restart smbd
-</code></pre><BR>
+</code></pre><br>
+
+
+
+
+
+
+<div class="content-2-title">
+  <h3>
+sshで鍵ログインする場合やgitでGPG鍵を使って認証コミットする場合に、GUIから鍵のPIN(パスワード)を聞いてくるのを止めてコンソールから聞くようにする
+</h3>
+</div>
+<p>Ubuntu Desktopの場合、sshで他の端末へと鍵ログインするときや、GPG鍵にPIN（パスワード）が設定されていてパスワードを入れないと行けない場合、デフォルトではPINをGUIダイアログで聞いてきます（/usr/bin/pinentry-gnome3が起動する）</p>
+<p>これ普通なら何の問題もないんですが、リモートからsshでのテキストコンソールでログインしている場合はこれが問題となることがあります。(pinentryが起動するときにGUIターミナルからの起動ではないのでエラーとなる)<br>
+ということで、このままではリモートデスクトップ経由でわざわざ接続しないといけなくなります。</p>
+<p>この設定を変えて、現在開いているターミナルから聞いてほしい場合は以下のようにします。</p>
+<pre tabindex="0"><code>$ sudo update-alternatives --config pinentry
+</code></pre><p>これを実行すると以下のようにどのpinentryを使うか聞いてくるので、pinentry-cursesを選びます。</p>
+<pre tabindex="0"><code>alternative pinentry (/usr/bin/pinentry を提供) には 2 個の選択肢があります。
+
+  選択肢    パス                    優先度  状態
+------------------------------------------------------------
+* 0            /usr/bin/pinentry-gnome3   90        自動モード
+  1            /usr/bin/pinentry-curses   50        手動モード
+  2            /usr/bin/pinentry-gnome3   90        手動モード
+
+現在の選択 [*] を保持するには &lt;Enter&gt;、さもなければ選択肢の番号のキーを押してください: 1
+update-alternatives: /usr/bin/pinentry (pinentry) を提供するためにマニュアルモードで /usr/bin/pinentry-curses を使います
+</code></pre><p>あとは一旦ログアウトしてログインすればOK</p>
+<BR>
 
 
 
