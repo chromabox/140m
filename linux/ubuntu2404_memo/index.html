@@ -1045,6 +1045,8 @@ sshで鍵ログインする場合やgitでGPG鍵を使って認証コミット�
 
 現在の選択 [*] を保持するには &lt;Enter&gt;、さもなければ選択肢の番号のキーを押してください: 1
 update-alternatives: /usr/bin/pinentry (pinentry) を提供するためにマニュアルモードで /usr/bin/pinentry-curses を使います
+</code></pre><p>終わったらさらに.bashrcに以下を追記する必要があります（末尾で良いです）</p>
+<pre tabindex="0"><code>export GPG_TTY=$(tty)
 </code></pre><p>あとは一旦ログアウトしてログインすればOK</p>
 <BR>
 
